@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 
 public class priceTaker {
 	//snt
+	//mis
+	//mis
 	
 	
 	public static void a101(String barcode) {
