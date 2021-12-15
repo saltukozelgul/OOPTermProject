@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 
 public class priceTaker {
-	
+	//snt
 	
 	
 	public static void a101(String barcode) {
