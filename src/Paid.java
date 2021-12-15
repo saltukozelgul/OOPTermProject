@@ -1,5 +1,5 @@
 public interface Paid {
 
-	public double getPrice();
+	public float getPrice();
 
 }
