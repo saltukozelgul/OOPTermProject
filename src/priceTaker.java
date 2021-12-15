@@ -1,11 +1,9 @@
-import static org.testng.Assert.assertEquals;
 
 import java.time.Duration;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.annotations.Test;
 
 public class priceTaker {
 	//snt
