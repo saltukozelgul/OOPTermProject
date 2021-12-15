@@ -10,6 +10,7 @@ public class priceTaker {
 	//mis
 	//mis
 	
+	// Functions
 	
 	public static void a101(String barcode) {
 		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
@@ -26,6 +27,22 @@ public class priceTaker {
 		String price = driver.findElement(By.className("current")).getText();
 		System.out.println(name +": " + price);
 		driver.close();
-		}
+	}
+	
+	public static void carrefour(String barcode) {
+		
+	}
+	
+	public static void amazon(String barcode) {
+		
+	}
+	
+	public static void trendyol(String barcode) {
+		
+	}
+	
+	public static void hepsoburada(String barcode) {
+		
+	}
 	
 }
