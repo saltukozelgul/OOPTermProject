@@ -7,7 +7,6 @@ public class Main {
 		// priceTaker.a101("8690526095202");
 		 LogInSignUp LISU = new LogInSignUp();
 	}
-
 }
 
 
