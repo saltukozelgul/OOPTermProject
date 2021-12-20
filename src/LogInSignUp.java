@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
-public class LogInSignUp extends JPanel {
+public class LogInSignUp {
 	// Defining objects
 	private JFrame frame = new JFrame();
 	
@@ -95,8 +95,6 @@ public class LogInSignUp extends JPanel {
 		
 		
 		frame.setVisible(true); // makes frame can be seen
-		
-		
 	}
 	private void setCheckBoxSettings() {
 		
