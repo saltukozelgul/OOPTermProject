@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.util.Random;
+
 import javax.swing.*;
 
 public class LogInSignUp {
@@ -12,23 +14,26 @@ public class LogInSignUp {
 	private JLabel label_Password = new JLabel("Password: ", JLabel.LEFT);
 	private JLabel label_Information1 = new JLabel("", JLabel.LEFT);
 	private JLabel label_Information2 = new JLabel("", JLabel.LEFT);
+	private JLabel label_RoboKod = new JLabel("", JLabel.LEFT);
 	private JTextField textField_Email = new JTextField("Enter your e-mail address");
+	private JTextField textField_RoboKod = new JTextField("");
 	private JPasswordField passwordField_Password = new JPasswordField("******");
 	private JCheckBox checkBox_Information = new JCheckBox();
 	private JButton button_Password = new JButton();
-	private JButton button_SignUp = new JButton("Log in/Sign up");
+	private JButton button_Next = new JButton();
+	private JButton button_Log_Sign = new JButton();
 	
 	Icon icon_OpenEye = new ImageIcon("C:\\Users\\mert7\\Desktop\\OpenEye.png");
 	Icon icon_CloseEye = new ImageIcon("C:\\Users\\mert7\\Desktop\\CloseEye.png");
 	
 	
 	// Defining variables
+	public String hold_RandomValue;
 	private int password_Count = 0;
 	private int checkBox_Count = 0;
-	private boolean is_information_click = false;
-	private String information_text = "";
+	public boolean is_information_click = false;
 	
-	public LogInSignUp() {
+	public LogInSignUp() { 
 		setFrameSettings();
 		
 		// Listener of Information
@@ -61,6 +66,56 @@ public class LogInSignUp {
 			}
 		});
 		
+		// Listener of Next button
+		button_Next.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(textField_Email.getText().length() != 0 && isEmailCorrectForm() == true && passwordField_Password.getPassword().length != 0 &&
+						is_information_click == true) { // i'll develop the email and password check statements
+					
+					button_Next.setVisible(false);
+					button_Log_Sign.setVisible(true);
+					textField_RoboKod.setVisible(true);
+					label_RoboKod.setVisible(true);
+					
+					// creates new roboCode and puts the roboCode to RoboKod label
+					hold_RandomValue = createRoboCode();
+					label_RoboKod.setText(hold_RandomValue);
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "E-mail or password do not provide conditions!");
+					textField_Email.setText(""); // clears textField and password
+					passwordField_Password.setText("");
+
+				}
+			}
+		});
+		
+		// Listener of LogInSignUp button
+		button_Log_Sign.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(hold_RandomValue.equals(textField_RoboKod.getText()) == true) {
+					MainPanel mp = new MainPanel();
+					frame.dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "Wrong robo code!!!");
+					// Closes robo code objects
+					textField_RoboKod.setVisible(false);
+					label_RoboKod.setVisible(false);
+					button_Log_Sign.setVisible(false);
+					
+					// opens the next button
+					button_Next.setVisible(true);
+					
+					textField_Email.setText(""); // clears textField and password
+					passwordField_Password.setText("");
+				}
+				
+			}
+		});
+		
 	}
 	
 	private void setFrameSettings() {
@@ -88,10 +143,10 @@ public class LogInSignUp {
 		
 		
 		panel.setLayout(null); // important!
-		panel.add(label_Email); panel.add(label_Password); panel.add(label_Information1); panel.add(label_Information2); 
-		panel.add(textField_Email); panel.add(passwordField_Password);
+		panel.add(label_Email); panel.add(label_Password); panel.add(label_Information1); panel.add(label_Information2); panel.add(label_RoboKod); 
+		panel.add(textField_Email); panel.add(passwordField_Password); panel.add(textField_RoboKod);
 		panel.add(checkBox_Information);
-		panel.add(button_Password);
+		panel.add(button_Password); panel.add(button_Next); panel.add(button_Log_Sign);
 		
 		
 		frame.setVisible(true); // makes frame can be seen
@@ -108,6 +163,20 @@ public class LogInSignUp {
 		// Password
 		button_Password.setIcon(icon_CloseEye);
 		button_Password.setBounds(270, 210, 25, 25);
+		
+		// Next
+		button_Next.setText("Next...");
+		button_Next.setFont(new Font("Serif", Font.PLAIN, 13));
+		button_Next.setHorizontalTextPosition(SwingConstants.CENTER);
+		button_Next.setBounds(225, 290, 70, 30);
+		
+		// Log in Sign up 
+		button_Log_Sign.setText("Log in/ Sign up");
+		button_Log_Sign.setHorizontalAlignment(SwingConstants.CENTER);
+		button_Log_Sign.setFont(new Font("Serif", Font.PLAIN, 13));
+		button_Log_Sign.setBounds(180, 350, 115, 35);
+		button_Log_Sign.setVisible(false);
+		
 	}
 	
 	private void setTextFieldSettings() { // text field and password settings
@@ -123,6 +192,13 @@ public class LogInSignUp {
 		passwordField_Password.setBounds(25, 210, 240, 25);
 		passwordField_Password.setOpaque(false); // change background color to transparent
 		passwordField_Password.setForeground(Color.BLACK);
+		
+		// RoboKod
+		textField_RoboKod.setFont(new Font("Serif", Font.PLAIN, 13));
+		textField_RoboKod.setBounds(180, 300, 115, 25);
+		textField_RoboKod.setOpaque(false);
+		textField_RoboKod.setVisible(false);
+		
 	}
 	
 	private void setLabelSettings() {
@@ -150,6 +226,38 @@ public class LogInSignUp {
 		label_Information2.setBounds(25, 260, 300, 20); // x coordinate, y coordinate, width, height
 		label_Information2.setForeground(Color.WHITE);
 		
+		// RoboCode
+		label_RoboKod.setText("");
+		label_RoboKod.setFont(new Font("Serif", Font.PLAIN, 13));
+		label_RoboKod.setBounds(25, 300, 115, 25);
+		label_RoboKod.setVisible(false);
+		
 	}
 	
+	public String createRoboCode() {
+		Random random = new Random();
+		String roboCode = "";
+		int random_number;
+		for(int i=0; i<6; i++) {
+			random_number = random.nextInt(2);
+			
+			if(random_number == 0) {
+				roboCode = roboCode + String.valueOf(random.nextInt(10));
+			}
+			else {
+				roboCode = roboCode + (char)(random.nextInt(26) + 'a');
+			}
+		}
+		return roboCode;	
+	}
+
+	public boolean isEmailCorrectForm() {
+		if(textField_Email.getText().contains("@") && (textField_Email.getText().contains("hotmail") || textField_Email.getText().contains("gmail") || 
+				textField_Email.getText().contains("outlook")) && textField_Email.getText().contains(".com")) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

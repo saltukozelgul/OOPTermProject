@@ -8,5 +8,3 @@ public class Main {
 		 LogInSignUp LISU = new LogInSignUp();
 	}
 }
-
-
