@@ -5,6 +5,8 @@ import java.awt.geom.*;
 import java.util.Random;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+
 
 public class LogInSignUp {
 	// Defining objects
@@ -15,6 +17,7 @@ public class LogInSignUp {
 	private JLabel label_Information1 = new JLabel("", JLabel.LEFT);
 	private JLabel label_Information2 = new JLabel("", JLabel.LEFT);
 	private JLabel label_RoboKod = new JLabel("", JLabel.LEFT);
+	private JLabel label_cheAPP = new JLabel("cheAPP", JLabel.CENTER);
 	private JTextField textField_Email = new JTextField("Enter your e-mail address");
 	private JTextField textField_RoboKod = new JTextField("");
 	private JPasswordField passwordField_Password = new JPasswordField("******");
@@ -31,7 +34,7 @@ public class LogInSignUp {
 	public String hold_RandomValue;
 	private int password_Count = 0;
 	private int checkBox_Count = 0;
-	public boolean is_information_click = false;
+	public boolean is_information_click = false; 
 	
 	public LogInSignUp() { 
 		setFrameSettings();
@@ -115,7 +118,6 @@ public class LogInSignUp {
 				
 			}
 		});
-		
 	}
 	
 	private void setFrameSettings() {
@@ -124,7 +126,7 @@ public class LogInSignUp {
 		Gradient panel = new Gradient(); // creates(calls) gradient panel
 		
 		// Frame settings
-		frame.setTitle("CheaApp");
+		frame.setTitle("cheAPP");
 		frame.setIconImage(icon_IMG); // changes icon
 		frame.setSize(335, 525);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit when press to close button
@@ -143,7 +145,7 @@ public class LogInSignUp {
 		
 		
 		panel.setLayout(null); // important!
-		panel.add(label_Email); panel.add(label_Password); panel.add(label_Information1); panel.add(label_Information2); panel.add(label_RoboKod); 
+		panel.add(label_cheAPP);panel.add(label_Email); panel.add(label_Password); panel.add(label_Information1); panel.add(label_Information2); panel.add(label_RoboKod); 
 		panel.add(textField_Email); panel.add(passwordField_Password); panel.add(textField_RoboKod);
 		panel.add(checkBox_Information);
 		panel.add(button_Password); panel.add(button_Next); panel.add(button_Log_Sign);
@@ -154,7 +156,7 @@ public class LogInSignUp {
 	private void setCheckBoxSettings() {
 		
 		// Information
-		checkBox_Information.setBounds(275, 250, 25, 25);
+		checkBox_Information.setBounds(275, 270, 25, 25);
 		checkBox_Information.setOpaque(false);
 	}
 	
@@ -162,40 +164,42 @@ public class LogInSignUp {
 		
 		// Password
 		button_Password.setIcon(icon_CloseEye);
-		button_Password.setBounds(270, 210, 25, 25);
+		button_Password.setBounds(270, 230, 25, 25);
 		
 		// Next
-		button_Next.setText("Next...");
-		button_Next.setFont(new Font("Serif", Font.PLAIN, 13));
+		button_Next.setText("Next");
+		button_Next.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
 		button_Next.setHorizontalTextPosition(SwingConstants.CENTER);
-		button_Next.setBounds(225, 290, 70, 30);
+		button_Next.setBounds(225, 310, 70, 30);
+		button_Next.setBackground(new Color(134,151,129));
 		
 		// Log in Sign up 
 		button_Log_Sign.setText("Log in/ Sign up");
 		button_Log_Sign.setHorizontalAlignment(SwingConstants.CENTER);
-		button_Log_Sign.setFont(new Font("Serif", Font.PLAIN, 13));
-		button_Log_Sign.setBounds(180, 350, 115, 35);
+		button_Log_Sign.setFont(new Font(Font.DIALOG , Font.PLAIN, 11));
+		button_Log_Sign.setBounds(110, 370, 190, 35);
 		button_Log_Sign.setVisible(false);
+		button_Log_Sign.setBackground(new Color(134,151,129));
 		
 	}
 	
 	private void setTextFieldSettings() { // text field and password settings
 		
 		// ID
-		textField_Email.setFont(new Font("Serif", Font.ITALIC, 13));
-		textField_Email.setBounds(25, 155, 270, 25);
+		textField_Email.setFont(new Font(Font.DIALOG, Font.ITALIC, 13));
+		textField_Email.setBounds(25, 175, 270, 25);
 		textField_Email.setOpaque(false); // change background color to transparent
 		textField_Email.setForeground(Color.BLACK); // changes color to black
 		
 		// Password
-		passwordField_Password.setFont(new Font("Serif", Font.ITALIC, 13));
-		passwordField_Password.setBounds(25, 210, 240, 25);
+		passwordField_Password.setFont(new Font(Font.DIALOG, Font.ITALIC, 13));
+		passwordField_Password.setBounds(25, 230, 240, 25);
 		passwordField_Password.setOpaque(false); // change background color to transparent
 		passwordField_Password.setForeground(Color.BLACK);
 		
 		// RoboKod
-		textField_RoboKod.setFont(new Font("Serif", Font.PLAIN, 13));
-		textField_RoboKod.setBounds(180, 300, 115, 25);
+		textField_RoboKod.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
+		textField_RoboKod.setBounds(180, 320, 115, 25);
 		textField_RoboKod.setOpaque(false);
 		textField_RoboKod.setVisible(false);
 		
@@ -203,33 +207,39 @@ public class LogInSignUp {
 	
 	private void setLabelSettings() {
 		
+		//brand 
+		label_cheAPP.setText("cheAPP");
+		label_cheAPP.setFont(new Font(Font.MONOSPACED , Font.BOLD, 60));
+		label_cheAPP.setBounds(-40, 50, 400, 50);
+		label_cheAPP.setForeground(new Color(134,151,129));
+		
 		// ID
 		label_Email.setText("Email: ");
-		label_Email.setFont(new Font("Serif", Font.PLAIN, 18));
-		label_Email.setBounds(25, 115, 100, 50); // x coordinate, y coordinate, width, height
+		label_Email.setFont(new Font(Font.DIALOG, Font.PLAIN, 16));
+		label_Email.setBounds(25, 135, 100, 50); // x coordinate, y coordinate, width, height
 		label_Email.setForeground(Color.WHITE);
 		
 		// Password
 		label_Password.setText("Password: ");
-		label_Password.setFont(new Font("Serif", Font.PLAIN, 18));
-		label_Password.setBounds(25, 170, 100, 45); // x coordinate, y coordinate, width, height
+		label_Password.setFont(new Font(Font.DIALOG, Font.PLAIN, 16));
+		label_Password.setBounds(25, 190, 100, 45); // x coordinate, y coordinate, width, height
 		label_Password.setForeground(Color.WHITE);
 		
 		// Information1 and Information2
 		label_Information1.setText("I accept the proccessing of my personel data");
-		label_Information1.setFont(new Font("Serif", Font.PLAIN, 13));
-		label_Information1.setBounds(25, 245, 300, 25); // x coordinate, y coordinate, width, height
+		label_Information1.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+		label_Information1.setBounds(25, 265, 300, 25); // x coordinate, y coordinate, width, height
 		label_Information1.setForeground(Color.WHITE);
 		
 		label_Information2.setText("for commercial purposes. ");
-		label_Information2.setFont(new Font("Serif", Font.PLAIN, 13));
-		label_Information2.setBounds(25, 260, 300, 20); // x coordinate, y coordinate, width, height
+		label_Information2.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+		label_Information2.setBounds(25, 280, 300, 20); // x coordinate, y coordinate, width, height
 		label_Information2.setForeground(Color.WHITE);
 		
 		// RoboCode
 		label_RoboKod.setText("");
-		label_RoboKod.setFont(new Font("Serif", Font.PLAIN, 13));
-		label_RoboKod.setBounds(25, 300, 115, 25);
+		label_RoboKod.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
+		label_RoboKod.setBounds(25, 320, 115, 25);
 		label_RoboKod.setVisible(false);
 		
 	}
