@@ -11,6 +11,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
+
 public class BarcodeReader {
 	private int isFound = 0;
 	public String barcode = null;
@@ -53,8 +54,8 @@ public class BarcodeReader {
 		JFrame window = new JFrame("Barcode Reader");
 		window.add(panel);
 		window.setResizable(true);
-		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		window.pack();
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//window.pack();
 		window.setVisible(true);
 		
 		Thread t1 = new Thread(new Runnable() {
