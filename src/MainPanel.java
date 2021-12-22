@@ -57,8 +57,8 @@ public class MainPanel {
 		button_Barcode.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BarcodeReader barcode = new BarcodeReader();
-				frame.dispose();
+				BarcodeReader br = new BarcodeReader();
+				// Bu kodun devamý BarcodeReader içinde çalýþacak.
 			}
 		});
 	}
