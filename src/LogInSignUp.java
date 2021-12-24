@@ -1,11 +1,8 @@
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.*;
-import java.awt.geom.*;
 import java.util.Random;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import java.util.Properties;
 
@@ -17,16 +14,19 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File; // for file operations
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
-
+// Constructer
 public class LogInSignUp {
-	// Defining objects
-	private JFrame frame = new JFrame();
+	// Defining GIU Object 
+	private JFrame frame = new JFrame(); // frame
 	
 	private JLabel label_Email = new JLabel("Email: ", JLabel.LEFT);
 	private JLabel label_Password = new JLabel("Password: ", JLabel.LEFT);
@@ -35,41 +35,31 @@ public class LogInSignUp {
 	private JLabel label_cheAPP = new JLabel("cheAPP", JLabel.CENTER);
 	private JTextField textField_Email = new JTextField("Enter your e-mail address");
 	private JTextField textField_RoboKod = new JTextField("");
-	private JPasswordField passwordField_Password = new JPasswordField("******");
+	private JPasswordField passwordField_Password = new JPasswordField("****");
 	private JCheckBox checkBox_Information = new JCheckBox();
 	private JButton button_Password = new JButton();
 	private JButton button_Next = new JButton();
+	private JButton button_Change = new JButton();
 	private JButton button_Log_Sign = new JButton();
 	private JButton button_IForgotMyPassword =  new JButton();
+	private JButton button_Approve = new JButton("Approve");
 	
+	// The icons i've used
 	Icon icon_OpenEye = new ImageIcon("C:\\Users\\mert7\\Desktop\\OpenEye.png");
 	Icon icon_CloseEye = new ImageIcon("C:\\Users\\mert7\\Desktop\\CloseEye.png");
-	
 	
 	// Defining variables
 	public String hold_RandomValue;
 	private int password_Count = 0;
 	private int checkBox_Count = 0;
 	public boolean is_information_click = false; 
+	public boolean has_emailSent = false;
 	
 	public LogInSignUp() { 
+		// Main GIU settings
 		setFrameSettings();
 		
-		// Listener of Information
-		checkBox_Information.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(checkBox_Count % 2 == 0) {
-					is_information_click = true;
-				}
-				else {
-					is_information_click = false;
-				}
-				checkBox_Count++;
-			}
-		});
-		
-		// Listener of password
+		// makes password visible and unvisible
 		button_Password.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -84,127 +74,108 @@ public class LogInSignUp {
 				password_Count++;
 			}
 		});
+
+		// Listener of Information, checks the information has been clicked or not
+		checkBox_Information.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(checkBox_Count % 2 == 0) {
+					is_information_click = true;
+				}
+				else {
+					is_information_click = false;
+				}
+				checkBox_Count++;
+			}
+		});
 		
-		// Listener of Next button
+		// When clicked to Next button
 		button_Next.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int index_f_email = 0, c=0, count = 0;
-				String file_name = "";
-				String password = "";
 				
-				// creating file name
-				index_f_email = textField_Email.getText().indexOf('.');
-				file_name = "C:\\Users\\mert7\\Desktop\\Users\\" + textField_Email.getText().substring(0, index_f_email) + ".txt";
-				
-				try {
-					FileReader read_file = new FileReader(file_name);
-					while((c = read_file.read()) != -1) {
-						if((char)c == ' ') {
-							count++;
-						}
-						if(count == 4 && (char)c != '\n') {
-							password = password  + (char)c;
-						}
-					}
-					System.out.println(password);
-					read_file.close();
+				// First i'll check that are there any problem about password and e-mail
+				if(String.valueOf(passwordField_Password.getPassword()).length() != 0 && is_information_click == true 
+						&& isEmailOnCorrectForm() == true ) {
 					
-				} catch (FileNotFoundException e2) { // file does not exist
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				if(textField_Email.getText().length() != 0 && isEmailCorrectForm() == true && passwordField_Password.getPassword().length != 0 &&
-						is_information_click == true && passwordField_Password.getPassword().length >= 5) { // i'll develop the email and password check statements
-					try {
-						if(isUserExists() == true) { // if is user has been signed up, directly sign in
-							if(password == passwordField_Password.getPassword().toString()) { // already user
-								MainPanel mp = new MainPanel();
-								frame.dispose();
+					String line; String split_line[] = new String[2];
+					int index_f_email = textField_Email.getText().indexOf('.');
+					String file_name = "C:\\Users\\mert7\\Desktop\\Users\\" + textField_Email.getText().substring(0, index_f_email) + ".txt";
+					
+					if(isUserExists()) { // there is a user with that name
+						
+						try { // takes user's password from the file
+							
+							File file = new File(file_name);
+							BufferedReader read = new BufferedReader(new FileReader(file));
+							
+							while((line = read.readLine()) != null) { // reads file line by line
+								if(line.contains("Password: ")) { // if line has include Password command split the password and break it
+									split_line = line.split(" ");
+									break; // we do not need to scan file anymore
+								}			
 							}
-							else {
-								button_Next.setVisible(false);
-								button_Log_Sign.setVisible(true);
-								textField_RoboKod.setVisible(true);
-								
-								// creates new roboCode and puts the roboCode to RoboKod label
-								hold_RandomValue = createRoboCode();
-								
-								// Sends email
-								sendEmail();
-							}
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						
+						if(String.valueOf(passwordField_Password.getPassword()).equals(split_line[1])) { // if password are equalt to each other return true
+							
+							System.out.println("diger panele gec");
+							// Go to the MainPanel
+							// MainPanel mp = new MainPanel();
 						}
 						else {
-							button_Next.setVisible(false);
-							button_Log_Sign.setVisible(true);
-							textField_RoboKod.setVisible(true);
+							JOptionPane.showMessageDialog(frame, "Wrong password!"); // shows Wrong password! text and clear textFields
 							
-							// creates new roboCode and puts the roboCode to RoboKod label
-							hold_RandomValue = createRoboCode();
-							
-							// Sends email
-							sendEmail();
-							
+							clearTextFields();
 						}
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						
+					}
+					else { // when user does not exist, else condition will work. In that condition, we will create new user, user file, send email to user's email
+					
+						// Lets close next button, lets open objects which are user needs
+						button_Next.setVisible(false);
+						button_Log_Sign.setVisible(true);
+						textField_RoboKod.setVisible(true);
+						
+						// create new roboCode
+						hold_RandomValue = createRoboCode();
+						
+						// Sends email
+						sendEmail();
 					}
 				}
-				else {
-					JOptionPane.showMessageDialog(frame, "E-mail or password do not provide conditions!");
-					textField_Email.setText(""); // clears textField and password
-					passwordField_Password.setText("");
-					button_IForgotMyPassword.setVisible(true);
-
+				else { // when password and email do not in good condition
+					JOptionPane.showMessageDialog(frame, "Wrong e-mail or password!");
+					clearTextFields();
 				}
 			}
 		});
 		
-		// Listener of LogInSignUp button
+		// Log in Sign Up button
 		button_Log_Sign.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int index_f_email = textField_Email.getText().indexOf('.');
+				String file_name = "C:\\Users\\mert7\\Desktop\\Users\\" + textField_Email.getText().substring(0, index_f_email) + ".txt";
 				
-				if(hold_RandomValue.equals(textField_RoboKod.getText()) == true) {
-					try {
-						if(isUserExists()) { // user comes from forgot password
-							JOptionPane.showMessageDialog(frame, "Password has been changed succesfully.");
-							
-						}
-						else { // user comes for creating account
-							createAccount();
-							MainPanel mp = new MainPanel();
-							frame.dispose();
-						}
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				// TODO Auto-generated method stub
+				if(hold_RandomValue.equals(textField_RoboKod.getText())) {
+					// Save information about user to textFile
+					createAccount(file_name);
+					
+					// go to the other panel
+					JOptionPane.showMessageDialog(frame, "You've signed up succesfully!"); 
+					// MainPanel mp = new MainPanel();
 				}
 				else {
-					JOptionPane.showMessageDialog(frame, "Wrong robo code!!!");
-					// Closes robo code objects
-					textField_RoboKod.setVisible(false);
-					button_Log_Sign.setVisible(false);
-					
-					// opens the next button and next button settings
-					button_Next.setVisible(true);
-					button_Next.setText("Next");
-					button_Next.setBounds(225, 320, 70, 30);
-					
-					// opens the i forgot my password button
-					button_IForgotMyPassword.setVisible(true);
-					
-					textField_Email.setText(""); // clears textField and password
-					passwordField_Password.setText("");
-					
+					JOptionPane.showMessageDialog(frame, "Wrong robo code!"); 
 				}
 			}
+			
 		});
 		
 		// Hover of IForgotMyPassword
@@ -217,25 +188,112 @@ public class LogInSignUp {
 		    }
 		});
 		
-		// Listener of IForgotMyPassword
+		// Listener of IForgotMyPassword, activates when clicked to forgot password?
 		button_IForgotMyPassword.addActionListener(new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Updates to passwordField_password settings
 				passwordField_Password.setText("Enter your new password...");
 				passwordField_Password.setEchoChar((char)0); // shows input
 				password_Count++;
 				
-				// Changes the name of button_Next
-				button_Next.setText("Change");
-				button_Next.setBounds(215, 320, 80, 30);
-				
 				// Closes extra things
 				button_IForgotMyPassword.setVisible(false);
+				button_Next.setVisible(false);
+				
+				// Opens
+				button_Change.setVisible(true);
 			}	
 		});
-	}
+		
+		// Change button
+		button_Change.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				// if user exists, changes password
+				
+				if(String.valueOf(passwordField_Password.getPassword()).length() != 0) {
+					if(isUserExists()) {
+						// Opens robocode
+						hold_RandomValue = createRoboCode();
+						textField_RoboKod.setVisible(true);
+						button_Change.setVisible(false);
+						button_Approve.setVisible(true);
+						sendEmail();
+						
+					}
+					else { // there is no e-mail like that
+						JOptionPane.showMessageDialog(frame, "Wrong e-mail!"); 
+					}
+				}
+				else { // wrong condition of password
+					JOptionPane.showMessageDialog(frame, "Wrong password!"); 
+				}	
+			}
+		});
+			
+	button_Approve.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			// TODO Auto-generated method stub
+			if(hold_RandomValue.equals(textField_RoboKod.getText())) {
+				String new_content = "";
+				String line;
+				int index_f_email = textField_Email.getText().indexOf('.');	
+				String file_name = "C:\\Users\\mert7\\Desktop\\Users\\" + textField_Email.getText().substring(0, index_f_email) + ".txt";
+				
+				// Save information about user to textFile
+				try {
+					File file = new File(file_name);
+					BufferedReader read = new BufferedReader(new FileReader(file));
+					
+					while((line = read.readLine()) != null) { // reads file line by line
+						if(line.contains("Password: ")) { // if line has include Password command split the password and break it
+							line = "Password: " + String.valueOf(passwordField_Password.getPassword());
+						}	
+						line = line + "\n";
+						new_content = new_content + line;
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				// update the user's file
+				try {
+					System.out.println(new_content);
+					FileWriter write_t_file = new FileWriter(file_name);
+					PrintWriter printWriter = new PrintWriter(write_t_file);
+					
+					printWriter.printf(new_content);
+					
+					write_t_file.close();
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				// go to the other panel
+				JOptionPane.showMessageDialog(frame, "You've signed up succesfully!"); 
+				// MainPanel mp = new MainPanel();
+			}
+			else {
+				JOptionPane.showMessageDialog(frame, "Wrong Robo Code"); 
+			}	
+		}		
+	});
+		
+	} // end of constructor
+		
+		
 	
-	// Frame settings, adds gradient, adds all other objects
+	// Main GIU settings
 	private void setFrameSettings() {
 		
 		Image icon_IMG = Toolkit.getDefaultToolkit().getImage("C:\\Users\\mert7\\Desktop\\image.png"); // saves icon
@@ -257,86 +315,20 @@ public class LogInSignUp {
 		setButtonSettings();
 		setCheckBoxSettings();
 		
-		frame.add(panel); // adds panel to frame
+		frame.add(panel); // adds gradient panel to frame
 		
 		
 		panel.setLayout(null); // important!
 		panel.add(label_cheAPP);panel.add(label_Email); panel.add(label_Password); panel.add(label_Information1); panel.add(label_Information2);
 		panel.add(textField_Email); panel.add(passwordField_Password); panel.add(textField_RoboKod);
-		panel.add(checkBox_Information);
-		panel.add(button_IForgotMyPassword); panel.add(button_Password); panel.add(button_Next); panel.add(button_Log_Sign);
+		panel.add(button_Approve); panel.add(checkBox_Information);
+		panel.add(button_IForgotMyPassword); panel.add(button_Password); panel.add(button_Next); panel.add(button_Log_Sign); panel.add(button_Change);
 		
 		
 		frame.setVisible(true); // makes frame can be seen
 	}
 	
-	// CheckBox settings
-	private void setCheckBoxSettings() {
-		
-		// Information
-		checkBox_Information.setBounds(275, 277, 25, 25);
-		checkBox_Information.setOpaque(false);
-	}
-	
-	// Button settings
-	private void setButtonSettings() { // default settings of password
-		
-		// Password
-		button_Password.setIcon(icon_CloseEye);
-		button_Password.setBounds(270, 230, 25, 25);
-		
-		// Next
-		button_Next.setText("Next");
-		button_Next.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
-		button_Next.setHorizontalTextPosition(SwingConstants.CENTER);
-		button_Next.setBounds(225, 320, 70, 30);
-		button_Next.setBackground(new Color(134,151,129));
-		
-		// Log in Sign up 
-		button_Log_Sign.setText("Log in / Sign up");
-		button_Log_Sign.setHorizontalAlignment(SwingConstants.CENTER);
-		button_Log_Sign.setFont(new Font(Font.DIALOG , Font.PLAIN, 11));
-		button_Log_Sign.setBounds(110, 385, 190, 35); // i'll change width 
-		button_Log_Sign.setVisible(false);
-		button_Log_Sign.setBackground(new Color(134,151,129));
-		
-		// I forgot my password
-		button_IForgotMyPassword.setText("Forgot password?");
-		button_IForgotMyPassword.setFont(new Font(Font.DIALOG, Font.ITALIC, 11));
-		button_IForgotMyPassword.setBounds(175, 255, 150, 25);
-		button_IForgotMyPassword.setForeground(new Color(142, 7, 146));
-		
-		// makes button transparent
-		button_IForgotMyPassword.setOpaque(false);
-		button_IForgotMyPassword.setContentAreaFilled(false);
-		button_IForgotMyPassword.setBorderPainted(false);
-	}
-	
-	// TextField and PasswordField settings
-	private void setTextFieldSettings() { // text field and password settings
-		
-		// ID
-		textField_Email.setFont(new Font(Font.DIALOG, Font.ITALIC, 13));
-		textField_Email.setBounds(25, 175, 270, 25);
-		textField_Email.setOpaque(false); // change background color to transparent
-		textField_Email.setForeground(Color.BLACK); // changes color to black
-		
-		// Password
-		passwordField_Password.setFont(new Font(Font.DIALOG, Font.ITALIC, 13));
-		passwordField_Password.setBounds(25, 230, 240, 25);
-		passwordField_Password.setOpaque(false); // change background color to transparent
-		passwordField_Password.setForeground(Color.BLACK);
-		passwordField_Password.setToolTipText("Enter more than five character");
-		
-		// RoboKod
-		textField_RoboKod.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
-		textField_RoboKod.setBounds(180, 320, 115, 25);
-		textField_RoboKod.setOpaque(false);
-		textField_RoboKod.setVisible(false);
-		
-	}
-	
-	// label settings
+	// All label settings
 	private void setLabelSettings() {
 		
 		//brand 
@@ -367,10 +359,91 @@ public class LogInSignUp {
 		label_Information2.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
 		label_Information2.setBounds(25, 295, 300, 20); // x coordinate, y coordinate, width, height
 		label_Information2.setForeground(Color.WHITE);
-		
 	}
 	
-	// creates roboCode for adding new account
+	// All text field settings
+	private void setTextFieldSettings() {
+		
+		// ID
+		textField_Email.setFont(new Font(Font.DIALOG, Font.ITALIC, 13));
+		textField_Email.setBounds(25, 175, 270, 25);
+		textField_Email.setOpaque(false); // change background color to transparent
+		textField_Email.setForeground(Color.BLACK); // changes color to black
+		
+		// Password
+		passwordField_Password.setFont(new Font(Font.DIALOG, Font.ITALIC, 13));
+		passwordField_Password.setBounds(25, 230, 240, 25);
+		passwordField_Password.setOpaque(false); // change background color to transparent
+		passwordField_Password.setForeground(Color.BLACK);
+		passwordField_Password.setToolTipText("Enter more than five character");
+		
+		// RoboKod
+		textField_RoboKod.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
+		textField_RoboKod.setBounds(180, 320, 115, 25);
+		textField_RoboKod.setOpaque(false);
+		textField_RoboKod.setVisible(false);
+
+	}
+	
+	// All button Settings
+	private void setButtonSettings() {
+		
+		// Password
+		button_Password.setIcon(icon_CloseEye);
+		button_Password.setBounds(270, 230, 25, 25);
+		
+		// Next
+		button_Next.setText("Next");
+		button_Next.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
+		button_Next.setHorizontalTextPosition(SwingConstants.CENTER);
+		button_Next.setBounds(225, 320, 70, 30);
+		button_Next.setBackground(new Color(134,151,129));
+		
+		// Change
+		button_Change.setText("Change");
+		button_Change.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
+		button_Change.setHorizontalTextPosition(SwingConstants.CENTER);
+		button_Change.setBounds(110, 385, 100, 35);
+		button_Change.setBackground(new Color(134,151,129));
+		button_Change.setVisible(false);
+		
+		// Log in Sign up 
+		button_Log_Sign.setText("Sign up");
+		button_Log_Sign.setHorizontalAlignment(SwingConstants.CENTER);
+		button_Log_Sign.setFont(new Font(Font.DIALOG , Font.PLAIN, 11));
+		button_Log_Sign.setBounds(110, 385, 190, 35); // i'll change width 
+		button_Log_Sign.setVisible(false);
+		button_Log_Sign.setBackground(new Color(134,151,129));
+		
+		// I forgot my password
+		button_IForgotMyPassword.setText("Forgot password?");
+		button_IForgotMyPassword.setFont(new Font(Font.DIALOG, Font.ITALIC, 11));
+		button_IForgotMyPassword.setBounds(175, 255, 150, 25);
+		button_IForgotMyPassword.setForeground(new Color(142, 7, 146));
+		
+		// makes button transparent
+		button_IForgotMyPassword.setOpaque(false);
+		button_IForgotMyPassword.setContentAreaFilled(false);
+		button_IForgotMyPassword.setBorderPainted(false);
+		
+		// Approve
+		button_Approve.setText("Approve password");
+		button_Approve.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
+		button_Approve.setHorizontalTextPosition(SwingConstants.CENTER);
+		button_Approve.setBounds(80, 385, 140, 35);
+		button_Approve.setBackground(new Color(134,151,129));
+		button_Approve.setVisible(false);
+	}
+	
+	// All checkbox settings
+	private void setCheckBoxSettings() {
+		
+		// Information
+		checkBox_Information.setBounds(275, 277, 25, 25);
+		checkBox_Information.setOpaque(false);
+	}
+	
+	// 	Creates roboCode for mail
 	public String createRoboCode() {
 		Random random = new Random();
 		String roboCode = "";
@@ -388,8 +461,8 @@ public class LogInSignUp {
 		return roboCode;	
 	}
 	
-	// checks the email, is email on correct form
-	public boolean isEmailCorrectForm() {
+	// Checks the email, is email on correct form
+	public boolean isEmailOnCorrectForm() {
 		if(textField_Email.getText().contains("@") && (textField_Email.getText().contains("hotmail") || textField_Email.getText().contains("gmail") || 
 				textField_Email.getText().contains("outlook")) && textField_Email.getText().contains(".com")) {
 			return true;
@@ -399,8 +472,9 @@ public class LogInSignUp {
 		}
 	}
 	
-	// sends email
+	// Sends email
 	public void sendEmail() {
+		
 			String to = textField_Email.getText();
 			String from = "ooprojectproject@gmail.com";
 			String host = "smtp.gmail.com";
@@ -437,32 +511,13 @@ public class LogInSignUp {
 	            Transport.send(message);
 	        } catch (MessagingException mex) {
 	            mex.printStackTrace();
+	            System.out.println("Message could not received to User");
 	        }
 
 	}
-	
-	// check is there user with that e-mail, create new file
-	private void createAccount() {
-		int index_f_email = 0;
-		String file_name = "";
-		
-		
-		// creating file name
-		index_f_email = textField_Email.getText().indexOf('.');
-		file_name = "C:\\Users\\mert7\\Desktop\\Users\\" + textField_Email.getText().substring(0, index_f_email) + ".txt";
-		
-		// File operations
-		File new_file = new File(file_name);
-		if(new_file.exists()) { // there is file , i ll change password 
-			writeToFile(file_name);
-		}
-		else { // there is no file with that name, i am gonna create new file
-			writeToFile(file_name);
-		}		
-	}
-	
-	// checks the user for forgot_password section
-	private boolean isUserExists() throws IOException {
+
+	// Checks is there a  user with that name
+	private boolean isUserExists() {
 		int index_f_email = 0;
 		String file_name = "";
 		
@@ -471,20 +526,35 @@ public class LogInSignUp {
 		file_name = "C:\\Users\\mert7\\Desktop\\Users\\" + textField_Email.getText().substring(0, index_f_email) + ".txt";
 		
 		File new_file = new File(file_name);
-		if(new_file.exists()) { // there is file 
+		if(new_file.exists()) { // there is file, user exits
 			return true; 
 		}
 		else {
-			return false; // there is no file with this name
+			return false; // there is no file with this name, user does not exist
 		}			
 	}
 	
+	// Check is there user with that e-mail, create new file
+	private void createAccount(String file_name) {
+
+		// File operations
+		File new_file = new File(file_name);
+		if(new_file.exists() == false) { // there is no file with that name so create new textFile for user
+			writeToFile(file_name);
+		}	
+	}
+	
+	// Writes to the file
 	private void writeToFile(String file_name) {
+		
 		// Creating content
-		String content = textField_Email.getText() + "    " + passwordField_Password.getPassword().toString() + "\n";
+		String content = "E-mail: " + textField_Email.getText() + "\nPassword: " + String.valueOf(passwordField_Password.getPassword()) + "\n";
 		try {
 			FileWriter write_t_file = new FileWriter(file_name);
-			write_t_file.write(content);
+			PrintWriter printWriter = new PrintWriter(write_t_file);
+			
+			printWriter.printf(content);
+			
 			write_t_file.close();
 			
 		} catch (IOException e) {
@@ -492,4 +562,11 @@ public class LogInSignUp {
 			e.printStackTrace();
 		}
 	}
+
+	// Cleans textFields
+	private void clearTextFields() {
+		textField_Email.setText("");
+		passwordField_Password.setText("");
+	}
+
 }
