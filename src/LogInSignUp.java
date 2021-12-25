@@ -146,6 +146,7 @@ public class LogInSignUp {
 						
 						// Sends email
 						sendEmail();
+						JOptionPane.showMessageDialog(frame, "We have send RoboCode to your e-mail address!");
 					}
 				}
 				else { // when password and email do not in good condition
@@ -169,7 +170,9 @@ public class LogInSignUp {
 					
 					// go to the other panel
 					JOptionPane.showMessageDialog(frame, "You've signed up succesfully!");
+					AddUserToUserClass();
 					MainPanel mp = new MainPanel();
+					frame.dispose();
 				}
 				else {
 					JOptionPane.showMessageDialog(frame, "Wrong robo code!"); 
@@ -217,16 +220,18 @@ public class LogInSignUp {
 				
 				if(String.valueOf(passwordField_Password.getPassword()).length() != 0) {
 					if(isUserExists()) {
+						
 						// Opens robocode
 						hold_RandomValue = createRoboCode();
 						textField_RoboKod.setVisible(true);
 						button_Change.setVisible(false);
 						button_Approve.setVisible(true);
 						sendEmail();
+						JOptionPane.showMessageDialog(frame, "We have send RoboCode to your e-mail address!");
 						
 					}
 					else { // there is no e-mail like that
-						JOptionPane.showMessageDialog(frame, "Wrong e-mail!"); 
+						JOptionPane.showMessageDialog(frame, "This e-mail has not been found!"); 
 					}
 				}
 				else { // wrong condition of password
@@ -280,8 +285,10 @@ public class LogInSignUp {
 					}
 	
 					// go to the other panel
-					JOptionPane.showMessageDialog(frame, "You've signed up succesfully!"); 
-					// MainPanel mp = new MainPanel();
+					AddUserToUserClass();
+					JOptionPane.showMessageDialog(frame, "Password has been changed succesfully!"); 
+					MainPanel mp = new MainPanel();
+					frame.dispose();
 				}
 				else {
 					JOptionPane.showMessageDialog(frame, "Wrong Robo Code"); 
@@ -567,6 +574,12 @@ public class LogInSignUp {
 	private void clearTextFields() {
 		textField_Email.setText("");
 		passwordField_Password.setText("");
+	}
+	
+	private void AddUserToUserClass() {
+		User new_user = new User();
+		new_user.setEmail(textField_Email.getText());
+		new_user.setPassword(String.valueOf(passwordField_Password.getPassword()));
 	}
 
 }

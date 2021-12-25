@@ -1,27 +1,27 @@
 public class User {
 	// Variables
 	
-	private String name;
-	private String identity_number;
+	private String e_mail;
+	private String password;
 	private Basket basket;
 	
 	
 	// Getters and Setters
 	
-	public String getName() {
-		return name;
+	public String getEmail() {
+		return e_mail;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setEmail(String name) {
+		this.e_mail = name;
 	}
 	
-	public String getIdentity_number() {
-		return identity_number;
+	public String getPassoword() {
+		return password;
 	}
 	
-	public void setIdentity_number(String identity_number) {
-		this.identity_number = identity_number;
+	public void setPassword(String identity_number) {
+		this.password = identity_number;
 	}
 	
 	public Basket getBasket() {
