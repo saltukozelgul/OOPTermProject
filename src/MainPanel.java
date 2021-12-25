@@ -2,25 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
-class RoundBtn implements Border //we need this class for make rounded buttons
-{
-    private int r;
-    RoundBtn(int r) {
-        this.r = r;
-    }
-    public Insets getBorderInsets(Component c) {
-        return new Insets(this.r+1, this.r+1, this.r+2, this.r);
-    }
-    public boolean isBorderOpaque() {
-        return true;
-    }
-    public void paintBorder(Component c, Graphics g, int x, int y, 
-    int width, int height) {
-        g.drawRoundRect(x, y, width-1, height-1, r, r);
-    }
-}
 
 public class MainPanel {
 	
@@ -96,7 +77,7 @@ public class MainPanel {
 		//label of cheAPP
 		label_cheAPP.setText("cheAPP");
 		label_cheAPP.setFont(new Font(Font.MONOSPACED , Font.BOLD, 60));
-		label_cheAPP.setBounds(-40, 75, 400, 50);
+		label_cheAPP.setBounds(-40, 100, 400, 50);
 		label_cheAPP.setForeground(new Color(134,151,129));
 		
 		// label of Welcome
@@ -109,30 +90,24 @@ public class MainPanel {
 	{
 		//return button 
 		button_Return.setText("x");
-		button_Return.setFont(new Font(Font.DIALOG, Font.PLAIN, 8));
+		button_Return.setFont(new Font(Font.DIALOG, Font.PLAIN, 9));
 		button_Return.setHorizontalTextPosition(SwingConstants.CENTER);
-		button_Return.setBounds(10, 10, 40, 40);
-		button_Return.setBorder(new RoundBtn(360));
+		button_Return.setBounds(10, 10, 35, 35);
 		button_Return.setBackground(new Color(134,151,129));
-		button_Return.setOpaque(false);
 		
 		//basket button
 		button_Basket.setText("BASKET");
-		button_Basket.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
+		button_Basket.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
 		button_Basket.setHorizontalTextPosition(SwingConstants.CENTER);
-		button_Basket.setBounds(90, 250, 150, 60);
-		button_Basket.setBorder(new RoundBtn(20));
+		button_Basket.setBounds(10, 320, 300, 60);
 		button_Basket.setBackground(new Color(134,151,129));
-		button_Basket.setOpaque(false);
 		
 		//barcode button
 		button_Barcode.setText("BARCODE");
-		button_Barcode.setFont(new Font(Font.DIALOG, Font.PLAIN, 10));
+		button_Barcode.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
 		button_Barcode.setHorizontalTextPosition(SwingConstants.CENTER);
-		button_Barcode.setBounds(100, 400, 140, 70);
-		button_Barcode.setBorder(new RoundBtn(40));
+		button_Barcode.setBounds(10, 400, 300, 60);
 		button_Barcode.setBackground(new Color(134,151,129));
-		button_Barcode.setOpaque(false);
 	}
 }
 
