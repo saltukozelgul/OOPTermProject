@@ -45,8 +45,8 @@ public class LogInSignUp {
 	private JButton button_Approve = new JButton("Approve");
 	
 	// The icons i've used
-	Icon icon_OpenEye = new ImageIcon("C:\\Users\\mert7\\Desktop\\OpenEye.png");
-	Icon icon_CloseEye = new ImageIcon("C:\\Users\\mert7\\Desktop\\CloseEye.png");
+	Icon icon_OpenEye = new ImageIcon(".\\resources\\OpenEye.jpeg");
+	Icon icon_CloseEye = new ImageIcon(".\\\\resources\\\\CloseEye.jpeg");
 	
 	// Defining variables
 	public String hold_RandomValue;
@@ -100,7 +100,7 @@ public class LogInSignUp {
 					
 					String line; String split_line[] = new String[2];
 					int index_f_email = textField_Email.getText().indexOf('.');
-					String file_name = "C:\\Users\\mert7\\Desktop\\Users\\" + textField_Email.getText().substring(0, index_f_email) + ".txt";
+					String file_name = ".\\users\\" + textField_Email.getText().substring(0, index_f_email) +".txt";
 					
 					if(isUserExists()) { // there is a user with that name
 						
@@ -125,7 +125,7 @@ public class LogInSignUp {
 							
 							System.out.println("diger panele gec");
 							// Go to the MainPanel
-							// MainPanel mp = new MainPanel();
+							MainPanel mp = new MainPanel();
 						}
 						else {
 							JOptionPane.showMessageDialog(frame, "Wrong password!"); // shows Wrong password! text and clear textFields
@@ -160,7 +160,7 @@ public class LogInSignUp {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index_f_email = textField_Email.getText().indexOf('.');
-				String file_name = "C:\\Users\\mert7\\Desktop\\Users\\" + textField_Email.getText().substring(0, index_f_email) + ".txt";
+				String file_name = ".\\users\\" + textField_Email.getText().substring(0, index_f_email) +".txt";
 				
 				// TODO Auto-generated method stub
 				if(hold_RandomValue.equals(textField_RoboKod.getText())) {
@@ -168,8 +168,8 @@ public class LogInSignUp {
 					createAccount(file_name);
 					
 					// go to the other panel
-					JOptionPane.showMessageDialog(frame, "You've signed up succesfully!"); 
-					// MainPanel mp = new MainPanel();
+					JOptionPane.showMessageDialog(frame, "You've signed up succesfully!");
+					MainPanel mp = new MainPanel();
 				}
 				else {
 					JOptionPane.showMessageDialog(frame, "Wrong robo code!"); 
@@ -245,7 +245,7 @@ public class LogInSignUp {
 				String new_content = "";
 				String line;
 				int index_f_email = textField_Email.getText().indexOf('.');	
-				String file_name = "C:\\Users\\mert7\\Desktop\\Users\\" + textField_Email.getText().substring(0, index_f_email) + ".txt";
+				String file_name = ".\\users\\" + textField_Email.getText().substring(0, index_f_email) +".txt";
 				
 				// Save information about user to textFile
 				try {
@@ -296,7 +296,7 @@ public class LogInSignUp {
 	// Main GIU settings
 	private void setFrameSettings() {
 		
-		Image icon_IMG = Toolkit.getDefaultToolkit().getImage("C:\\Users\\mert7\\Desktop\\image.png"); // saves icon
+		Image icon_IMG = Toolkit.getDefaultToolkit().getImage(".\\\\resources\\\\Logo.jpeg"); // saves icon
 		Gradient panel = new Gradient(); // creates(calls) gradient panel
 		
 		// Frame settings
@@ -523,7 +523,7 @@ public class LogInSignUp {
 		
 		// creating file name
 		index_f_email = textField_Email.getText().indexOf('.');
-		file_name = "C:\\Users\\mert7\\Desktop\\Users\\" + textField_Email.getText().substring(0, index_f_email) + ".txt";
+		file_name = ".\\users\\" + textField_Email.getText().substring(0, index_f_email) +".txt";
 		
 		File new_file = new File(file_name);
 		if(new_file.exists()) { // there is file, user exits

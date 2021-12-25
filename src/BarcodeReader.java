@@ -55,7 +55,7 @@ public class BarcodeReader {
 		window.add(panel);
 		window.setResizable(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//window.pack();
+		window.pack();
 		window.setVisible(true);
 		
 		Thread t1 = new Thread(new Runnable() {
