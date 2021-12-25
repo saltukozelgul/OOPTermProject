@@ -134,7 +134,7 @@ public class LogInSignUp {
 						}
 						
 					}
-					else { // when user does not exist, else condition will work. In that condition, we will create new user, user file, send email to user's email
+					else { // when user does not exist, else condition will work. In that condition, we will create new user, user file, sends email to user's email
 					
 						// Lets close next button, lets open objects which are user needs
 						button_Next.setVisible(false);
@@ -164,7 +164,7 @@ public class LogInSignUp {
 				
 				// TODO Auto-generated method stub
 				if(hold_RandomValue.equals(textField_RoboKod.getText())) {
-					// Save information about user to textFile
+					// Save informations about user to the textFile
 					createAccount(file_name);
 					
 					// go to the other panel
@@ -193,7 +193,7 @@ public class LogInSignUp {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Updates to passwordField_password settings
+				// Updates passwordField_Password settings
 				passwordField_Password.setText("Enter your new password...");
 				passwordField_Password.setEchoChar((char)0); // shows input
 				password_Count++;
@@ -235,59 +235,59 @@ public class LogInSignUp {
 			}
 		});
 			
-	button_Approve.addActionListener(new ActionListener() {
+		button_Approve.addActionListener(new ActionListener() {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 			
-			// TODO Auto-generated method stub
-			if(hold_RandomValue.equals(textField_RoboKod.getText())) {
-				String new_content = "";
-				String line;
-				int index_f_email = textField_Email.getText().indexOf('.');	
-				String file_name = ".\\users\\" + textField_Email.getText().substring(0, index_f_email) +".txt";
-				
-				// Save information about user to textFile
-				try {
-					File file = new File(file_name);
-					BufferedReader read = new BufferedReader(new FileReader(file));
+				// TODO Auto-generated method stub
+				if(hold_RandomValue.equals(textField_RoboKod.getText())) {
+					String new_content = "";
+					String line;
+					int index_f_email = textField_Email.getText().indexOf('.');	
+					String file_name = ".\\users\\" + textField_Email.getText().substring(0, index_f_email) +".txt";
 					
-					while((line = read.readLine()) != null) { // reads file line by line
-						if(line.contains("Password: ")) { // if line has include Password command split the password and break it
-							line = "Password: " + String.valueOf(passwordField_Password.getPassword());
-						}	
-						line = line + "\n";
-						new_content = new_content + line;
+					// Save information about user to textFile
+					try {
+						File file = new File(file_name);
+						BufferedReader read = new BufferedReader(new FileReader(file));
+						
+						while((line = read.readLine()) != null) { // reads file line by line
+							if(line.contains("Password: ")) { // if line has include Password command split the password and break it
+								line = "Password: " + String.valueOf(passwordField_Password.getPassword());
+							}	
+							line = line + "\n";
+							new_content = new_content + line;
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					
+					// update the user's file
+					try {
+						System.out.println(new_content);
+						FileWriter write_t_file = new FileWriter(file_name);
+						PrintWriter printWriter = new PrintWriter(write_t_file);
+						
+						printWriter.printf(new_content);
+						
+						write_t_file.close();
+						
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	
+					// go to the other panel
+					JOptionPane.showMessageDialog(frame, "You've signed up succesfully!"); 
+					// MainPanel mp = new MainPanel();
 				}
-				
-				// update the user's file
-				try {
-					System.out.println(new_content);
-					FileWriter write_t_file = new FileWriter(file_name);
-					PrintWriter printWriter = new PrintWriter(write_t_file);
-					
-					printWriter.printf(new_content);
-					
-					write_t_file.close();
-					
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-				// go to the other panel
-				JOptionPane.showMessageDialog(frame, "You've signed up succesfully!"); 
-				// MainPanel mp = new MainPanel();
-			}
-			else {
-				JOptionPane.showMessageDialog(frame, "Wrong Robo Code"); 
-			}	
-		}		
-	});
+				else {
+					JOptionPane.showMessageDialog(frame, "Wrong Robo Code"); 
+				}	
+			}		
+		});
 		
 	} // end of constructor
 		
@@ -475,27 +475,27 @@ public class LogInSignUp {
 	// Sends email
 	public void sendEmail() {
 		
-			String to = textField_Email.getText();
-			String from = "ooprojectproject@gmail.com";
-			String host = "smtp.gmail.com";
+		String to = textField_Email.getText();
+		String from = "ooprojectproject@gmail.com";
+		String host = "smtp.gmail.com";
 			
-			// HOST SETTINGS
-			Properties properties = System.getProperties(); 
-			properties.put("mail.smtp.host", host);
-	        properties.put("mail.smtp.port", "465");
-	        properties.put("mail.smtp.ssl.enable", "true");
-	        properties.put("mail.smtp.auth", "true");
+		// HOST SETTINGS
+		Properties properties = System.getProperties(); 
+		properties.put("mail.smtp.host", host);
+	    properties.put("mail.smtp.port", "465");
+	    properties.put("mail.smtp.ssl.enable", "true");
+	    properties.put("mail.smtp.auth", "true");
 	        
-			// Opens main mail account
-	        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+		// Opens main mail account
+	    Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
 
-	            protected PasswordAuthentication getPasswordAuthentication() {
+	    	protected PasswordAuthentication getPasswordAuthentication() {
 
-	                return new PasswordAuthentication("ooprojectproject@gmail.com", "ooproject");
+	    		return new PasswordAuthentication("ooprojectproject@gmail.com", "ooproject");
 
-	            }
+	        }
 
-	        });
+	     });
 
 	        // Sending e-mail
 	        try {
