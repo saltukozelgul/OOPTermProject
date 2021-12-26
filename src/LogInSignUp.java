@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.util.Random;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import java.util.Properties;
 
@@ -32,7 +33,6 @@ public class LogInSignUp {
 	private JLabel label_Password = new JLabel("Password: ", JLabel.LEFT);
 	private JLabel label_Information1 = new JLabel("", JLabel.LEFT);
 	private JLabel label_Information2 = new JLabel("", JLabel.LEFT);
-	private JLabel label_cheAPP = new JLabel("cheAPP", JLabel.CENTER);
 	private JTextField textField_Email = new JTextField("Enter your e-mail address");
 	private JTextField textField_RoboKod = new JTextField("");
 	private JPasswordField passwordField_Password = new JPasswordField("****");
@@ -43,6 +43,7 @@ public class LogInSignUp {
 	private JButton button_Log_Sign = new JButton();
 	private JButton button_IForgotMyPassword =  new JButton();
 	private JButton button_Approve = new JButton("Approve");
+	JLabel label_Logo = new JLabel(new ImageIcon(".\\resources\\smallLogo.png"));
 	
 	// The icons i've used
 	Icon icon_OpenEye = new ImageIcon(".\\resources\\OpenEye.jpeg");
@@ -327,7 +328,7 @@ public class LogInSignUp {
 		
 		
 		panel.setLayout(null); // important!
-		panel.add(label_cheAPP);panel.add(label_Email); panel.add(label_Password); panel.add(label_Information1); panel.add(label_Information2);
+		panel.add(label_Logo);panel.add(label_Email); panel.add(label_Password); panel.add(label_Information1); panel.add(label_Information2);
 		panel.add(textField_Email); panel.add(passwordField_Password); panel.add(textField_RoboKod);
 		panel.add(button_Approve); panel.add(checkBox_Information);
 		panel.add(button_IForgotMyPassword); panel.add(button_Password); panel.add(button_Next); panel.add(button_Log_Sign); panel.add(button_Change);
@@ -340,10 +341,8 @@ public class LogInSignUp {
 	private void setLabelSettings() {
 		
 		//brand 
-		label_cheAPP.setText("cheAPP");
-		label_cheAPP.setFont(new Font(Font.MONOSPACED , Font.BOLD, 60));
-		label_cheAPP.setBounds(-40, 50, 400, 50);
-		label_cheAPP.setForeground(new Color(134,151,129));
+		label_Logo.setLocation(10, 40);
+		label_Logo.setSize(300,85);
 		
 		// ID
 		label_Email.setText("Email: ");
@@ -371,22 +370,25 @@ public class LogInSignUp {
 	
 	// All text field settings
 	private void setTextFieldSettings() {
-		
+		Border border = BorderFactory.createLineBorder(new Color(198,23,157));
 		// ID
 		textField_Email.setFont(new Font(Font.DIALOG, Font.ITALIC, 13));
 		textField_Email.setBounds(25, 175, 270, 25);
+		textField_Email.setBorder(border);
 		textField_Email.setOpaque(false); // change background color to transparent
-		textField_Email.setForeground(Color.BLACK); // changes color to black
+		textField_Email.setForeground(Color.WHITE); // changes color to black
 		
 		// Password
 		passwordField_Password.setFont(new Font(Font.DIALOG, Font.ITALIC, 13));
 		passwordField_Password.setBounds(25, 230, 240, 25);
+		passwordField_Password.setBorder(border);
 		passwordField_Password.setOpaque(false); // change background color to transparent
-		passwordField_Password.setForeground(Color.BLACK);
+		passwordField_Password.setForeground(Color.WHITE);
 		passwordField_Password.setToolTipText("Enter more than five character");
 		
 		// RoboKod
 		textField_RoboKod.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
+		textField_RoboKod.setBorder(border);
 		textField_RoboKod.setBounds(180, 320, 115, 25);
 		textField_RoboKod.setOpaque(false);
 		textField_RoboKod.setVisible(false);

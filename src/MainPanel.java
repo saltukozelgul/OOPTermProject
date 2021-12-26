@@ -87,25 +87,31 @@ public class MainPanel {
 	private void setButtonSettings() 
 	{
 		//return button 
-		button_Return.setText("x");
-		button_Return.setFont(new Font(Font.DIALOG, Font.PLAIN, 9));
-		button_Return.setHorizontalTextPosition(SwingConstants.CENTER);
-		button_Return.setBounds(10, 10, 35, 35);
-		button_Return.setBackground(new Color(134,151,129));
+		Icon icon_Return = new ImageIcon(".\\resources\\returnIcon.png"); // return icon
+		Icon icon_Basket = new ImageIcon(".\\resources\\basketButton.png");
+		Icon icon_Barcode = new ImageIcon(".\\resources\\barcodeButton.png");
+		// Return button
+		button_Return.setIcon(icon_Return);
+		button_Return.setBounds(8, 8, 30, 30);
+		button_Return.setOpaque(false);
+		button_Return.setContentAreaFilled(false);
+		button_Return.setBorderPainted(false);
 		
 		//basket button
-		button_Basket.setText("BASKET");
-		button_Basket.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+		button_Basket.setIcon(icon_Basket);
 		button_Basket.setHorizontalTextPosition(SwingConstants.CENTER);
-		button_Basket.setBounds(10, 320, 300, 60);
-		button_Basket.setBackground(new Color(134,151,129));
+		button_Basket.setBounds(10, 320, 300, 64);
+		button_Basket.setOpaque(false);
+		button_Basket.setContentAreaFilled(false);
+		button_Basket.setBorderPainted(false);
 		
 		//barcode button
-		button_Barcode.setText("BARCODE");
-		button_Barcode.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+		button_Barcode.setIcon(icon_Barcode);
 		button_Barcode.setHorizontalTextPosition(SwingConstants.CENTER);
-		button_Barcode.setBounds(10, 400, 300, 60);
-		button_Barcode.setBackground(new Color(134,151,129));
+		button_Barcode.setBounds(10, 400, 300, 64);
+		button_Barcode.setOpaque(false);
+		button_Barcode.setContentAreaFilled(false);
+		button_Barcode.setBorderPainted(false);
 	}
 }
 

@@ -23,19 +23,21 @@ import com.google.zxing.common.HybridBinarizer;
 
 public class BarcodeReader {
 	
-	ArrayList<ArrayList<String>> infos = new ArrayList<ArrayList<String>>();
+	private ArrayList<ArrayList<String>> infos = new ArrayList<ArrayList<String>>();
+	private ArrayList<String> minProduct;
 	
 	// GUI OBjects
-	JFrame frame = new JFrame("CheApp");
-	JLabel label_BarcodeNumber =  new JLabel();
-	JTextField textField_BarcodeNumber = new JTextField();
-	JButton button_Search = new JButton();
-	JButton button_Return = new JButton();
+	private JFrame frame = new JFrame("CheApp");
+	private JLabel label_BarcodeNumber =  new JLabel();
+	private JTextField textField_BarcodeNumber = new JTextField();
+	private JButton button_Search = new JButton();
+	private JButton button_Return = new JButton();
 	
-	JButton button_add = new JButton();
-	JButton button_dontadd = new JButton();
-	JLabel label_product = new JLabel();
-	JLabel label_product1 =  new JLabel();
+	private JButton button_add = new JButton();
+	private JButton button_dontadd = new JButton();
+	private JLabel label_product = new JLabel();
+	private JLabel label_product1 =  new JLabel();
+	private JLabel location_product = new JLabel();
 	
 	JLabel label_Separator = new JLabel();
 	
@@ -70,19 +72,17 @@ public class BarcodeReader {
 		return null;
 	}
 	
-	public ArrayList<String> getMinumum() {
-		ArrayList<String> min = new ArrayList<String>();
+	public void getMinumum() {
 		
 		float minPrice = 100000;
 		for (ArrayList<String> price : infos) {
 			if (Float.parseFloat(price.get(2)) < minPrice) {
 				minPrice = Float.parseFloat(price.get(2));
-				min = price;
+				minProduct = price;
 			}
  			
 		}
 		
-		return min;
 	}
 	
 	// Constructor
@@ -116,11 +116,14 @@ public class BarcodeReader {
 				
 				String type = infos.get(0).get(3);
 				System.out.println(type);
-				ArrayList<String> minProduct = getMinumum();
-
+				
+				getMinumum();
+				
+				System.out.println(minProduct);
+				location_product.setText(minProduct.get(0));
 				label_product.setText(minProduct.get(1) + " -> " + minProduct.get(2));
-				label_product1.setText("would you add it to basket?");
-				button_add.setVisible(true); button_dontadd.setVisible(true); label_product.setVisible(true); label_product1.setVisible(true);
+				label_product1.setText("Would you add it to basket?");
+				button_add.setVisible(true); button_dontadd.setVisible(true); label_product.setVisible(true); label_product1.setVisible(true); location_product.setVisible(true);
 				webcam.close();
 				
 		    }
@@ -142,8 +145,10 @@ public class BarcodeReader {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//ve ekleme iþlemleri
-				Basket MP = new Basket();
+				// Burada txt yazma iþlemleri yapýlacak
+				button_add.setVisible(false); button_dontadd.setVisible(false); label_product.setVisible(false); label_product1.setVisible(false);
 				frame.dispose();
+				BarcodeReader BR = new BarcodeReader();
 			}
 		});
 		
@@ -170,11 +175,13 @@ public class BarcodeReader {
 					
 					String type = infos.get(0).get(3);
 					System.out.println(type);
-					ArrayList<String> minProduct = getMinumum();
-
+					getMinumum();
+					
+					System.out.println(minProduct);
+					location_product.setText(minProduct.get(0));
 					label_product.setText(minProduct.get(1) + " -> " + minProduct.get(2));
-					label_product1.setText("would you add it to basket?");
-					button_add.setVisible(true); button_dontadd.setVisible(true); label_product.setVisible(true); label_product1.setVisible(true);
+					label_product1.setText("Would you add it to basket?");
+					button_add.setVisible(true); button_dontadd.setVisible(true); label_product.setVisible(true); label_product1.setVisible(true); location_product.setVisible(true);
 				}
 			}
 		});
@@ -184,7 +191,8 @@ public class BarcodeReader {
 	// Frame settings
 	public void setFrameSettings(WebcamPanel panel) {
 	
-		Image icon_IMG = Toolkit.getDefaultToolkit().getImage(".\\\\resources\\\\Logo.jpeg"); // saves icon
+		Image icon_IMG = Toolkit.getDefaultToolkit().getImage(".\\resources\\Logo.jpeg"); // saves icon
+		
 		
 		// Calls gradient
 		Gradient gradient_panel = new Gradient(); // creates(calls) gradient panel
@@ -215,8 +223,10 @@ public class BarcodeReader {
 		gradient_panel.add(button_Return); gradient_panel.add(button_Search);
 		gradient_panel.add(label_Separator);
 		gradient_panel.add(button_add); gradient_panel.add(button_dontadd); gradient_panel.add(label_product); gradient_panel.add(label_product1);
+		gradient_panel.add(location_product);
+	
 		
-		button_add.setVisible(false); button_dontadd.setVisible(false); label_product.setVisible(false); label_product.setVisible(false);
+		button_add.setVisible(false); button_dontadd.setVisible(false); label_product.setVisible(false); label_product.setVisible(false); ; location_product.setVisible(false);
 		
 		
 		frame.setVisible(true);
@@ -225,13 +235,17 @@ public class BarcodeReader {
 	
 	// Button settings
 	public void setButtonSettings() {
+		Icon icon_Return = new ImageIcon(".\\resources\\returnIcon.png"); // return icon
 		
 		// Return button
-		button_Return.setText("x");
+		button_Return.setIcon(icon_Return);
 		button_Return.setFont(new Font(Font.DIALOG, Font.PLAIN, 9));
 		button_Return.setHorizontalTextPosition(SwingConstants.CENTER);
 		button_Return.setBounds(8, 8, 30, 30);
 		button_Return.setBackground(new Color(134,151,129));
+		button_Return.setOpaque(false);
+		button_Return.setContentAreaFilled(false);
+		button_Return.setBorderPainted(false);
 		
 		// Search button
 		button_Search.setText("Search");
@@ -276,11 +290,16 @@ public class BarcodeReader {
 		//product name/market
 		label_product.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
 		label_product.setBounds(4, 150, 300, 40);
-		label_product.setForeground(Color.BLACK);
+		label_product.setForeground(Color.WHITE);
 		
 		label_product1.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
 		label_product1.setBounds(4, 165, 300, 40);
-		label_product1.setForeground(Color.BLACK);
+		label_product1.setForeground(Color.WHITE);
+		
+		location_product.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
+		location_product.setBounds(4, 135, 300, 40);
+		location_product.setForeground(Color.WHITE);
+		
 		
 		//Separator
 		label_Separator.setText(" - - - - - - - - - - - or you can scan - - - - - - - - - - ");
