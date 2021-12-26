@@ -13,6 +13,7 @@ public class MainPanel {
 	
 	JLabel label_cheAPP = new JLabel("cheAPP", JLabel.CENTER);
 	JLabel label_Welcome = new JLabel("Welcome!", JLabel.CENTER);
+	JLabel label_Logo = new JLabel(new ImageIcon(".\\resources\\smallLogo.png"));
 	
 	Icon icon_Return = new ImageIcon("C:\\Users\\mert7\\Desktop\\image.png"); // saves icon
 	
@@ -71,16 +72,16 @@ public class MainPanel {
 				//add buttons
 				panel.add(button_Return); panel.add(button_Basket); panel.add(button_Barcode); 
 				
+				panel.add(label_Logo);
+				
 				frame.setVisible(true); // makes frame can be seen
 	}
 
+
 	private void setLabelSettings() {
 		//label of cheAPP
-		label_cheAPP.setText("cheAPP");
-		label_cheAPP.setFont(new Font(Font.MONOSPACED , Font.BOLD, 60));
-		label_cheAPP.setBounds(-40, 100, 400, 50);
-		label_cheAPP.setForeground(new Color(134,151,129));
-		
+		label_Logo.setLocation(10, 90);
+		label_Logo.setSize(300,85);
 	}
 
 	private void setButtonSettings() 
