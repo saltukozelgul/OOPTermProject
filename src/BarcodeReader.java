@@ -156,6 +156,29 @@ public class BarcodeReader {
 			}
 		});
 		
+		button_Search.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(textField_BarcodeNumber.getText() != null) {
+					webcam.close();
+					String barcode = textField_BarcodeNumber.getText();
+					
+					System.out.println(barcode);
+					infos.add(priceTaker.a101(barcode));
+					infos.add(priceTaker.carrefour(barcode));
+					
+					String type = infos.get(0).get(3);
+					System.out.println(type);
+					ArrayList<String> minProduct = getMinumum();
+
+					label_product.setText(minProduct.get(1) + " -> " + minProduct.get(2));
+					label_product1.setText("would you add it to basket?");
+					button_add.setVisible(true); button_dontadd.setVisible(true); label_product.setVisible(true); label_product1.setVisible(true);
+				}
+			}
+		});
+		
 	} // end of constructor
 	
 	// Frame settings
