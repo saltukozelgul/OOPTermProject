@@ -38,6 +38,7 @@ public class MainPanel {
 		button_Barcode.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
 				BarcodeReader br = new BarcodeReader();
 				// Bu kodun devamý BarcodeReader içinde çalýþacak.
 			}
@@ -80,10 +81,6 @@ public class MainPanel {
 		label_cheAPP.setBounds(-40, 100, 400, 50);
 		label_cheAPP.setForeground(new Color(134,151,129));
 		
-		// label of Welcome
-		//label_Welcome.setText("Welcome");
-		//label_Welcome.setFont(new Font(Font.MONOSPACED , Font.BOLD, 20));
-		//label_Welcome.setBounds(100, 100, 100, 50);
 	}
 
 	private void setButtonSettings() 

@@ -125,6 +125,7 @@ public class LogInSignUp {
 							
 							System.out.println("diger panele gec");
 							// Go to the MainPanel
+							frame.dispose();
 							MainPanel mp = new MainPanel();
 						}
 						else {
