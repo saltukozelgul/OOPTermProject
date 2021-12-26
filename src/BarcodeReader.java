@@ -70,6 +70,21 @@ public class BarcodeReader {
 		return null;
 	}
 	
+	public ArrayList<String> getMinumum() {
+		ArrayList<String> min = new ArrayList<String>();
+		
+		float minPrice = 100000;
+		for (ArrayList<String> price : infos) {
+			if (Float.parseFloat(price.get(2)) < minPrice) {
+				minPrice = Float.parseFloat(price.get(2));
+				min = price;
+			}
+ 			
+		}
+		
+		return min;
+	}
+	
 	// Constructor
 	public BarcodeReader() {
 		
@@ -97,8 +112,13 @@ public class BarcodeReader {
 				
 				System.out.println(barcode);
 				infos.add(priceTaker.a101(barcode));
+				infos.add(priceTaker.carrefour(barcode));
 				
-				label_product.setText(infos.get(0).get(1) + "->" + infos.get(0).get(2));
+				String type = infos.get(0).get(3);
+				System.out.println(type);
+				ArrayList<String> minProduct = getMinumum();
+
+				label_product.setText(minProduct.get(1) + " -> " + minProduct.get(2));
 				label_product1.setText("would you add it to basket?");
 				button_add.setVisible(true); button_dontadd.setVisible(true); label_product.setVisible(true); label_product1.setVisible(true);
 				webcam.close();

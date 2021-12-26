@@ -1,5 +1,6 @@
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -29,7 +30,16 @@ public class priceTaker {
 		String name = driver.findElement(By.className("name")).getText();
 		String price = driver.findElement(By.className("current")).getText();
 		
-		info.add("A101"); info.add(name); info.add(price); 
+		price = price.replace(',', '.');
+		price = price.split(" ")[0];
+		
+		driver.findElement(By.className("name-price")).click();
+		
+		List<WebElement> list = driver.findElements(By.className("breadcrumb-item"));
+		String type = list.get(list.size() - 2).getText();
+		
+		
+		info.add("A101"); info.add(name); info.add(price); info.add(type); 
 		
 		System.out.print(info);
 		driver.quit();
@@ -47,6 +57,10 @@ public class priceTaker {
 		
 		String price = driver.findElement(By.className("price-cont")).getText();
 		String name = driver.findElement(By.className("item-name")).getText();
+				
+		price = price.replace(',', '.');
+		price = price.split(" ")[0];
+
 		
 		info.add("CARREFOUR"); info.add(name); info.add(price); 
 		
