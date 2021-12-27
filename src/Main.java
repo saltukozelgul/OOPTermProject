@@ -5,6 +5,7 @@ public class Main {
 	public static void main(String[] args) {
 		User user = new User();
 		user.setEmail("mert71719601@gmail.com");
+		user.setPassword("MerhabaMert");
 		//LogInSignUp LISU = new LogInSignUp();
 		//MainPanel mp = new MainPanel();
 		//BarcodeReader br = new BarcodeReader();

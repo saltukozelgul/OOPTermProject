@@ -51,30 +51,29 @@ public class MainPanel {
 		Gradient panel = new Gradient();
 		Image icon_IMG = Toolkit.getDefaultToolkit().getImage("C:\\Users\\mert7\\Desktop\\image.png"); // saves icon
 		// Frame settings
-				frame.setTitle("cheAPP");
-				frame.setIconImage(icon_IMG); // changes icon
-				frame.setSize(335, 525);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit when press to close button
-				frame.setResizable(false); // closes size icon
-				frame.setLocationRelativeTo(null); // opens the panel middle of the screen
-				frame.getContentPane().setLayout(new GridLayout(0, 1));
+		frame.setTitle("cheAPP");
+		frame.setIconImage(icon_IMG); // changes icon				frame.setSize(335, 525);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit when press to close button
+		frame.setResizable(false); // closes size icon
+		frame.setLocationRelativeTo(null); // opens the panel middle of the screen
+		frame.getContentPane().setLayout(new GridLayout(0, 1));
 				
-				// Calls other settings
-				setLabelSettings();
-				setButtonSettings();
+		// Calls other settings
+		setLabelSettings();
+		setButtonSettings();
 				
-				frame.add(panel); // adds panel to frame	
+		frame.add(panel); // adds panel to frame	
 				
-				panel.setLayout(null);
-				//add labels
-				panel.add(label_cheAPP); panel.add(label_Welcome);
+		panel.setLayout(null);
+		//add labels
+		panel.add(label_cheAPP); panel.add(label_Welcome);
 				
-				//add buttons
-				panel.add(button_Return); panel.add(button_Basket); panel.add(button_Barcode); 
+		//add buttons
+		panel.add(button_Return); panel.add(button_Basket); panel.add(button_Barcode); 
 				
-				panel.add(label_Logo);
+		panel.add(label_Logo);
 				
-				frame.setVisible(true); // makes frame can be seen
+		frame.setVisible(true); // makes frame can be seen
 	}
 
 

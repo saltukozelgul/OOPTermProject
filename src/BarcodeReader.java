@@ -129,7 +129,8 @@ public class BarcodeReader {
 						new_content = new_content + line;
 					}
 					// Adding new product to the user's file
-					new_content = new_content + "\nMarket Name: " + minProduct.get(0) + "\nProduct No: " + getBarcode_number_f_product() + "\nProduct Name: " + minProduct.get(1) + "\nProduct Price: " + minProduct.get(2);
+					new_content = new_content + "\nMarket Name: " + minProduct.get(0) + "\nProduct No: " + getBarcode_number_f_product() + 
+							"\nProduct Name: " + minProduct.get(1) + "\nProduct Price: " + minProduct.get(2) + "\n\n";
 					
 					read.close(); // closing file
 					
