@@ -52,7 +52,8 @@ public class MainPanel {
 		Image icon_IMG = Toolkit.getDefaultToolkit().getImage("C:\\Users\\mert7\\Desktop\\image.png"); // saves icon
 		// Frame settings
 		frame.setTitle("cheAPP");
-		frame.setIconImage(icon_IMG); // changes icon				frame.setSize(335, 525);
+		frame.setIconImage(icon_IMG); // changes icon				
+		frame.setSize(335, 525);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit when press to close button
 		frame.setResizable(false); // closes size icon
 		frame.setLocationRelativeTo(null); // opens the panel middle of the screen
