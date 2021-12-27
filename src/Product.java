@@ -2,7 +2,6 @@
 public abstract class Product {
 	
 	// Variables
-	
 	private String weight;
 	private float price;
 	private String name;

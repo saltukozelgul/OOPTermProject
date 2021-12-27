@@ -55,6 +55,7 @@ public class LogInSignUp {
 	private int checkBox_Count = 0;
 	public boolean is_information_click = false; 
 	public boolean has_emailSent = false;
+	private User new_user;
 	
 	public LogInSignUp() { 
 		// Main GIU settings
@@ -127,7 +128,8 @@ public class LogInSignUp {
 							System.out.println("diger panele gec");
 							// Go to the MainPanel
 							frame.dispose();
-							MainPanel mp = new MainPanel();
+							AddUserToUserClass();
+							MainPanel mp = new MainPanel(new_user);
 						}
 						else {
 							JOptionPane.showMessageDialog(frame, "Wrong password!"); // shows Wrong password! text and clear textFields
@@ -173,7 +175,8 @@ public class LogInSignUp {
 					// go to the other panel
 					JOptionPane.showMessageDialog(frame, "You've signed up succesfully!");
 					AddUserToUserClass();
-					MainPanel mp = new MainPanel();
+					AddUserToUserClass();
+					MainPanel mp = new MainPanel(new_user);
 					frame.dispose();
 				}
 				else {
@@ -289,7 +292,7 @@ public class LogInSignUp {
 					// go to the other panel
 					AddUserToUserClass();
 					JOptionPane.showMessageDialog(frame, "Password has been changed succesfully!"); 
-					MainPanel mp = new MainPanel();
+					MainPanel mp = new MainPanel(new_user);
 					frame.dispose();
 				}
 				else {
@@ -300,8 +303,6 @@ public class LogInSignUp {
 		
 	} // end of constructor
 		
-		
-	
 	// Main GIU settings
 	private void setFrameSettings() {
 		
@@ -580,7 +581,7 @@ public class LogInSignUp {
 	}
 	
 	private void AddUserToUserClass() {
-		User new_user = new User();
+		new_user = new User();
 		new_user.setEmail(textField_Email.getText());
 		new_user.setPassword(String.valueOf(passwordField_Password.getPassword()));
 	}

@@ -6,6 +6,12 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -42,8 +48,146 @@ public class BarcodeReader {
 	JLabel label_Separator = new JLabel();
 	
 	// Variables
+	private String barcode_number_f_product = null;
 	private int isFound = 0;
 	public String barcode = null;
+	
+
+	// Constructor
+	public BarcodeReader(User current_user) {
+		
+		// Webcam settings
+		Webcam webcam = Webcam.getDefault();
+		webcam.setViewSize(WebcamResolution.VGA.getSize());
+
+		WebcamPanel panel = new WebcamPanel(webcam);
+		panel.setFPSDisplayed(false);
+		panel.setDisplayDebugInfo(false);
+		panel.setImageSizeDisplayed(false);
+		panel.setMirrored(false);
+		
+		// calls frame
+		setFrameSettings(panel);
+				
+		Thread t1 = new Thread(new Runnable() {
+		    @Override
+		    public void run() {
+		    	String barcode = null;
+		    	
+				while (isFound == 0) {
+					setBarcode_number_f_product(barcode);
+					barcode = getBarcode(webcam);
+				}
+				
+				System.out.println(barcode);
+				infos.add(priceTaker.a101(barcode));
+				infos.add(priceTaker.carrefour(barcode));
+				
+				String type = infos.get(0).get(3);
+				System.out.println(type);
+				
+				getMinumum();
+				
+				System.out.println(minProduct);
+				location_product.setText(minProduct.get(0));
+				label_product.setText(minProduct.get(1) + " -> " + minProduct.get(2));
+				label_product1.setText("Would you add it to basket?");
+				button_add.setVisible(true); button_dontadd.setVisible(true); label_product.setVisible(true); label_product1.setVisible(true); location_product.setVisible(true);
+				webcam.close();
+				
+		    }
+		});  
+		t1.start();
+		
+		// Go backs to the MainPanel
+		button_Return.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				t1.interrupt();
+				webcam.close();
+				MainPanel MP = new MainPanel(current_user);
+				frame.dispose();
+			}
+		});
+		
+		// Adds new product to user's file
+		button_add.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				// Taking user' information from user_class
+				int index_f_email = current_user.getEmail().indexOf('.');	
+				String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) +".txt"; String new_content = ""; String line;
+				
+				try { // Opening File and file operations
+					File file = new File(file_name);
+					BufferedReader read = new BufferedReader(new FileReader(file));
+					
+					while((line = read.readLine()) != null) { // travels every line
+						line = line + "\n";
+						new_content = new_content + line;
+					}
+					// Adding new product to the user's file
+					new_content = new_content + "\nMarket Name: " + minProduct.get(0) + "\nProduct No: " + getBarcode_number_f_product() + "\nProduct Name: " + minProduct.get(1) + "\nProduct Price: " + minProduct.get(2);
+					
+					read.close(); // closing file
+					
+					FileWriter write_t_file = new FileWriter(file_name);
+					PrintWriter printWriter = new PrintWriter(write_t_file);
+					
+					printWriter.printf(new_content); // adding new content to the file
+					// I'LL call product class and add to user's basket
+					write_t_file.close(); // closing file					
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				button_add.setVisible(false); button_dontadd.setVisible(false); label_product.setVisible(false); label_product1.setVisible(false);
+				frame.dispose();
+				BarcodeReader BR = new BarcodeReader(current_user);
+			}
+		});
+		
+		// Do not add the product to the file and opens BarcodeReader again
+		button_dontadd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				button_add.setVisible(false); button_dontadd.setVisible(false); label_product.setVisible(false); label_product1.setVisible(false);
+				frame.dispose();
+				BarcodeReader BR = new BarcodeReader(current_user);
+			}
+		});
+		
+		// Serach the barcode
+		button_Search.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(textField_BarcodeNumber.getText() != null) {
+					webcam.close();
+					String barcode = textField_BarcodeNumber.getText();
+					
+					System.out.println(barcode);
+					infos.add(priceTaker.a101(barcode));
+					infos.add(priceTaker.carrefour(barcode));
+					
+					String type = infos.get(0).get(3);
+					System.out.println(type);
+					getMinumum();
+					
+					System.out.println(minProduct);
+					location_product.setText(minProduct.get(0));
+					label_product.setText(minProduct.get(1) + " -> " + minProduct.get(2));
+					label_product1.setText("Would you add it to basket?");
+					button_add.setVisible(true); button_dontadd.setVisible(true); label_product.setVisible(true); label_product1.setVisible(true); location_product.setVisible(true);
+				}
+			}
+		});
+		
+	} // end of constructor
 	
 	// getBarcode method
 	public String getBarcode(Webcam webcam) {
@@ -72,6 +216,7 @@ public class BarcodeReader {
 		return null;
 	}
 	
+	// For choosing to min price of products
 	public void getMinumum() {
 		
 		float minPrice = 100000;
@@ -84,109 +229,6 @@ public class BarcodeReader {
 		}
 		
 	}
-	
-	// Constructor
-	public BarcodeReader() {
-		
-		// Webcam settings
-		Webcam webcam = Webcam.getDefault();
-		webcam.setViewSize(WebcamResolution.VGA.getSize());
-
-		WebcamPanel panel = new WebcamPanel(webcam);
-		panel.setFPSDisplayed(false);
-		panel.setDisplayDebugInfo(false);
-		panel.setImageSizeDisplayed(false);
-		panel.setMirrored(false);
-		
-		// calls frame
-		setFrameSettings(panel);
-				
-		Thread t1 = new Thread(new Runnable() {
-		    @Override
-		    public void run() {
-		    	String barcode = null;
-		    	
-				while (isFound == 0) {
-					barcode = getBarcode(webcam);
-				}
-				
-				System.out.println(barcode);
-				infos.add(priceTaker.a101(barcode));
-				infos.add(priceTaker.carrefour(barcode));
-				
-				String type = infos.get(0).get(3);
-				System.out.println(type);
-				
-				getMinumum();
-				
-				System.out.println(minProduct);
-				location_product.setText(minProduct.get(0));
-				label_product.setText(minProduct.get(1) + " -> " + minProduct.get(2));
-				label_product1.setText("Would you add it to basket?");
-				button_add.setVisible(true); button_dontadd.setVisible(true); label_product.setVisible(true); label_product1.setVisible(true); location_product.setVisible(true);
-				webcam.close();
-				
-		    }
-		});  
-		t1.start();
-		
-		button_Return.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				t1.interrupt();
-				webcam.close();
-				MainPanel MP = new MainPanel();
-				frame.dispose();
-			}
-		});
-		
-		button_add.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//ve ekleme iþlemleri
-				// Burada txt yazma iþlemleri yapýlacak
-				button_add.setVisible(false); button_dontadd.setVisible(false); label_product.setVisible(false); label_product1.setVisible(false);
-				frame.dispose();
-				BarcodeReader BR = new BarcodeReader();
-			}
-		});
-		
-		button_dontadd.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				button_add.setVisible(false); button_dontadd.setVisible(false); label_product.setVisible(false); label_product1.setVisible(false);
-				frame.dispose();
-				BarcodeReader BR = new BarcodeReader();
-			}
-		});
-		
-		button_Search.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(textField_BarcodeNumber.getText() != null) {
-					webcam.close();
-					String barcode = textField_BarcodeNumber.getText();
-					
-					System.out.println(barcode);
-					infos.add(priceTaker.a101(barcode));
-					infos.add(priceTaker.carrefour(barcode));
-					
-					String type = infos.get(0).get(3);
-					System.out.println(type);
-					getMinumum();
-					
-					System.out.println(minProduct);
-					location_product.setText(minProduct.get(0));
-					label_product.setText(minProduct.get(1) + " -> " + minProduct.get(2));
-					label_product1.setText("Would you add it to basket?");
-					button_add.setVisible(true); button_dontadd.setVisible(true); label_product.setVisible(true); label_product1.setVisible(true); location_product.setVisible(true);
-				}
-			}
-		});
-		
-	} // end of constructor
 	
 	// Frame settings
 	public void setFrameSettings(WebcamPanel panel) {
@@ -306,6 +348,14 @@ public class BarcodeReader {
 		label_Separator.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
 		label_Separator.setBounds(7, 120, 300, 20);
 		label_Separator.setForeground(new Color(134, 151, 129));
+	}
+	
+	// Getter and Setter of barcode number
+	public String getBarcode_number_f_product() {
+		return this.barcode_number_f_product;
+	}
+	public void setBarcode_number_f_product(String barcode_number_f_product) {
+		this.barcode_number_f_product = barcode_number_f_product;
 	}
 	
 } // end of BarcodeReader class

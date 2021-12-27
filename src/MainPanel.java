@@ -17,7 +17,7 @@ public class MainPanel {
 	
 	Icon icon_Return = new ImageIcon("C:\\Users\\mert7\\Desktop\\image.png"); // saves icon
 	
-	public MainPanel() {
+	public MainPanel(User current_user) {
 		setFrameSettings();
 		
 		button_Return.addActionListener(new ActionListener() {
@@ -40,7 +40,7 @@ public class MainPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				BarcodeReader br = new BarcodeReader();
+				BarcodeReader br = new BarcodeReader(current_user);
 				// Bu kodun devamý BarcodeReader içinde çalýþacak.
 			}
 		});
