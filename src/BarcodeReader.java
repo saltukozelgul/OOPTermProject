@@ -50,7 +50,7 @@ public class BarcodeReader {
 	// Variables
 	private String barcode_number_f_product = null;
 	private int isFound = 0;
-	public String barcode = null;
+	public String barcode = "";
 	
 
 	// Constructor
@@ -75,8 +75,8 @@ public class BarcodeReader {
 		    	String barcode = null;
 		    	
 				while (isFound == 0) {
-					setBarcode_number_f_product(barcode);
 					barcode = getBarcode(webcam);
+					setBarcode_number_f_product(barcode);
 				}
 				
 				System.out.println(barcode);

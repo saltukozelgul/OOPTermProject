@@ -31,7 +31,7 @@ public class MainPanel {
 		button_Basket.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Basket basket = new Basket();
+				BasketPanel BP = new BasketPanel(current_user);
 				frame.dispose();
 			}
 		});
@@ -40,7 +40,7 @@ public class MainPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				BarcodeReader br = new BarcodeReader(current_user);
+				BarcodeReader BR = new BarcodeReader(current_user);
 				// Bu kodun devamý BarcodeReader içinde çalýþacak.
 			}
 		});

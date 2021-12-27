@@ -91,7 +91,7 @@ public class LogInSignUp {
 			}
 		});
 		
-		// When clicked to Next button
+		// When haes been clicked on the Next button
 		button_Next.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
