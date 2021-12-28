@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -205,6 +206,26 @@ public class BasketPanel {
 		panel.add(textField_Coupon);
 	}
 	
+	//For choosing right class by type of the product
+	private Product createProductByType(ArrayList<String> productInfo) {
+		Product product = new Eatables("", 0, "", "", 0); // Temp product
+		String type = productInfo.get(3);
+		
+		// For creating new Product object
+		String marketName = productInfo.get(0);;
+		String productName = productInfo.get(1);;
+		float price = Float.parseFloat(productInfo.get(2));
+		int count = 0;
+		
+		String[] snacks = {"Bisküvi", "Çikolata", "Kekler", "Sakýzlar", "Þekerleme", "Cips & Çerez"};
+		if (Arrays.asList(snacks).contains(type)) {
+			product = new Snacks("Weight", price, productName, marketName, count);
+			return product;
+		}
+
+		
+		return product;
+	}
 	// Label settings and Product, buradan devam etmeliyim
 	public void setLabelSettings() {
 		
@@ -237,16 +258,24 @@ public class BasketPanel {
 				}
 				else if(line.contains("Product Price: ")) {
 					information = information + line.replace("Product Price: ", "") + "tl";
-					productInformations.add(line.replace("Product Price", ""));
+					productInformations.add(line.replace("Product Price: ", ""));
 				}
 				else if(line.contains("Product No: ")); // just go
+				else if(line.contains("Product Type: ")) {
+					productInformations.add(line.replace("Product Type: ", ""));
+				}
 				else{
 					if(information != "") {
 						
 						// Buraya urunun turune gore nesne olusturulup baskete gonderilmeli
 						// Product product = new Product(" ", Float.valueOf(productInformations.get(2)), productInformations.get(1), productInformations.get(0));
+	
+						// Choose type and send it to basket;
+						Product product = createProductByType(productInformations);
+						basket.addProduct(product); // Added product into basket
 						
 						informations.add(information);
+						System.out.println(productInformations);
 						productInformations.clear();
 					}
 					information = ""; // clears information string
@@ -258,12 +287,18 @@ public class BasketPanel {
 			e.printStackTrace();
 		}
 		
-		// Creates product labels
+		// Creates product labels which is taking products from basket.
+		ArrayList<Product> products = basket.getProducts(); 
 		for(int i=0; i<product_count; i++) { // creates labels for every different product
 			
 			label_ProductInformation.add(new JLabel()); // creates new label
 			
-			label_ProductInformation.get(i).setText(informations.get(i));
+			// Temptext for label
+			String tempText = products.get(i).getBrand() + " " + products.get(i).getName() + " " + products.get(i).getPrice() + "tl";
+			System.out.println(tempText);
+			// We use this text for setting label's text
+			
+ 			label_ProductInformation.get(i).setText(tempText);
 			label_ProductInformation.get(i).setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
 			label_ProductInformation.get(i).setBounds(x_coordinate, y_coordinate, 270, 30);
 			label_ProductInformation.get(i).setForeground(Color.WHITE);

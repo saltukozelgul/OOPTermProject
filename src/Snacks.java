@@ -13,8 +13,5 @@ public class Snacks extends Eatables implements Paid {
 		return true;
 	}
 	
-	public float getPrice() {
-		return 0;
-	}
 
 }

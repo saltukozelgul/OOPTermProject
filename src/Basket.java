@@ -26,8 +26,8 @@ public class Basket {
 		
 	}
 	
-	public Product getProducts() {
-		return products.get(0); // just for now
+	public ArrayList<Product>  getProducts() {
+		return this.products; // just for now
 	}
 	
 	public float getTotalPrice(User current_user) {
@@ -93,8 +93,8 @@ public class Basket {
 		}
 	}
 	
-	public void addProduct(Product products) {
-		
+	public void addProduct(Product product) {
+		products.add(product);
 	}
 	
 	public void removeProduct(String product_name) {
