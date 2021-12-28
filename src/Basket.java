@@ -5,6 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JOptionPane;
 
 public class Basket {
 	
@@ -13,6 +17,7 @@ public class Basket {
 	private int productCount;
 	private ArrayList<Product> products = new ArrayList<>();
 	private int discount_rate;
+	private Map<String, Float> coupons = new HashMap<>();
 	// private coupons hash seklinde gelecek
 	
 	
@@ -25,8 +30,25 @@ public class Basket {
 		return products.get(0); // just for now
 	}
 	
-	public float getTotalPrice() {
-		return 0;
+	public float getTotalPrice(User current_user) {
+		float total_price = 0;
+		int index_f_email = current_user.getEmail().indexOf(".");
+		String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt", line = "";
+		try {
+			File file = new File(file_name);
+			BufferedReader read = new BufferedReader(new FileReader(file_name));
+			
+			while((line = read.readLine()) != null ){
+				if(line.contains("Product Price: ")) {
+					total_price = total_price + Float.valueOf(line.replaceAll("Product Price: ", ""));
+				}
+			}
+			read.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return total_price;
 	}
 	
 	public  int getProductCount(User current_user) {
@@ -79,9 +101,20 @@ public class Basket {
 		
 	}
 	
-	public void addCoupon(String coupon_code) {
+	public float addCoupon(String coupon_code, User current_user) {
+		float total_price = getTotalPrice(current_user);
+			
+		coupons.put("17129207", (float) 12);
+		coupons.put("199188177", (float) 25);
+		coupons.put("111999222888", (float) 40);
 		
+		if(coupons.containsKey(coupon_code)) {
+			total_price = total_price - ( ( total_price * coupons.get(coupon_code)) / 100);
+			return total_price;
+		}	
+		else {
+			return 0;
+		}
 	}
-
 
 }

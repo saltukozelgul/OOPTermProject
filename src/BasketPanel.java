@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 public class BasketPanel {
 	
@@ -23,8 +24,11 @@ public class BasketPanel {
 	private JFrame frame = new JFrame("CheApp");
 	private JButton button_Return = new JButton();
 	private JButton button_ClearAll = new JButton();
+	private JButton button_CouponAdd = new JButton();
 	private ArrayList<JButton> button_DeleteProduct = new ArrayList<JButton>();
 	private ArrayList<JLabel> label_ProductInformation = new ArrayList<>();
+	private JLabel label_TotalPrice = new JLabel();
+	private JTextField textField_Coupon = new JTextField();
 	
 	// Global variables and objects\
 	private ArrayList<String> productInformations = new ArrayList<String>();
@@ -77,6 +81,23 @@ public class BasketPanel {
 			
 		});
 		
+		// Add Coupon
+		button_CouponAdd.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				float result = basket.addCoupon(textField_Coupon.getText(), current_user);
+				if( result != 0) {
+					label_TotalPrice.setText("Total price: " + String.valueOf(result) + "tl");
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "Unvalid Coupon");
+
+				}	
+			}
+			
+		});
 	} // end of constructor
 	
 	// Frame settings
@@ -96,6 +117,7 @@ public class BasketPanel {
 		// Calls other settings
 		setLabelSettings();
 		setButtonSettings();
+		setTextFieldSettings();
 		
 		// Adding gradient objects into the frame
 		frame.add(panel);
@@ -128,7 +150,7 @@ public class BasketPanel {
 		
 		
 		// Defining first coordinates of first deleteProduct button
-		int x_coordinate = 280, y_coordinate = 90;
+		int x_coordinate = 280, y_coordinate = 60;
 		
 		for(int i=0; i<product_count; i++) {
 	
@@ -151,11 +173,36 @@ public class BasketPanel {
 		
 		// Clear All button
 		button_ClearAll.setText("Clear All");
-		button_ClearAll.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
+		button_ClearAll.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
 		button_ClearAll.setHorizontalTextPosition(SwingConstants.CENTER);
-		button_ClearAll.setBounds(10, 440, 100, 30);
+		button_ClearAll.setBounds(10, 440, 100, 25);
 		button_ClearAll.setBackground(new Color(134,151,129));
+		
+		// Add Coupon button
+		button_CouponAdd.setText("Add Coupon");
+		button_CouponAdd.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
+		button_CouponAdd.setHorizontalTextPosition(SwingConstants.CENTER);
+		button_CouponAdd.setBounds(180, 400, 130, 25);
+		button_CouponAdd.setBackground(new Color(134,151,129));
+		
+		panel.add(button_CouponAdd);
+	}
 	
+	// TextField Settings
+	public void setTextFieldSettings() {
+		Border border = BorderFactory.createLineBorder(new Color(198,23,157));
+		
+		// Coupon
+		textField_Coupon.setText("Enter Coupon Code");
+		textField_Coupon.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
+		textField_Coupon.setBounds(10, 400, 130, 25);
+		textField_Coupon.setForeground(Color.white);
+		textField_Coupon.setOpaque(false); // change background color to transparent
+		textField_Coupon.setBorder(border);
+
+
+		
+		panel.add(textField_Coupon);
 	}
 	
 	// Label settings and Product, buradan devam etmeliyim
@@ -163,9 +210,10 @@ public class BasketPanel {
 		
 		int product_count = productCount(); 
 		
-		int x_coordinate = 5, y_coordinate = 90; // coordinates
+		int x_coordinate = 5, y_coordinate = 60; // coordinates
 			
 		label_ProductInformation.add(new JLabel());
+		
 		// File variables
 		int index_f_email = this.current_user.getEmail().indexOf(".");
 		String file_name = ".\\users\\" + this.current_user.getEmail().substring(0, index_f_email) + ".txt", line = "", information = "";
@@ -199,6 +247,7 @@ public class BasketPanel {
 						// Product product = new Product(" ", Float.valueOf(productInformations.get(2)), productInformations.get(1), productInformations.get(0));
 						
 						informations.add(information);
+						productInformations.clear();
 					}
 					information = ""; // clears information string
 				}
@@ -209,6 +258,7 @@ public class BasketPanel {
 			e.printStackTrace();
 		}
 		
+		// Creates product labels
 		for(int i=0; i<product_count; i++) { // creates labels for every different product
 			
 			label_ProductInformation.add(new JLabel()); // creates new label
@@ -223,6 +273,14 @@ public class BasketPanel {
 			y_coordinate = y_coordinate  + 50;
 			
 		}
+		
+		// Total price
+		label_TotalPrice.setText("Total price: " + String.valueOf(basket.getTotalPrice(current_user) + "tl"));
+		label_TotalPrice.setBounds(x_coordinate, y_coordinate + 30, 150, 30);
+		label_TotalPrice.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
+		label_TotalPrice.setForeground(Color.WHITE);
+		
+		panel.add(label_TotalPrice);
 
 	}
 	
