@@ -7,14 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -39,7 +35,7 @@ public class BasketPanel {
 	
 	// Constructor
 	public BasketPanel(User current_user) {
-		
+			
 		// Assigning of user class
 		this.current_user = current_user;
 		
@@ -217,13 +213,56 @@ public class BasketPanel {
 		float price = Float.parseFloat(productInfo.get(2));
 		int count = 0;
 		
+		String[] breakfast = {"Süt", "Yoðurt", "Bal & Reçel", "Kahvaltýlýk Gevrek", "Peynir", "Krema & Kaymak", "Zeytin", "Þarküteri", "Tereyað"};
+		String[] colddrinks = {"Kola & Gazoz & Enerji Ýçeceði","Boza & Þalgam & Ayran & Kefir", "Meyve Suyu", "Su & Maden Suyu"};
+		String[] essentialfood = {"Makarna", "Nohut & Fasulye & Buðday", "Pasta Kremasý & Soslar", "Pirinç & Bulgur & Mercimek"
+				, "Þeker & Tuz & Baharat", "Un & Ýrmik", "Unlu Mamüller" ,"Ekmek Çeþitleri"};
+		String[] faceproducts = {"Vücut Bakým", "Yüz Maskesi", "Yüz Temizleme"};
+		String[] hairproducts = {"Saç Maskesi", "Þampuan", "Saç Boyasý", "Taraklar & Fýrçalar"};
+		String[] homecareproducts = {"Ahþap & Cam Temizleyici", "Bulaþýk Tablet & Jel Deterjan" , "Çamaþýr Suyu", "Çamaþýr Deterjaný & Yumuþatýcý" 
+				,"Ev Temizlik","Parlatýcý & Tuz & Koku Giderici","Kaðýt Havlu & Peçete" ,"Temizlik Bezi & Sünger & Fýrça" ,"Tuvalet Kaðýdý"
+				,"Oda Spreyleri" ,"Yüzey Temizleyici" ,"Temizlik Setleri" ,"Haþere Öldürücü"};
+		String[] oralproducts = {"Aðýz Bakým Suyu", "Diþ Fýrçasý", "Diþ Macunu"};
 		String[] snacks = {"Bisküvi", "Çikolata", "Kekler", "Sakýzlar", "Þekerleme", "Cips & Çerez"};
-		if (Arrays.asList(snacks).contains(type)) {
+		String[] warmdrinks = {"Çay & Kahve & Toz Ýçecek"};
+		
+		//"50" float liter için geçiçi olarak yazýldý.
+		if (Arrays.asList(breakfast).contains(type)) {
+			product = new Breakfast("Weight", price, productName, marketName, count);
+			return product;
+		}
+		else if (Arrays.asList(colddrinks).contains(type)) {
+			product = new ColdDrinks("Weight", price, productName, marketName,50, count);
+			return product;
+		}
+		else if (Arrays.asList(essentialfood).contains(type)) {
+			product = new EssentialFood("Weight", price, productName, marketName, count);
+			return product;
+		}
+		else if (Arrays.asList(faceproducts).contains(type)) {
+			product = new FaceProducts("Weight", price, productName, marketName, count,50);
+			return product;
+		}
+		else if (Arrays.asList(hairproducts).contains(type)) {
+			product = new HairProducts("Weight", price, productName, marketName, count, 50);
+			return product;
+		}
+		else if (Arrays.asList(homecareproducts).contains(type)) {
+			product = new HomeCareProducts("Weight", price, productName, marketName, count, 50);
+			return product;
+		}
+		else if (Arrays.asList(oralproducts).contains(type)) {
+			product = new OralProducts("Weight", price, productName, marketName, count, 50);
+			return product;
+		}
+		else if (Arrays.asList(snacks).contains(type)) {
 			product = new Snacks("Weight", price, productName, marketName, count);
 			return product;
 		}
-
-		
+		else if (Arrays.asList(warmdrinks).contains(type)) {
+			product = new WarmDrinks("Weight", price, productName, marketName,50, count);
+			return product;
+		}
 		return product;
 	}
 	// Label settings and Product, buradan devam etmeliyim
@@ -267,9 +306,6 @@ public class BasketPanel {
 				else{
 					if(information != "") {
 						
-						// Buraya urunun turune gore nesne olusturulup baskete gonderilmeli
-						// Product product = new Product(" ", Float.valueOf(productInformations.get(2)), productInformations.get(1), productInformations.get(0));
-	
 						// Choose type and send it to basket;
 						Product product = createProductByType(productInformations);
 						basket.addProduct(product); // Added product into basket

@@ -13,9 +13,5 @@ public class Main {
 		//priceTaker.a101("8690526095226");
 		//priceTaker.carrefour("8690526095226");
 		//BasketPanel bp = new BasketPanel(user);
-
 	}
 }
-   
-
-
