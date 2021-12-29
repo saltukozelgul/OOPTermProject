@@ -96,14 +96,25 @@ public class BasketPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				float result = 0;
+				String currentTotal_price = "";
 				
-				float result = basket.addCoupon(textField_Coupon.getText(), current_user);
+				try {
+					currentTotal_price = label_TotalPrice.getText().replace("Total price: ", "");
+					currentTotal_price = currentTotal_price.replace("tl", "");
+					System.out.println(currentTotal_price);
+					
+					result = basket.addCoupon(textField_Coupon.getText(), current_user, Float.valueOf(currentTotal_price));
+				}
+				catch(NumberFormatException ex){
+					System.out.println(ex);
+				}
 				
 				if( result != 0) {
-					NumberFormat nf =NumberFormat.getInstance();
+					NumberFormat nf = NumberFormat.getInstance();
 					nf.setMaximumFractionDigits(2);
-					String s=nf.format(result);
-					label_TotalPrice.setText("New Total price: " + s + "tl");
+					String s = nf.format(result);
+					label_TotalPrice.setText("Total price: " + s + "tl");
 					label_TotalPrice.setBounds(148,240, 150, 30);
 					label_TotalPrice.setForeground(new Color(198,23,157));
 					System.out.print("Total price: " + String.valueOf(result) + "tl");
@@ -386,7 +397,7 @@ public class BasketPanel {
 		label_Logo.setSize(100,30);
 		
 		// Total price
-		NumberFormat nf =NumberFormat.getInstance();
+		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(2);
 		String s=nf.format(basket.getTotalPrice(current_user));
 		label_TotalPrice.setText("Total price: " + String.valueOf(s + "tl"));

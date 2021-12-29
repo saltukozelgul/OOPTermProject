@@ -20,6 +20,13 @@ public class Basket {
 	private Map<String, Float> coupons = new HashMap<>();
 	// private coupons hash seklinde gelecek
 	
+	{ // Global coupons values
+		coupons.put("17129207", (float) 12);
+		coupons.put("199188177", (float) 25);
+		coupons.put("111999222888", (float) 40);
+
+	}
+	
 	
 	// Getters and Setters
 	public void setProducts(Product[] product) {
@@ -101,15 +108,12 @@ public class Basket {
 		
 	}
 	
-	public float addCoupon(String coupon_code, User current_user) {
-		float total_price = getTotalPrice(current_user);
-			
-		coupons.put("17129207", (float) 12);
-		coupons.put("199188177", (float) 25);
-		coupons.put("111999222888", (float) 40);
-		
+	public float addCoupon(String coupon_code, User current_user, float price) {
+		float total_price = price;
+					
 		if(coupons.containsKey(coupon_code)) {
 			total_price = total_price - ( ( total_price * coupons.get(coupon_code)) / 100);
+			coupons.remove(coupon_code);
 			return total_price;
 		}	
 		else {
