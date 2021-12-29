@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
@@ -23,10 +24,11 @@ public class BasketPanel {
 	private JButton button_Return = new JButton();
 	private JButton button_ClearAll = new JButton();
 	private JButton button_CouponAdd = new JButton();
+	
 	//private ArrayList<JButton> button_DeleteProduct = new ArrayList<JButton>();
 	//private ArrayList<JLabel> label_ProductInformation = new ArrayList<>();
+	//private JLabel label_TotalPrice = new JLabel();
 	
-	private JLabel label_TotalPrice = new JLabel();
 	private JLabel label_Logo = new JLabel(new ImageIcon(".\\resources\\minilogo.png"));
 	private JTextField textField_Coupon = new JTextField();
 	
@@ -94,10 +96,13 @@ public class BasketPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				float result = basket.addCoupon(textField_Coupon.getText(), current_user);
+				
 				if( result != 0) {
-					label_TotalPrice.setText("Total price: " + String.valueOf(result) + "tl");
+					data[product_count][2] = String.valueOf(result) + "tl";
+					//label_TotalPrice.setText("Total price: " + String.valueOf(result) + "tl");
+					JOptionPane.showMessageDialog(frame, "The coupon has been applied successfully.");
 				}
 				else {
 					JOptionPane.showMessageDialog(frame, "Unvalid Coupon");
@@ -167,7 +172,7 @@ public class BasketPanel {
 			data[i][0] = products.get(i).getBrand();
 			data[i][1] = products.get(i).getName();
 			data[i][2] = products.get(i).getPrice() + "tl";
-			data[i][3] = "X";
+			data[i][3] = "x";
 			String tempText = products.get(i).getBrand() + " " + products.get(i).getName() + " " + products.get(i).getPrice() + "tl";
 			System.out.println(tempText);
 			
@@ -175,7 +180,7 @@ public class BasketPanel {
 		
 		data[product_count][0] = " - ";
 		data[product_count][1] = "TOTAL";
-		data[product_count][2] = String.valueOf(basket.getTotalPrice(current_user) + "tl");
+		data[product_count][2] = String.valueOf(basket.getTotalPrice(current_user)) + "tl";
 		data[product_count][3] = " - ";
 		
 		//table settings
@@ -187,8 +192,8 @@ public class BasketPanel {
 		panel.add(scroll);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getColumnModel().getColumn(0).setPreferredWidth(50);
-		table.getColumnModel().getColumn(1).setPreferredWidth(193);
-		table.getColumnModel().getColumn(2).setPreferredWidth(45);
+		table.getColumnModel().getColumn(1).setPreferredWidth(190);
+		table.getColumnModel().getColumn(2).setPreferredWidth(48);
 		table.getColumnModel().getColumn(3).setPreferredWidth(19);
 		
 		table.getTableHeader().setOpaque(false);
@@ -196,7 +201,7 @@ public class BasketPanel {
 		
 		scroll.setBounds(0, 100, 325, 150);
 		table.setFocusable(false);
-		table.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+		table.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
 		table.setBackground(new Color(54, 52, 55));
 		table.setForeground(Color.white);
 		table.setEnabled(false);
