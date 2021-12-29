@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
@@ -27,8 +27,8 @@ public class BasketPanel {
 	
 	//private ArrayList<JButton> button_DeleteProduct = new ArrayList<JButton>();
 	//private ArrayList<JLabel> label_ProductInformation = new ArrayList<>();
-	//private JLabel label_TotalPrice = new JLabel();
 	
+	private JLabel label_TotalPrice = new JLabel();
 	private JLabel label_Logo = new JLabel(new ImageIcon(".\\resources\\minilogo.png"));
 	private JTextField textField_Coupon = new JTextField();
 	
@@ -52,7 +52,7 @@ public class BasketPanel {
 		String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt";
 		
 		//table introductions
-		String data[][] = new String[product_count+1][4];
+		String data[][] = new String[product_count][4];
 		String column[] = { "Brand", "Product", "Price", " " };
 		
 		// Calls frame settings
@@ -100,8 +100,13 @@ public class BasketPanel {
 				float result = basket.addCoupon(textField_Coupon.getText(), current_user);
 				
 				if( result != 0) {
-					data[product_count][2] = String.valueOf(result) + "tl";
-					//label_TotalPrice.setText("Total price: " + String.valueOf(result) + "tl");
+					NumberFormat nf =NumberFormat.getInstance();
+					nf.setMaximumFractionDigits(2);
+					String s=nf.format(result);
+					label_TotalPrice.setText("New Total price: " + s + "tl");
+					label_TotalPrice.setBounds(148,240, 150, 30);
+					label_TotalPrice.setForeground(new Color(198,23,157));
+					System.out.print("Total price: " + String.valueOf(result) + "tl");
 					JOptionPane.showMessageDialog(frame, "The coupon has been applied successfully.");
 				}
 				else {
@@ -175,13 +180,7 @@ public class BasketPanel {
 			data[i][3] = "x";
 			String tempText = products.get(i).getBrand() + " " + products.get(i).getName() + " " + products.get(i).getPrice() + "tl";
 			System.out.println(tempText);
-			
 		}
-		
-		data[product_count][0] = " - ";
-		data[product_count][1] = "TOTAL";
-		data[product_count][2] = String.valueOf(basket.getTotalPrice(current_user)) + "tl";
-		data[product_count][3] = " - ";
 		
 		//table settings
 		DefaultTableModel model = new DefaultTableModel(data, column);
@@ -199,7 +198,7 @@ public class BasketPanel {
 		table.getTableHeader().setOpaque(false);
 		table.getTableHeader().setBackground(new Color(198,23,157));
 		
-		scroll.setBounds(0, 100, 325, 150);
+		scroll.setBounds(0, 100, 325, 140);
 		table.setFocusable(false);
 		table.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
 		table.setBackground(new Color(54, 52, 55));
@@ -386,6 +385,17 @@ public class BasketPanel {
 		label_Logo.setOpaque(false);
 		label_Logo.setSize(100,30);
 		
+		// Total price
+		NumberFormat nf =NumberFormat.getInstance();
+		nf.setMaximumFractionDigits(2);
+		String s=nf.format(basket.getTotalPrice(current_user));
+		label_TotalPrice.setText("Total price: " + String.valueOf(s + "tl"));
+		label_TotalPrice.setBounds(172,240, 150, 30);
+		label_TotalPrice.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
+		label_TotalPrice.setForeground(Color.WHITE);
+				
+		panel.add(label_TotalPrice);
+		
 //		int product_count = productCount(); 
 //		
 //		int x_coordinate = 5, y_coordinate = 60; // coordinates
@@ -464,8 +474,7 @@ public class BasketPanel {
 //			y_coordinate = y_coordinate  + 50;
 //			
 //		}
-//		
-//		// Total price
+////		// Total price
 //		label_TotalPrice.setText("Total price: " + String.valueOf(basket.getTotalPrice(current_user) + "tl"));
 //		label_TotalPrice.setBounds(x_coordinate, y_coordinate + 30, 150, 30);
 //		label_TotalPrice.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
