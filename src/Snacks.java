@@ -12,6 +12,12 @@ public class Snacks extends Eatables implements Paid {
 	public boolean checkStock() {
 		return true;
 	}
+
+	@Override
+	public float getPrice(User current_user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 }

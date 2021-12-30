@@ -416,7 +416,7 @@ public class BasketPanel {
 		// Total price
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(2);
-		String s=nf.format(basket.getTotalPrice(current_user));
+		String s=nf.format(basket.getPrice(current_user));
 		label_TotalPrice.setText("Total price: " + String.valueOf(s + "tl"));
 		label_TotalPrice.setBounds(172,240, 150, 30);
 		label_TotalPrice.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));

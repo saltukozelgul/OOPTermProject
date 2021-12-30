@@ -13,7 +13,8 @@ public class OralProducts extends PersonelCareProducts implements Paid {
 		return true;
 	}
 	
-	public float getPrice() {
+	@Override
+	public float getPrice(User current_user) {
 		return 0;
 	}
 

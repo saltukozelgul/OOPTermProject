@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-public class Basket {
+public class Basket implements Paid {
 	
 	//  Variables
 	private float totalPrice;
@@ -24,7 +24,6 @@ public class Basket {
 		coupons.put("17129207", (float) 12);
 		coupons.put("199188177", (float) 25);
 		coupons.put("111999222888", (float) 40);
-
 	}
 	
 	
@@ -37,6 +36,7 @@ public class Basket {
 		return this.products; // just for now
 	}
 	
+	/* i moved getTotalPrice method to getPrice()
 	public float getTotalPrice(User current_user) {
 		float total_price = 0;
 		int index_f_email = current_user.getEmail().indexOf(".");
@@ -57,6 +57,7 @@ public class Basket {
 		}
 		return total_price;
 	}
+	*/
 	
 	public  int getProductCount(User current_user) {
 		// File variables
@@ -152,6 +153,29 @@ public class Basket {
 		else {
 			return 0;
 		}
+	}
+
+	
+	@Override
+	public float getPrice(User current_user) {
+		float total_price = 0;
+		int index_f_email = current_user.getEmail().indexOf(".");
+		String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt", line = "";
+		try {
+			File file = new File(file_name);
+			BufferedReader read = new BufferedReader(new FileReader(file_name));
+			
+			while((line = read.readLine()) != null ){
+				if(line.contains("Product Price: ")) {
+					total_price = total_price + Float.valueOf(line.replaceAll("Product Price: ", ""));
+				}
+			}
+			read.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return total_price;
 	}
 
 }

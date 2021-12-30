@@ -1,5 +1,5 @@
 public interface Paid {
 
-	public float getPrice();
+	public float getPrice(User current_user);
 
 }

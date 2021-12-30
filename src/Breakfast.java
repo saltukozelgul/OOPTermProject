@@ -17,4 +17,10 @@ public class Breakfast extends Eatables implements Paid{
 		return 0;
 	}
 
+	@Override
+	public float getPrice(User current_user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
