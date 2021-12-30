@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +40,8 @@ public class BasketPanel {
 	private User current_user;
 	private Basket basket = new Basket();
 	private ArrayList<Product> products = new ArrayList<Product>();
-	
+	private JTable table;
+	private DefaultTableModel model;
 	// Constructor
 	public BasketPanel(User current_user) {
 			
@@ -52,8 +55,9 @@ public class BasketPanel {
 		String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt";
 		
 		//table introductions
-		String data[][] = new String[product_count][4];
-		String column[] = { "Brand", "Product", "Price", " " };
+		Object data[][] = new Object[product_count][4];
+		String column[] = { "Product", "Market", "Price", " " };
+		
 		
 		// Calls frame settings
 		setFrameSettings();
@@ -127,9 +131,22 @@ public class BasketPanel {
 			}
 			
 		});
+		
+		table.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int row = table.rowAtPoint(evt.getPoint());
+		        int col = table.columnAtPoint(evt.getPoint());
+		        if (row >= 0 && col == 3) {
+		        	model.removeRow(row);
+		        	basket.removeProduct((String) data[row][1], current_user);
+		        	System.out.print((String) data[row][1]);
+		        }
+		    }
+		});
 	} // end of constructor
 	
-	private void settableSettings(String[][] data , String[] column) {
+	private void settableSettings(Object[][] data , String[] column) {
 		
 		int product_count = productCount(); 
 		
@@ -142,17 +159,16 @@ public class BasketPanel {
 			File file = new File(file_name);
 			BufferedReader read = new BufferedReader(new FileReader(file_name));
 			while((line = read.readLine()) != null) {
-				if(line.contains("Market Name: ")) {
-					
-					line.replace("\n", "");
-					information = line.replace("Market Name: ", "") + " ";
-					productInformations.add(line.replace("Market Name:", ""));
-					
-				}
-				else if(line.contains("Product Name: ")) {
+				if(line.contains("Product Name: ")) {
 					
 					information = information + line.replace("Product Name: ", "") + " ";
 					productInformations.add(line.replace("Product Name: ", ""));
+					//line.replace("\n", "");
+				}
+				else if(line.contains("Market Name: ")) {
+					
+					information = line.replace("Market Name: ", "") + " ";
+					productInformations.add(line.replace("Market Name:", ""));
 				}
 				else if(line.contains("Product Price: ")) {
 					information = information + line.replace("Product Price: ", "") + "tl";
@@ -185,24 +201,25 @@ public class BasketPanel {
 		ArrayList<Product> products = basket.getProducts(); 
 		
 		for(int i=0; i<product_count; i++) {
-			data[i][0] = products.get(i).getBrand();
-			data[i][1] = products.get(i).getName();
+			data[i][0] = products.get(i).getName();
+			data[i][1] = products.get(i).getBrand();
 			data[i][2] = products.get(i).getPrice() + "tl";
 			data[i][3] = "x";
+			
 			String tempText = products.get(i).getBrand() + " " + products.get(i).getName() + " " + products.get(i).getPrice() + "tl";
 			System.out.println(tempText);
 		}
 		
 		//table settings
-		DefaultTableModel model = new DefaultTableModel(data, column);
+		model = new DefaultTableModel(data, column);
 		
-		JTable table = new JTable(model);
+		table = new JTable(model);
 		
 		JScrollPane scroll = new JScrollPane(table);
 		panel.add(scroll);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getColumnModel().getColumn(0).setPreferredWidth(50);
-		table.getColumnModel().getColumn(1).setPreferredWidth(190);
+		table.getColumnModel().getColumn(0).setPreferredWidth(190);
+		table.getColumnModel().getColumn(1).setPreferredWidth(50);
 		table.getColumnModel().getColumn(2).setPreferredWidth(48);
 		table.getColumnModel().getColumn(3).setPreferredWidth(19);
 		
@@ -331,8 +348,8 @@ public class BasketPanel {
 		String type = productInfo.get(3);
 		
 		// For creating new Product object
-		String marketName = productInfo.get(0);;
-		String productName = productInfo.get(1);;
+		String marketName = productInfo.get(1);;
+		String productName = productInfo.get(0);;
 		float price = Float.parseFloat(productInfo.get(2));
 		int count = 0;
 		

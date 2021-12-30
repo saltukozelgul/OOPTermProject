@@ -104,8 +104,41 @@ public class Basket {
 		products.add(product);
 	}
 	
-	public void removeProduct(String product_name) {
-		
+	public void removeProduct(String product_name, User current_user) {
+		int index_f_email = current_user.getEmail().indexOf(".");
+		String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt", line = "", information = "";
+		String new_content = "";
+		if (this.getProductCount(current_user) == 1) {
+			this.clear(current_user);
+			return;
+		}
+		try {
+			File file = new File(file_name);
+			BufferedReader read = new BufferedReader(new FileReader(file_name));
+			
+			boolean isFound = false;
+			while((line = read.readLine()) != null) 
+			{
+				if(line.contains(product_name) && !isFound)
+				{
+					isFound = true;
+					for (int x = 0; x<7;x++) {
+						line = read.readLine();
+					}
+				}
+				new_content = new_content + line + "\n";
+			}
+			read.close();
+			FileWriter write_t_file = new FileWriter(file_name);
+			PrintWriter printWriter = new PrintWriter(write_t_file);
+			
+			printWriter.printf(new_content);
+			
+			write_t_file.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public float addCoupon(String coupon_code, User current_user, float price) {
