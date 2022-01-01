@@ -64,7 +64,6 @@ public class priceTaker {
 					
 			price = price.replace(',', '.');
 			price = price.split(" ")[0];
-
 			
 			info.add("CARREFOUR"); info.add(name); info.add(price); 
 			
@@ -83,7 +82,8 @@ public class priceTaker {
 	public static ArrayList<String> amazon(String barcode) {
 		ArrayList<String> info = new ArrayList<String>();
 		try {
-			
+			WebDriver driver = createDriver();
+			driver.navigate().to(barcode);
 		}
 		catch (Exception e) {
 			System.out.println("There was an error while finding product");
@@ -123,7 +123,26 @@ public class priceTaker {
 		ArrayList<String> info = new ArrayList<String>();
 		
 		try {
+			WebDriver driver = createDriver();
+			driver.navigate().to("https://www.hepsiburada.com/ara?q=" + barcode);
 			
+			String name = driver.findElement(By.className("moria-ProductCard-bBDoAL gFuHUk syqmdvgr32b")).getText();
+			String price = driver.findElement(By.className("moria-ProductCard-iymOAa CkIcx s31nf1q8qj6")).getText();
+			
+			price = price.replace(',', '.');
+			price = price.split(" ")[0];
+			
+			driver.findElement(By.className("moria-ProductCard-eRquP gSsM s9sz6zpplh1 sc-fzpjYC iNCysY")).click(); // hatali dogru yere basmiyor
+			
+			// List<WebElement> list = list.get(list.size() - 2).getText();
+			
+			info.add("HepsiBurada"); info.add(name); info.add(price);
+			
+			System.out.println(info);
+			
+			driver.quit();
+			
+			return info;
 		}
 		catch (Exception e) {
 			System.out.println("There was an error while finding product");

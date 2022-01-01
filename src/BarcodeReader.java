@@ -82,6 +82,7 @@ public class BarcodeReader {
 				System.out.println(barcode);
 				infos.add(priceTaker.a101(barcode));
 				infos.add(priceTaker.carrefour(barcode));
+				infos.add(priceTaker.hepsiburada(barcode));
 				
 				String type = infos.get(0).get(3);
 				System.out.println(type);
@@ -162,7 +163,7 @@ public class BarcodeReader {
 			}
 		});
 		
-		// Serach the barcode
+		// Search the barcode
 		button_Search.addActionListener(new ActionListener() {
 
 			@Override
@@ -174,6 +175,7 @@ public class BarcodeReader {
 					System.out.println(barcode);
 					infos.add(priceTaker.a101(barcode));
 					infos.add(priceTaker.carrefour(barcode));
+					infos.add(priceTaker.hepsiburada(barcode));
 					
 					String type = infos.get(0).get(3);
 					System.out.println(type);
