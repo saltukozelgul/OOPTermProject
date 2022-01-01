@@ -83,7 +83,14 @@ public class priceTaker {
 		ArrayList<String> info = new ArrayList<String>();
 		try {
 			WebDriver driver = createDriver();
-			driver.navigate().to(barcode);
+			driver.navigate().to("https://www.amazon.com.tr/s?k=" + barcode);
+			
+			driver.findElement(By.className("a-link-normal s-no-outline")).click();
+			driver.findElement(By.xpath("//input[@id='sp-cc-accept']")).click();
+			
+			
+			
+			
 		}
 		catch (Exception e) {
 			System.out.println("There was an error while finding product");

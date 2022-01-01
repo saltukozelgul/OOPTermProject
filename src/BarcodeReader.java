@@ -79,10 +79,12 @@ public class BarcodeReader {
 					setBarcode_number_f_product(barcode);
 				}
 				
+				// infos->0 == brand, infos->1 == name, infos->2 == price
 				System.out.println(barcode);
 				infos.add(priceTaker.a101(barcode));
 				infos.add(priceTaker.carrefour(barcode));
 				infos.add(priceTaker.hepsiburada(barcode));
+				infos.add(priceTaker.amazon(barcode));
 				
 				String type = infos.get(0).get(3);
 				System.out.println(type);
@@ -176,6 +178,7 @@ public class BarcodeReader {
 					infos.add(priceTaker.a101(barcode));
 					infos.add(priceTaker.carrefour(barcode));
 					infos.add(priceTaker.hepsiburada(barcode));
+					infos.add(priceTaker.amazon(barcode));
 					
 					String type = infos.get(0).get(3);
 					System.out.println(type);
