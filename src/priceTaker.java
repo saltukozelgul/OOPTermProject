@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public class priceTaker {
 	
 	// Functions
+	public final static String maxValue = "1000000000"; // For not finding product
 	
 	private static WebDriver createDriver() {
 		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
@@ -21,9 +22,8 @@ public class priceTaker {
 	
 	public static ArrayList<String> a101(String barcode) {
 		ArrayList<String> info = new ArrayList<String>();
+		WebDriver driver = createDriver();
 		try {
-			
-			WebDriver driver = createDriver();
 			
 			driver.navigate().to("https://www.a101.com.tr/list/?search_text="+barcode);
 			
@@ -46,15 +46,18 @@ public class priceTaker {
 			return info;
 		}
 		catch (Exception e) {
-			System.out.println("There was an error while findind product");
+			driver.quit();
+			info.add("A101"); info.add(""); info.add(maxValue); info.add("");
+			System.out.println("There was an error while finding product");
+			return info;
 		}
-		return null;
 	}
 	
 	public static ArrayList<String> carrefour(String barcode) {
 		ArrayList<String> info = new ArrayList<String>();
+		WebDriver driver = createDriver();
 		try {
-			WebDriver driver = createDriver();
+
 			
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 			driver.navigate().to("https://www.carrefoursa.com/search/?text="+barcode);
@@ -65,6 +68,10 @@ public class priceTaker {
 			price = price.replace(',', '.');
 			price = price.split(" ")[0];
 			
+			if (price == "") {
+				price = maxValue; // Carrefourda bunu yapmak zorundayým çünkü ürünü bulamasa bile bir hata vermiyor.
+			}
+			
 			info.add("CARREFOUR"); info.add(name); info.add(price); 
 			
 			System.out.println(info);
@@ -74,44 +81,63 @@ public class priceTaker {
 			return info;
 		}
 		catch (Exception e) {
+			driver.quit();
+			info.add("CARREFOUR"); info.add(""); info.add(maxValue);
 			System.out.println("There was an error while findind product");
+			return info;
 		}
-		return null;
 	}
 	
 	public static ArrayList<String> amazon(String barcode) {
 		ArrayList<String> info = new ArrayList<String>();
+		WebDriver driver = createDriver();
 		try {
-			WebDriver driver = createDriver();
+
 			driver.navigate().to("https://www.amazon.com.tr/s?k=" + barcode);
 			
-			driver.findElement(By.className("a-link-normal s-no-outline")).click();
-			driver.findElement(By.xpath("//input[@id='sp-cc-accept']")).click();
+			driver.findElement(By.id("sp-cc-accept")).click();
+			WebElement body = driver.findElement(By.tagName("body")); // önce bodye geçip sonra bakýyorum
+			String name = body.findElement(By.className("a-size-base-plus")).getText();
+			String price = body.findElement(By.className("a-price-whole")).getText();
+			price = price + "." + body.findElement(By.className("a-price-fraction")).getText();
 			
+
+			info.add("Amazon"); info.add(name); info.add(price); 
 			
+			System.out.print(info);
 			
+			driver.quit();
+			
+			return info;
 			
 		}
 		catch (Exception e) {
-			System.out.println("There was an error while finding product");
+			driver.quit();
+			info.add("Amazon"); info.add(""); info.add(maxValue);
+			System.out.println("There was an error while findind product");
+			return info;
 		}
-		return null;
 	}
 	
 	public static ArrayList<String> trendyol(String barcode) {
 		
 		ArrayList<String> info = new ArrayList<String>();
-		
+		WebDriver driver = createDriver();
 		try {
-			WebDriver driver = createDriver();
+
 			
 			driver.navigate().to("https://www.trendyol.com/sr?q="+barcode);
 			
-			String brand = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[2]/div[2]/div/div/div/div[1]/div[2]/div[3]/div/div/div[1]/a/div[2]/div[1]/div/span[1]")).getText();
-			String name = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[2]/div[2]/div/div/div/div[1]/div[2]/div[3]/div/div/div[1]/a/div[2]/div[1]/div/span[2]")).getText();
-			String price = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[2]/div[2]/div/div/div/div[1]/div[2]/div[3]/div/div/div[1]/a/div[2]/div[3]/div/div/div[3]/div[2]")).getText();
 			
-			info.add("TRENDYOL"); info.add(brand); info.add(name); info.add(price); 
+			
+			WebElement body = driver.findElement(By.tagName("body")); // Bodye geçip onda arýyorum.
+			String name = body.findElement(By.className("prdct-desc-cntnr-name")).getText();
+			String price = body.findElement(By.className("prc-box-sllng")).getText();
+			
+			price = price.replace(',', '.');
+			price = price.split(" ")[0];		
+			
+			info.add("TRENDYOL"); info.add(name); info.add(price); 
 			
 			System.out.print(info);
 			
@@ -120,17 +146,19 @@ public class priceTaker {
 			return info;
 		}
 		catch (Exception e) {
+			System.out.println(e);
+			driver.quit();
+			info.add("TRENDYOL"); info.add(""); info.add(maxValue); 
 			System.out.println("There was an error while finding product");
+			return info;
 		}
-		return null;
-		
 	}
 	
 	public static ArrayList<String> hepsiburada(String barcode) {
 		ArrayList<String> info = new ArrayList<String>();
-		
+		WebDriver driver = createDriver();
 		try {
-			WebDriver driver = createDriver();
+
 			driver.navigate().to("https://www.hepsiburada.com/ara?q=" + barcode);
 			
 			String name = driver.findElement(By.xpath("/html/body/div[3]/main/div[2]/div/div[6]/div[2]/div/div[3]/div/div/div/div/div/div/div/ul/li/div/a/div[3]/h3")).getText();
@@ -148,9 +176,11 @@ public class priceTaker {
 			return info;
 		}
 		catch (Exception e) {
+			driver.quit();
+			info.add("HepsiBurada"); info.add(""); info.add(maxValue);
 			System.out.println("There was an error while finding product");
+			return info;
 		}
-		return null;
 	}
 	
 }

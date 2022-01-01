@@ -85,9 +85,7 @@ public class BarcodeReader {
 				infos.add(priceTaker.carrefour(barcode));
 				infos.add(priceTaker.hepsiburada(barcode));
 				infos.add(priceTaker.amazon(barcode));
-				
-				String type = infos.get(0).get(3);
-				System.out.println(type);
+				infos.add(priceTaker.trendyol(barcode));
 				
 				getMinumum();
 				
@@ -179,9 +177,8 @@ public class BarcodeReader {
 					infos.add(priceTaker.carrefour(barcode));
 					infos.add(priceTaker.hepsiburada(barcode));
 					infos.add(priceTaker.amazon(barcode));
+					infos.add(priceTaker.trendyol(barcode));
 					
-					String type = infos.get(0).get(3);
-					System.out.println(type);
 					getMinumum();
 					
 					System.out.println(minProduct);
@@ -225,7 +222,7 @@ public class BarcodeReader {
 	// For choosing to min price of products
 	public void getMinumum() {
 		
-		float minPrice = 100000;
+		float minPrice = 2000000000;
 		for (ArrayList<String> price : infos) {
 			if (Float.parseFloat(price.get(2)) < minPrice) {
 				minPrice = Float.parseFloat(price.get(2));
@@ -233,7 +230,13 @@ public class BarcodeReader {
 			}
  			
 		}
-		
+		if (minProduct.get(2) == "1000000000") { // Hiçbir maðazada bulunamazsa ürün
+			ArrayList<String> temp = new ArrayList<String>();
+			temp.add("Product cannot be found");
+			temp.add("");
+			temp.add("0");
+			minProduct = temp; // minProduct geçersiz hale geliyor.
+		}
 	}
 	
 	// Frame settings
