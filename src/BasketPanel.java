@@ -141,6 +141,14 @@ public class BasketPanel {
 		        	model.removeRow(row);
 		        	basket.removeProduct((String) data[row][1], current_user);
 		        	System.out.print((String) data[row][1]);
+		        	
+		        	NumberFormat nf = NumberFormat.getInstance();
+		    		nf.setMaximumFractionDigits(2);
+		    		String s=nf.format(basket.getPrice(current_user));
+		    		label_TotalPrice.setText("Total price: " + String.valueOf(s + "tl"));
+		    		label_TotalPrice.setBounds(172,240, 150, 30);
+		    		label_TotalPrice.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
+		    		label_TotalPrice.setForeground(Color.WHITE);
 		        }
 		    }
 		});
