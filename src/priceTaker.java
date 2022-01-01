@@ -126,15 +126,11 @@ public class priceTaker {
 			WebDriver driver = createDriver();
 			driver.navigate().to("https://www.hepsiburada.com/ara?q=" + barcode);
 			
-			String name = driver.findElement(By.className("moria-ProductCard-bBDoAL gFuHUk syqmdvgr32b")).getText();
-			String price = driver.findElement(By.className("moria-ProductCard-iymOAa CkIcx s31nf1q8qj6")).getText();
+			String name = driver.findElement(By.xpath("/html/body/div[3]/main/div[2]/div/div[6]/div[2]/div/div[3]/div/div/div/div/div/div/div/ul/li/div/a/div[3]/h3")).getText();
+			String price = driver.findElement(By.xpath("/html/body/div[3]/main/div[2]/div/div[6]/div[2]/div/div[3]/div/div/div/div/div/div/div/ul/li/div/a/div[3]/div[1]/div[2]")).getText();
 			
 			price = price.replace(',', '.');
-			price = price.split(" ")[0];
-			
-			driver.findElement(By.className("moria-ProductCard-eRquP gSsM s9sz6zpplh1 sc-fzpjYC iNCysY")).click(); // hatali dogru yere basmiyor
-			
-			// List<WebElement> list = list.get(list.size() - 2).getText();
+			price = price.split(" ")[0];			
 			
 			info.add("HepsiBurada"); info.add(name); info.add(price);
 			
