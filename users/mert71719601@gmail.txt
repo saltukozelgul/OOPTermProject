@@ -1,26 +1,5 @@
 E-mail: mert71719601@gmail.com
-Passowrd: MerhabaMert
-
-Product Name: Eti Hoþbeþ Gofret Fýndýklý 142 G
-Product No: 8690526095226
-Market Name: A101
-Product Price: 5.90
-Product Type: Bisküvi
-
-
-Product Name: Eti Hoþbeþ Gofret Fýndýklý 142 G
-Product No: 8690526095226
-Market Name: A101
-Product Price: 5.90
-Product Type: Bisküvi
-
-
-Product Name: Eti Hoþbeþ Gofret Fýndýklý 142 G
-Product No: 8690526095226
-Market Name: A101
-Product Price: 5.90
-Product Type: Bisküvi
-
+Password: MerhabaMert
 
 Product Name: Eti Hoþbeþ Gofret Fýndýklý 142 G
 Product No: 8690526095226
@@ -43,16 +22,23 @@ Product Price: 2.75
 Product Type: Bisküvi
 
 
-Product Name: Negro Bisküvi Kremal? Kakaolu 110 G
-Product No: null
-Market Name: A101
-Product Price: 2.75
-Product Type: Bisküvi
-
-
-Product Name: Eti Negro 110 g
+Product Name: Fax S?v? Sabun Gül 3,6 lt
 Product No: null
 Market Name: CARREFOUR
-Product Price: 4.00
+Product Price: 22.95
+Product Type: 
+
+
+Product Name: Fax S?v? Sabun Gül 3,6 lt
+Product No: null
+Market Name: CARREFOUR
+Product Price: 22.95
+Product Type: 
+
+
+Product Name: Fax S?v? Sabun Gül 3,6 lt
+Product No: 8690506497118
+Market Name: CARREFOUR
+Product Price: 22.95
 Product Type: 
 

@@ -26,6 +26,7 @@ import java.io.PrintWriter;
 
 // Constructer
 public class LogInSignUp {
+	
 	// Defining GIU Object 
 	private JFrame frame = new JFrame(); // frame
 	
@@ -58,8 +59,17 @@ public class LogInSignUp {
 	private User new_user;
 	
 	public LogInSignUp() { 
+		
 		// Main GIU settings
 		setFrameSettings();
+		
+		// When user clicks exit icon, closes program
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        new_user.logOut();
+		    }
+		});
 		
 		// makes password visible and unvisible
 		button_Password.addActionListener(new ActionListener() {

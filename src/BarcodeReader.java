@@ -49,6 +49,7 @@ public class BarcodeReader {
 	
 	// Variables
 	private String barcode_number_f_product;
+	private String barcode_number_f_product_1;
 	private int isFound = 0;
 	public String barcode = "";
 	
@@ -68,7 +69,8 @@ public class BarcodeReader {
 		
 		// calls frame
 		setFrameSettings(panel);
-				
+		
+		// For webcam	
 		Thread t1 = new Thread(new Runnable() {
 		    @Override
 		    public void run() {
@@ -100,6 +102,14 @@ public class BarcodeReader {
 		});  
 		t1.start();
 		
+		// When user clicks exit icon, closes program
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        current_user.logOut();
+		    }
+		});
+		
 		// Go backs to the MainPanel
 		button_Return.addActionListener(new ActionListener() {
 
@@ -130,9 +140,16 @@ public class BarcodeReader {
 						new_content = new_content + line;
 					}
 					// Adding new product to the user's file
-					new_content = new_content + "\nProduct Name: " + minProduct.get(1) + "\nProduct No: " + getBarcode_number_f_product() + 
-							"\nMarket Name: " + minProduct.get(0) + "\nProduct Price: " + minProduct.get(2) + "\nProduct Type: " + infos.get(0).get(3) + "\n\n";
-					
+					if(getBarcode_number_f_product() != null) {
+						new_content = new_content + "\nProduct Name: " + minProduct.get(1) + "\nProduct No: " + getBarcode_number_f_product() + 
+								"\nMarket Name: " + minProduct.get(0) + "\nProduct Price: " + minProduct.get(2) + "\nProduct Type: " + infos.get(0).get(3) + "\n\n";
+
+					}
+					else {
+						new_content = new_content + "\nProduct Name: " + minProduct.get(1) + "\nProduct No: " + getBarcode_number_f_product_1() + 
+								"\nMarket Name: " + minProduct.get(0) + "\nProduct Price: " + minProduct.get(2) + "\nProduct Type: " + infos.get(0).get(3) + "\n\n";
+
+					}
 					read.close(); // closing file
 					
 					FileWriter write_t_file = new FileWriter(file_name);
@@ -182,10 +199,7 @@ public class BarcodeReader {
 					// Hata current_barcode u gondermiyor neden anlamadim
 					
 					System.out.println("Current: " + current_barcode);
-					setBarcode_number_f_product(current_barcode);
-					barcode_number_f_product = current_barcode;
-					System.out.println("Hay " + getBarcode_number_f_product());
-					System.out.println("Hay1 " + barcode_number_f_product);
+					setBarcode_number_f_product_1(current_barcode);
 					
 					getMinumum();
 					
@@ -373,6 +387,15 @@ public class BarcodeReader {
 	}
 	public void setBarcode_number_f_product(String barcode) {
 		this.barcode_number_f_product = barcode;
+	}
+
+	public String getBarcode_number_f_product_1() {
+		return barcode_number_f_product_1;
+	}
+
+	public void setBarcode_number_f_product_1(String barcode_number_f_product_1) {
+		this.barcode_number_f_product_1 = barcode_number_f_product_1;
+		System.out.println(this.barcode_number_f_product_1);
 	}
 	
 } // end of BarcodeReader class

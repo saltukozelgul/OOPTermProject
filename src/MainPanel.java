@@ -17,9 +17,21 @@ public class MainPanel {
 	
 	Icon icon_Return = new ImageIcon("C:\\Users\\mert7\\Desktop\\image.png"); // saves icon
 	
+
+	
 	public MainPanel(User current_user) {
+		
 		setFrameSettings();
 		
+		// When user clicks exit icon, closes program
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        current_user.logOut();
+		    }
+		});
+		
+		// Goes back
 		button_Return.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -28,6 +40,7 @@ public class MainPanel {
 			}
 		});
 		
+		// Opens basket panel
 		button_Basket.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -36,12 +49,12 @@ public class MainPanel {
 			}
 		});
 		
+		// Opens  barcode reader
 		button_Barcode.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				BarcodeReader BR = new BarcodeReader(current_user);
-				// Bu kodun devamý BarcodeReader içinde çalýþacak.
 			}
 		});
 	}

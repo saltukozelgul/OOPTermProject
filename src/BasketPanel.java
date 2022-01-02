@@ -65,8 +65,17 @@ public class BasketPanel {
 		// Calls table settings
 		settableSettings(data,column);
 		
+		// When user clicks exit icon, closes program
 		
-		// if user clicks to the return button MainPanel opens
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        current_user.logOut();
+		    }
+		});
+
+		
+		// if user clicks to the return button, MainPanel opens
 		button_Return.addActionListener(new ActionListener() {
 
 			@Override
@@ -132,6 +141,7 @@ public class BasketPanel {
 			
 		});
 		
+		// Delete product
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -152,6 +162,7 @@ public class BasketPanel {
 		        }
 		    }
 		});
+	
 	} // end of constructor
 	
 	private void settableSettings(Object[][] data , String[] column) {
@@ -246,6 +257,7 @@ public class BasketPanel {
 
 	// Frame settings
 	public void setFrameSettings() {
+		
 		Image icon_IMG = Toolkit.getDefaultToolkit().getImage(".\\resources\\Logo.jpeg"); // saves icon
 		
 		// Frame settings
@@ -350,16 +362,36 @@ public class BasketPanel {
 		panel.add(textField_Coupon);
 	}
 	
-	//For choosing right class by type of the product
+	// For choosing right class by type of the product type
 	private Product createProductByType(ArrayList<String> productInfo) {
-		Product product = new Eatables("", 0, "", "", 0); // Temp product
+		
+		Product product; // object of product
+		String divideName[];
+		
 		String type = productInfo.get(3);
 		
 		// For creating new Product object
 		String marketName = productInfo.get(1);;
 		String productName = productInfo.get(0);;
+		String weigth = "";
+		float liter = 0;
 		float price = Float.parseFloat(productInfo.get(2));
+		
 		int count = 0;
+		
+		divideName = productName.split(" ");
+		
+		for(int i=0; i<divideName.length; i++) { // taking weight of product
+			if(divideName[i].equals("g") || divideName[i].equals("Kg") || divideName[i].equals("Gr") || divideName[i].equals("gr") || 
+					divideName[i].equals("kg") || divideName[i].equals("G")) {
+				weigth = divideName[i-1] + divideName[i];
+			}
+			else if(divideName[i].equals("lt") || divideName[i].equals("ml") || divideName[i].equals("Lt")) { // taking ml of product
+				divideName[i-1].replace(",", "");
+				liter = Float.valueOf(divideName[i - 1].replace(",", "."));
+			}
+		}
+		
 		
 		String[] breakfast = {"Süt", "Yoðurt", "Bal & Reçel", "Kahvaltýlýk Gevrek", "Peynir", "Krema & Kaymak", "Zeytin", "Þarküteri", "Tereyað"};
 		String[] colddrinks = {"Kola & Gazoz & Enerji Ýçeceði","Boza & Þalgam & Ayran & Kefir", "Meyve Suyu", "Su & Maden Suyu"};
@@ -376,42 +408,52 @@ public class BasketPanel {
 		
 		//"50" float liter için geçiçi olarak yazýldý.
 		if (Arrays.asList(breakfast).contains(type)) {
-			product = new Breakfast("Weight", price, productName, marketName, count);
+			product = new Breakfast(weigth , price, productName, marketName, count);
 			return product;
 		}
 		else if (Arrays.asList(colddrinks).contains(type)) {
-			product = new ColdDrinks("Weight", price, productName, marketName,50, count);
+			product = new ColdDrinks(weigth, price, productName, marketName, liter, count);
 			return product;
 		}
 		else if (Arrays.asList(essentialfood).contains(type)) {
-			product = new EssentialFood("Weight", price, productName, marketName, count);
+			product = new EssentialFood(weigth, price, productName, marketName, count);
 			return product;
 		}
 		else if (Arrays.asList(faceproducts).contains(type)) {
-			product = new FaceProducts("Weight", price, productName, marketName, count,50);
+			product = new FaceProducts(weigth, price, productName, marketName, count, liter);
 			return product;
 		}
 		else if (Arrays.asList(hairproducts).contains(type)) {
-			product = new HairProducts("Weight", price, productName, marketName, count, 50);
+			product = new HairProducts(weigth, price, productName, marketName, count, liter);
 			return product;
 		}
 		else if (Arrays.asList(homecareproducts).contains(type)) {
-			product = new HomeCareProducts("Weight", price, productName, marketName, count, 50);
+			product = new HomeCareProducts(weigth, price, productName, marketName, count, liter);
 			return product;
 		}
 		else if (Arrays.asList(oralproducts).contains(type)) {
-			product = new OralProducts("Weight", price, productName, marketName, count, 50);
+			product = new OralProducts(weigth, price, productName, marketName, count, liter);
 			return product;
 		}
 		else if (Arrays.asList(snacks).contains(type)) {
-			product = new Snacks("Weight", price, productName, marketName, count);
+			product = new Snacks(weigth, price, productName, marketName, count);
 			return product;
 		}
 		else if (Arrays.asList(warmdrinks).contains(type)) {
-			product = new WarmDrinks("Weight", price, productName, marketName,50, count);
+			product = new WarmDrinks(weigth, price, productName, marketName, liter, count);
 			return product;
 		}
-		return product;
+		else {
+			if(weigth != "Weight") { // creates objects for weight
+				product = new NoTypeProduct(weigth, price, productName, marketName);
+				return product;
+			}
+			else { // creates objects for liter
+				product = new NoTypeProduct(weigth, price, productName, marketName, liter);
+				return product;
+
+			}
+		}
 	}
 	
 	// Label settings and Product, buradan devam etmeliyim

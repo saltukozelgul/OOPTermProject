@@ -1,6 +1,6 @@
 public class User {
-	// Variables
 	
+	// Variables
 	private String e_mail;
 	private String password;
 	private Basket basket;
@@ -12,26 +12,24 @@ public class User {
 		return e_mail;
 	}
 	
-	public void setEmail(String name) {
-		this.e_mail = name;
+	public void setEmail(String e_mail) {
+		this.e_mail = e_mail;
 	}
 	
 	public String getPassoword() {
 		return password;
 	}
 	
-	public void setPassword(String identity_number) {
-		this.password = identity_number;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public Basket getBasket() {
 		return this.basket;
-		
 	}
 	
 	// Functions
-	
 	public void logOut() {
-		
+		System.exit(0); // closes the application
 	}
 }

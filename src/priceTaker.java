@@ -25,7 +25,7 @@ public class priceTaker {
 		WebDriver driver = createDriver();
 		try {
 			
-			driver.navigate().to("https://www.a101.com.tr/list/?search_text="+barcode);
+			driver.navigate().to("https://www.a101.com.tr/list/?search_text="+ barcode);
 			
 			String name = driver.findElement(By.className("name")).getText();
 			String price = driver.findElement(By.className("current")).getText();
