@@ -48,7 +48,7 @@ public class BarcodeReader {
 	JLabel label_Separator = new JLabel();
 	
 	// Variables
-	private String barcode_number_f_product = null;
+	private String barcode_number_f_product;
 	private int isFound = 0;
 	public String barcode = "";
 	
@@ -170,14 +170,22 @@ public class BarcodeReader {
 			public void actionPerformed(ActionEvent e) {
 				if(textField_BarcodeNumber.getText() != null) {
 					webcam.close();
-					String barcode = textField_BarcodeNumber.getText();
+					String current_barcode = textField_BarcodeNumber.getText();
 					
-					System.out.println(barcode);
-					infos.add(priceTaker.a101(barcode));
-					infos.add(priceTaker.carrefour(barcode));
-					infos.add(priceTaker.hepsiburada(barcode));
-					infos.add(priceTaker.amazon(barcode));
-					infos.add(priceTaker.trendyol(barcode));
+					System.out.println(current_barcode);
+					infos.add(priceTaker.a101(current_barcode));
+					infos.add(priceTaker.carrefour(current_barcode));
+					infos.add(priceTaker.hepsiburada(current_barcode));
+					infos.add(priceTaker.amazon(current_barcode));
+					infos.add(priceTaker.trendyol(current_barcode));
+					
+					// Hata current_barcode u gondermiyor neden anlamadim
+					
+					System.out.println("Current: " + current_barcode);
+					setBarcode_number_f_product(current_barcode);
+					barcode_number_f_product = current_barcode;
+					System.out.println("Hay " + getBarcode_number_f_product());
+					System.out.println("Hay1 " + barcode_number_f_product);
 					
 					getMinumum();
 					
@@ -363,8 +371,8 @@ public class BarcodeReader {
 	public String getBarcode_number_f_product() {
 		return this.barcode_number_f_product;
 	}
-	public void setBarcode_number_f_product(String barcode_number_f_product) {
-		this.barcode_number_f_product = barcode_number_f_product;
+	public void setBarcode_number_f_product(String barcode) {
+		this.barcode_number_f_product = barcode;
 	}
 	
 } // end of BarcodeReader class

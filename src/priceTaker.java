@@ -99,7 +99,11 @@ public class priceTaker {
 			WebElement body = driver.findElement(By.tagName("body")); // önce bodye geçip sonra bakýyorum
 			String name = body.findElement(By.className("a-size-base-plus")).getText();
 			String price = body.findElement(By.className("a-price-whole")).getText();
+			
+			
 			price = price + "." + body.findElement(By.className("a-price-fraction")).getText();
+			price = price.replace(',', ' ');
+			price = price.split(" ")[0];
 			
 
 			info.add("Amazon"); info.add(name); info.add(price); 
