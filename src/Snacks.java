@@ -15,8 +15,8 @@ public class Snacks extends Eatables implements Paid {
 
 	@Override
 	public float getPrice(User current_user) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return super.getPrice();
 	}
 	
 

@@ -14,6 +14,6 @@ public class EssentialFood extends Eatables {
 	}
 	
 	public float getPrice() {
-		return 0;
+		return super.getPrice();
 	}
 }

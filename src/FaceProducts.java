@@ -13,14 +13,10 @@ public class FaceProducts extends PersonelCareProducts implements Paid{
 		return false;
 	}
 	
-	public float getPrice() {
-		return 0;
-	}
-
 	@Override
 	public float getPrice(User current_user) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return super.getPrice();
 	}
 
 }

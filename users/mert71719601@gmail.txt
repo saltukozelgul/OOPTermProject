@@ -3,13 +3,6 @@ Password: MerhabaMert
 
 Product Name: Eti Hoþbeþ Gofret Fýndýklý 142 G
 Product No: 8690526095226
-Market Name: A101
-Product Price: 2.75
-Product Type: Bisküvi
-
-
-Product Name: Fax S?v? Sabun Gül 3,6 lt
-Product No: 8690506497118
 Market Name: CARREFOUR
 Product Price: 22.95
 Product Type: 
@@ -20,4 +13,32 @@ Product No: 8690526753188
 Market Name: A101
 Product Price: 2.75
 Product Type: Bisküvi
+
+
+Product Name: Talens Sulu Boya Seti 12+3 Defter Hediyeli
+Product No: 893495054485
+Market Name: CARREFOUR
+Product Price: 2.25
+Product Type: 
+
+
+Product Name: Mendiva Islak Havlu 3X101'li
+Product No: 23001060
+Market Name: A101
+Product Price: 24.95
+Product Type: Hijyen Ürünleri
+
+
+Product Name: Beypazar? Do?al Maden Suyu 6x200 ml
+Product No: 8691381000035
+Market Name: CARREFOUR
+Product Price: 7.75
+Product Type: 
+
+
+Product Name: Erikli Su 12x0,5 lt
+Product No: 8690793600888
+Market Name: CARREFOUR
+Product Price: 22.40
+Product Type: 
 

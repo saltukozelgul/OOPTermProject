@@ -367,6 +367,7 @@ public class BasketPanel {
 		
 		Product product; // object of product
 		String divideName[];
+		String countAndLW[];
 		
 		String type = productInfo.get(3);
 		
@@ -377,21 +378,54 @@ public class BasketPanel {
 		float liter = 0;
 		float price = Float.parseFloat(productInfo.get(2));
 		
-		int count = 0;
+		int count = 1;
 		
 		divideName = productName.split(" ");
 		
 		for(int i=0; i<divideName.length; i++) { // taking weight of product
 			if(divideName[i].equals("g") || divideName[i].equals("Kg") || divideName[i].equals("Gr") || divideName[i].equals("gr") || 
 					divideName[i].equals("kg") || divideName[i].equals("G")) {
-				weigth = divideName[i-1] + divideName[i];
+				
+				if(divideName[i-1].contains("x")) {
+					countAndLW = divideName[i-1].split("x");
+				}
+				else if(divideName[i-1].contains("X")) {
+					countAndLW = divideName[i-1].split("X");
+				}
+				else if(divideName[i-1].contains("*")) {
+					countAndLW = divideName[i-1].split("*");
+				}
+				else {
+					weigth = divideName[i - 1];
+					break;
+				}
+				
+				count = Integer.valueOf(countAndLW[0]);
+				weigth = countAndLW[1];
+				
 			}
 			else if(divideName[i].equals("lt") || divideName[i].equals("ml") || divideName[i].equals("Lt")) { // taking ml of product
-				divideName[i-1].replace(",", "");
-				liter = Float.valueOf(divideName[i - 1].replace(",", "."));
+				
+				if(divideName[i-1].contains("x")) { // for example 4X600 ml
+					countAndLW = divideName[i-1].split("x");
+				}
+				else if(divideName[i-1].contains("X")) {
+					countAndLW = divideName[i-1].split("X");
+				}
+				else if(divideName[i-1].contains("*")) {
+					countAndLW = divideName[i-1].split("*");
+
+				}
+				else {
+					liter = Float.valueOf(divideName[i - 1].replace(",", "."));
+					break;
+				}
+				
+				count = Integer.valueOf(countAndLW[0]); // taking count of product
+				liter = Float.valueOf(countAndLW[1].replace(",", "."));
+				
 			}
 		}
-		
 		
 		String[] breakfast = {"Süt", "Yoðurt", "Bal & Reçel", "Kahvaltýlýk Gevrek", "Peynir", "Krema & Kaymak", "Zeytin", "Þarküteri", "Tereyað"};
 		String[] colddrinks = {"Kola & Gazoz & Enerji Ýçeceði","Boza & Þalgam & Ayran & Kefir", "Meyve Suyu", "Su & Maden Suyu"};
@@ -406,7 +440,7 @@ public class BasketPanel {
 		String[] snacks = {"Bisküvi", "Çikolata", "Kekler", "Sakýzlar", "Þekerleme", "Cips & Çerez"};
 		String[] warmdrinks = {"Çay & Kahve & Toz Ýçecek"};
 		
-		//"50" float liter için geçiçi olarak yazýldý.
+		// Creates objects for every product in their type
 		if (Arrays.asList(breakfast).contains(type)) {
 			product = new Breakfast(weigth , price, productName, marketName, count);
 			return product;
@@ -456,7 +490,7 @@ public class BasketPanel {
 		}
 	}
 	
-	// Label settings and Product, buradan devam etmeliyim
+	// Label settings and Product
 	public void setLabelSettings() {
 		
 		label_Logo.setLocation(210, 15);

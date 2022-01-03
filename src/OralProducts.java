@@ -15,7 +15,7 @@ public class OralProducts extends PersonelCareProducts implements Paid {
 	
 	@Override
 	public float getPrice(User current_user) {
-		return 0;
+		return super.getPrice();
 	}
 
 }

@@ -13,14 +13,10 @@ public class HomeCareProducts extends CareProducts implements Paid {
 		return true;
 	}
 	
-	public float getPrice() {
-		return 0;
-	}
-
 	@Override
 	public float getPrice(User current_user) {
 		// TODO Auto-generated method stub
-		return 0;
+		return super.getPrice();
 	}
 
 }
