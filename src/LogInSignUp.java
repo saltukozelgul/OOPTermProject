@@ -1,12 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
-
 import javax.swing.*;
 import javax.swing.border.Border;
-
 import java.util.Properties;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -14,11 +11,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File; // for file operations
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -128,7 +122,6 @@ public class LogInSignUp {
 								}			
 							}
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						
@@ -280,7 +273,6 @@ public class LogInSignUp {
 							new_content = new_content + line;
 						}
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					
@@ -295,7 +287,6 @@ public class LogInSignUp {
 						write_t_file.close();
 						
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 	
@@ -579,7 +570,6 @@ public class LogInSignUp {
 			write_t_file.close();
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

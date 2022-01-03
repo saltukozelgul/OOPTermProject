@@ -8,9 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,10 +24,6 @@ public class BasketPanel {
 	private JButton button_Return = new JButton();
 	private JButton button_ClearAll = new JButton();
 	private JButton button_CouponAdd = new JButton();
-	
-	//private ArrayList<JButton> button_DeleteProduct = new ArrayList<JButton>();
-	//private ArrayList<JLabel> label_ProductInformation = new ArrayList<>();
-	
 	private JLabel label_TotalPrice = new JLabel();
 	private JLabel label_Logo = new JLabel(new ImageIcon(".\\resources\\minilogo.png"));
 	private JTextField textField_Coupon = new JTextField();
@@ -212,7 +206,6 @@ public class BasketPanel {
 			}
 			read.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -293,7 +286,6 @@ public class BasketPanel {
 		int product_count = productCount();
 		
 		Icon icon_Return = new ImageIcon(".\\resources\\returnIcon.png"); // return icon
-		//Icon icon_Delete = new ImageIcon(".\\resources\\closeButton.png");
 		
 		// Return button
 		button_Return.setIcon(icon_Return);
@@ -304,29 +296,6 @@ public class BasketPanel {
 		button_Return.setOpaque(false);
 		button_Return.setContentAreaFilled(false);
 		button_Return.setBorderPainted(false);
-		
-		
-//		// Defining first coordinates of first deleteProduct button
-//		int x_coordinate = 280, y_coordinate = 60;
-//		
-//		for(int i=0; i<product_count; i++) {
-//	
-//			button_DeleteProduct.add(new JButton());
-//			
-//			button_DeleteProduct.get(i).setIcon(icon_Delete);
-//			button_DeleteProduct.get(i).setFont(new Font(Font.DIALOG, Font.PLAIN, 9));
-//			button_DeleteProduct.get(i).setHorizontalTextPosition(SwingConstants.CENTER);
-//			button_DeleteProduct.get(i).setBounds(x_coordinate, y_coordinate, 30, 30);
-//			button_DeleteProduct.get(i).setBackground(new Color(134,151,129));
-//			button_DeleteProduct.get(i).setOpaque(false);
-//			button_DeleteProduct.get(i).setContentAreaFilled(false);
-//			button_DeleteProduct.get(i).setBorderPainted(false);	
-//			
-//			y_coordinate = y_coordinate + 50;
-//			
-//			// Adds to the panel
-//			panel.add(button_DeleteProduct.get(i));
-//		}
 		
 		// Clear All button
 		button_ClearAll.setText("Clear All");
@@ -508,92 +477,6 @@ public class BasketPanel {
 				
 		panel.add(label_TotalPrice);
 		
-//		int product_count = productCount(); 
-//		
-//		int x_coordinate = 5, y_coordinate = 60; // coordinates
-//			
-//		label_ProductInformation.add(new JLabel());
-//		
-//		// File variables
-//		int index_f_email = this.current_user.getEmail().indexOf(".");
-//		String file_name = ".\\users\\" + this.current_user.getEmail().substring(0, index_f_email) + ".txt", line = "", information = "";
-//		ArrayList<String> informations = new ArrayList<String>();
-//		
-//		try { // Opening and reading file
-//			File file = new File(file_name);
-//			BufferedReader read = new BufferedReader(new FileReader(file_name));
-//			while((line = read.readLine()) != null) {
-//				if(line.contains("Market Name: ")) {
-//					
-//					line.replace("\n", "");
-//					information = line.replace("Market Name: ", "") + " ";
-//					productInformations.add(line.replace("Market Name:", ""));
-//					
-//				}
-//				else if(line.contains("Product Name: ")) {
-//					
-//					information = information + line.replace("Product Name: ", "") + " ";
-//					productInformations.add(line.replace("Product Name: ", ""));
-//				}
-//				else if(line.contains("Product Price: ")) {
-//					information = information + line.replace("Product Price: ", "") + "tl";
-//					productInformations.add(line.replace("Product Price: ", ""));
-//				}
-//				else if(line.contains("Product No: ")); // just go
-//				else if(line.contains("Product Type: ")) {
-//					productInformations.add(line.replace("Product Type: ", ""));
-//				}
-//				else{
-//					if(information != "") {
-//						
-//						// Choose type and send it to basket;
-//						Product product = createProductByType(productInformations);
-//						basket.addProduct(product); // Added product into basket
-//						
-//						
-//						
-//						informations.add(information);
-//						System.out.println(productInformations);
-//						productInformations.clear();
-//					}
-//					information = ""; // clears information string
-//				}
-//			}
-//			read.close();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		// Creates product labels which is taking products from basket.
-//		ArrayList<Product> products = basket.getProducts(); 
-//		for(int i=0; i<product_count; i++) { // creates labels for every different product
-//			
-//			label_ProductInformation.add(new JLabel()); // creates new label
-//		
-//			// Temptext for label
-//			String tempText = products.get(i).getBrand() + " " + products.get(i).getName() + " " + products.get(i).getPrice() + "tl";
-//			System.out.println(tempText);
-//			// We use this text for setting label's text
-//			
-//			label_ProductInformation.get(i).setText(tempText);
-//			label_ProductInformation.get(i).setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
-//			label_ProductInformation.get(i).setBounds(x_coordinate, y_coordinate, 270, 30);
-//			label_ProductInformation.get(i).setForeground(Color.WHITE);
-//			
-//			panel.add(label_ProductInformation.get(i)); // adds label's to the gradient_panel
-//			
-//			y_coordinate = y_coordinate  + 50;
-//			
-//		}
-////		// Total price
-//		label_TotalPrice.setText("Total price: " + String.valueOf(basket.getTotalPrice(current_user) + "tl"));
-//		label_TotalPrice.setBounds(x_coordinate, y_coordinate + 30, 150, 30);
-//		label_TotalPrice.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
-//		label_TotalPrice.setForeground(Color.WHITE);
-//		
-//		panel.add(label_TotalPrice);
-
 	}
 	
 	// Finds how many product that user has on his/her basket

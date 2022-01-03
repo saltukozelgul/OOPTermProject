@@ -6,7 +6,6 @@ public class NoTypeProduct extends Product implements Paid{
 	// Constructor 1
 	public NoTypeProduct(String weight, float price, String name, String brand) {
 		super(weight, price, name, brand);
-		// TODO Auto-generated constructor stub
 	}
 
 	// Constructor 2

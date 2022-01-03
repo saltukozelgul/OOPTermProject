@@ -4,7 +4,7 @@ public class FaceProducts extends PersonelCareProducts implements Paid{
 	// Constructor
 	public FaceProducts(String weight, float price, String name, String brand, int count, float liter) {
 		super(weight, price, name, brand, count, liter);
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	// Functions

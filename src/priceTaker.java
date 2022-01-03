@@ -1,7 +1,6 @@
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;

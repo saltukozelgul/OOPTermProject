@@ -13,13 +13,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
-
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.Result;
@@ -160,7 +157,6 @@ public class BarcodeReader {
 					write_t_file.close(); // closing file					
 					
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -271,7 +267,6 @@ public class BarcodeReader {
 		Gradient gradient_panel = new Gradient(); // creates(calls) gradient panel
 	
 		// Frame settings
-		//JFrame frame = new JFrame();
 		frame.setTitle("cheAPP");
 		frame.setIconImage(icon_IMG); // changes icon
 		frame.setSize(335, 525);

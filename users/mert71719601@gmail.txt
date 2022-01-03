@@ -42,3 +42,10 @@ Market Name: CARREFOUR
 Product Price: 22.40
 Product Type: 
 
+
+Product Name: Hoþbeþ gofret Fýndýklý 142 g
+Product No: 8690526095226
+Market Name: CARREFOUR
+Product Price: 5.90
+Product Type: Bisküvi
+

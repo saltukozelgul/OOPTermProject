@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JOptionPane;
-
 public class Basket implements Paid {
 	
 	//  Variables
@@ -36,29 +34,6 @@ public class Basket implements Paid {
 		return this.products; // just for now
 	}
 	
-	/* i moved getTotalPrice method to getPrice()
-	public float getTotalPrice(User current_user) {
-		float total_price = 0;
-		int index_f_email = current_user.getEmail().indexOf(".");
-		String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt", line = "";
-		try {
-			File file = new File(file_name);
-			BufferedReader read = new BufferedReader(new FileReader(file_name));
-			
-			while((line = read.readLine()) != null ){
-				if(line.contains("Product Price: ")) {
-					total_price = total_price + Float.valueOf(line.replaceAll("Product Price: ", ""));
-				}
-			}
-			read.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return total_price;
-	}
-	*/
-	
 	public  int getProductCount(User current_user) {
 		// File variables
 		int index_f_email = current_user.getEmail().indexOf("."), product_count = 0;;
@@ -73,7 +48,6 @@ public class Basket implements Paid {
 			}
 			read.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 		return product_count;
@@ -96,7 +70,6 @@ public class Basket implements Paid {
 			write_t_file.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -172,7 +145,6 @@ public class Basket implements Paid {
 			}
 			read.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return total_price;
