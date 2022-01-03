@@ -36,6 +36,8 @@ public class BasketPanel {
 	private ArrayList<Product> products = new ArrayList<Product>();
 	private JTable table;
 	private DefaultTableModel model;
+	
+	
 	// Constructor
 	public BasketPanel(User current_user) {
 			
@@ -58,6 +60,7 @@ public class BasketPanel {
 		
 		// Calls table settings
 		settableSettings(data,column);
+		
 		
 		// When user clicks exit icon, closes program
 		
@@ -90,8 +93,7 @@ public class BasketPanel {
 				// Calls clear function on basket class
 				basket.clear(current_user);
 				
-				
-				BasketPanel bp = new BasketPanel(current_user);
+				BasketPanel bp = new BasketPanel(current_user); // opens BasketPanel again
 				frame.dispose();
 				
 			}
@@ -142,10 +144,16 @@ public class BasketPanel {
 		        int row = table.rowAtPoint(evt.getPoint());
 		        int col = table.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col == 3) {
+		        	
 		        	model.removeRow(row);
 		        	basket.removeProduct((String) data[row][1], current_user);
 		        	System.out.print((String) data[row][1]);
 		        	
+		        	BasketPanel BP = new BasketPanel(current_user);
+		        	frame.dispose();
+		        	
+		        	
+		        	/*
 		        	NumberFormat nf = NumberFormat.getInstance();
 		    		nf.setMaximumFractionDigits(2);
 		    		String s=nf.format(basket.getPrice(current_user));
@@ -153,15 +161,20 @@ public class BasketPanel {
 		    		label_TotalPrice.setBounds(172,240, 150, 30);
 		    		label_TotalPrice.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
 		    		label_TotalPrice.setForeground(Color.WHITE);
+		    		*/
 		        }
 		    }
 		});
 	
 	} // end of constructor
 	
+	// Table settings
 	private void settableSettings(Object[][] data , String[] column) {
 		
 		int product_count = productCount(); 
+		
+		// Keeps barkod no
+		String barcodeNo = "";
 		
 		// File variables
 		int index_f_email = this.current_user.getEmail().indexOf(".");
@@ -172,6 +185,8 @@ public class BasketPanel {
 			File file = new File(file_name);
 			BufferedReader read = new BufferedReader(new FileReader(file_name));
 			while((line = read.readLine()) != null) {
+				
+				
 				if(line.contains("Product Name: ")) {
 					
 					information = information + line.replace("Product Name: ", "") + " ";
@@ -187,7 +202,9 @@ public class BasketPanel {
 					information = information + line.replace("Product Price: ", "") + "tl";
 					productInformations.add(line.replace("Product Price: ", ""));
 				}
-				else if(line.contains("Product No: ")); // just go
+				else if(line.contains("Product No: ")) {
+					barcodeNo = line.replace("Product No: ", "");
+				} // just go
 				else if(line.contains("Product Type: ")) {
 					productInformations.add(line.replace("Product Type: ", ""));
 				}
@@ -195,10 +212,10 @@ public class BasketPanel {
 					if(information != "") {
 						
 						// Choose type and send it to basket;
-						Product product = createProductByType(productInformations);
+						Product product = createProductByType(productInformations, barcodeNo);
 						basket.addProduct(product); // Added product into basket
 						informations.add(information);
-						System.out.println(productInformations);
+						// System.out.println(productInformations); prints all informations about the product
 						productInformations.clear();
 					}
 					information = ""; // clears information string
@@ -211,15 +228,28 @@ public class BasketPanel {
 		
 		// Creates product labels which is taking products from basket.
 		ArrayList<Product> products = basket.getProducts(); 
+		int j = 0;
 		
 		for(int i=0; i<product_count; i++) {
-			data[i][0] = products.get(i).getName();
-			data[i][1] = products.get(i).getBrand();
-			data[i][2] = products.get(i).getPrice() + "tl";
-			data[i][3] = "x";
-			
-			String tempText = products.get(i).getBrand() + " " + products.get(i).getName() + " " + products.get(i).getPrice() + "tl";
-			System.out.println(tempText);
+			if(products.get(i) instanceof NoTypeProduct && ( (NoTypeProduct) products.get(i)).checkStock() == false);
+			else if(products.get(i) instanceof Breakfast && ( (Breakfast) products.get(i)).checkStock() == false);
+			else if(products.get(i) instanceof ColdDrinks && ( (ColdDrinks) products.get(i)).checkStock() == false);
+			else if(products.get(i) instanceof EssentialFood && ( (EssentialFood) products.get(i)).checkStock() == false);
+			else if(products.get(i) instanceof FaceProducts && ( (FaceProducts) products.get(i)).checkStock() == false);
+			else if(products.get(i) instanceof HairProducts && ( (FaceProducts) products.get(i)).checkStock() == false);
+			else if(products.get(i) instanceof HomeCareProducts && ( (HomeCareProducts) products.get(i)).checkStock() == false);
+			else if(products.get(i) instanceof OralProducts && ( (OralProducts) products.get(i)).checkStock() == false);
+			else if(products.get(i) instanceof WarmDrinks && ( (WarmDrinks) products.get(i)).checkStock() == false);
+			else {
+				data[j][0] = products.get(i).getName();
+				data[j][1] = products.get(i).getBrand();
+				data[j][2] = products.get(i).getPrice() + "tl";
+				data[j][3] = "x";
+				j++;
+				String tempText = products.get(i).getBrand() + " " + products.get(i).getName() + " " + products.get(i).getPrice() + "tl";
+				System.out.println(tempText);
+
+			}
 		}
 		
 		//table settings
@@ -282,9 +312,7 @@ public class BasketPanel {
 	
 	// Button settings
 	public void setButtonSettings() {
-		
-		int product_count = productCount();
-		
+				
 		Icon icon_Return = new ImageIcon(".\\resources\\returnIcon.png"); // return icon
 		
 		// Return button
@@ -316,6 +344,7 @@ public class BasketPanel {
 	
 	// TextField Settings
 	public void setTextFieldSettings() {
+		
 		Border border = BorderFactory.createLineBorder(new Color(198,23,157));
 		
 		// Coupon
@@ -331,12 +360,29 @@ public class BasketPanel {
 		panel.add(textField_Coupon);
 	}
 	
-	// For choosing right class by type of the product type
-	private Product createProductByType(ArrayList<String> productInfo) {
+	// For choosing right class to products by using type of the product type
+	private Product createProductByType(ArrayList<String> productInfo, String productNo) {
+		
+		System.out.println(productNo);
+
 		
 		Product product; // object of product
 		String divideName[];
 		String countAndLW[];
+		
+		String[] breakfast = {"Süt", "Yoðurt", "Bal & Reçel", "Kahvaltýlýk Gevrek", "Peynir", "Krema & Kaymak", "Zeytin", "Þarküteri", "Tereyað"};
+		String[] colddrinks = {"Kola & Gazoz & Enerji Ýçeceði","Boza & Þalgam & Ayran & Kefir", "Meyve Suyu", "Su & Maden Suyu"};
+		String[] essentialfood = {"Makarna", "Nohut & Fasulye & Buðday", "Pasta Kremasý & Soslar", "Pirinç & Bulgur & Mercimek"
+				, "Þeker & Tuz & Baharat", "Un & Ýrmik", "Unlu Mamüller" ,"Ekmek Çeþitleri"};
+		String[] faceproducts = {"Vücut Bakým", "Yüz Maskesi", "Yüz Temizleme"};
+		String[] hairproducts = {"Saç Maskesi", "Þampuan", "Saç Boyasý", "Taraklar & Fýrçalar"};
+		String[] homecareproducts = {"Ahþap & Cam Temizleyici", "Bulaþýk Tablet & Jel Deterjan" , "Çamaþýr Suyu", "Çamaþýr Deterjaný & Yumuþatýcý" 
+				,"Ev Temizlik","Parlatýcý & Tuz & Koku Giderici","Kaðýt Havlu & Peçete" ,"Temizlik Bezi & Sünger & Fýrça" ,"Tuvalet Kaðýdý"
+				,"Oda Spreyleri" ,"Yüzey Temizleyici" ,"Temizlik Setleri" ,"Haþere Öldürücü"};
+		String[] oralproducts = {"Aðýz Bakým Suyu", "Diþ Fýrçasý", "Diþ Macunu"};
+		String[] snacks = {"Bisküvi", "Çikolata", "Kekler", "Sakýzlar", "Þekerleme", "Cips & Çerez"};
+		String[] warmdrinks = {"Çay & Kahve & Toz Ýçecek"};
+
 		
 		String type = productInfo.get(3);
 		
@@ -369,19 +415,19 @@ public class BasketPanel {
 					break;
 				}
 				
-				count = Integer.valueOf(countAndLW[0]);
+				count = Integer.valueOf(countAndLW[0]); // taking amount of product
 				weigth = countAndLW[1];
 				
 			}
 			else if(divideName[i].equals("lt") || divideName[i].equals("ml") || divideName[i].equals("Lt")) { // taking ml of product
 				
-				if(divideName[i-1].contains("x")) { // for example 4X600 ml
+				if(divideName[i-1].contains("x")) { // for example 4x600 ml
 					countAndLW = divideName[i-1].split("x");
 				}
-				else if(divideName[i-1].contains("X")) {
+				else if(divideName[i-1].contains("X")) { // for example 4X300
 					countAndLW = divideName[i-1].split("X");
 				}
-				else if(divideName[i-1].contains("*")) {
+				else if(divideName[i-1].contains("*")) { // for example 4*200	
 					countAndLW = divideName[i-1].split("*");
 
 				}
@@ -390,70 +436,146 @@ public class BasketPanel {
 					break;
 				}
 				
-				count = Integer.valueOf(countAndLW[0]); // taking count of product
+				count = Integer.valueOf(countAndLW[0]); // taking amount of product
 				liter = Float.valueOf(countAndLW[1].replace(",", "."));
 				
 			}
 		}
-		
-		String[] breakfast = {"Süt", "Yoðurt", "Bal & Reçel", "Kahvaltýlýk Gevrek", "Peynir", "Krema & Kaymak", "Zeytin", "Þarküteri", "Tereyað"};
-		String[] colddrinks = {"Kola & Gazoz & Enerji Ýçeceði","Boza & Þalgam & Ayran & Kefir", "Meyve Suyu", "Su & Maden Suyu"};
-		String[] essentialfood = {"Makarna", "Nohut & Fasulye & Buðday", "Pasta Kremasý & Soslar", "Pirinç & Bulgur & Mercimek"
-				, "Þeker & Tuz & Baharat", "Un & Ýrmik", "Unlu Mamüller" ,"Ekmek Çeþitleri"};
-		String[] faceproducts = {"Vücut Bakým", "Yüz Maskesi", "Yüz Temizleme"};
-		String[] hairproducts = {"Saç Maskesi", "Þampuan", "Saç Boyasý", "Taraklar & Fýrçalar"};
-		String[] homecareproducts = {"Ahþap & Cam Temizleyici", "Bulaþýk Tablet & Jel Deterjan" , "Çamaþýr Suyu", "Çamaþýr Deterjaný & Yumuþatýcý" 
-				,"Ev Temizlik","Parlatýcý & Tuz & Koku Giderici","Kaðýt Havlu & Peçete" ,"Temizlik Bezi & Sünger & Fýrça" ,"Tuvalet Kaðýdý"
-				,"Oda Spreyleri" ,"Yüzey Temizleyici" ,"Temizlik Setleri" ,"Haþere Öldürücü"};
-		String[] oralproducts = {"Aðýz Bakým Suyu", "Diþ Fýrçasý", "Diþ Macunu"};
-		String[] snacks = {"Bisküvi", "Çikolata", "Kekler", "Sakýzlar", "Þekerleme", "Cips & Çerez"};
-		String[] warmdrinks = {"Çay & Kahve & Toz Ýçecek"};
-		
+
+		ArrayList<String> new_info = new ArrayList<String>();
+			
+		new_info = getUpdatedPrice(marketName, productNo);
+
+		String new_price = new_info.get(2);
+		System.out.println(new_price);
+
 		// Creates objects for every product in their type
 		if (Arrays.asList(breakfast).contains(type)) {
-			product = new Breakfast(weigth , price, productName, marketName, count);
-			return product;
+			
+			product = new Breakfast(weigth , Float.valueOf(new_price), productName, marketName, count);
+			if(((Breakfast) product).checkStock()) {
+				return product;
+
+			}
+			else {
+				basket.removeProduct(productName, current_user);
+				return product;
+			}
+		
 		}
 		else if (Arrays.asList(colddrinks).contains(type)) {
-			product = new ColdDrinks(weigth, price, productName, marketName, liter, count);
-			return product;
+			
+			product = new ColdDrinks(weigth, Float.valueOf(new_price), productName, marketName, liter, count);
+			if(((ColdDrinks) product).checkStock()) {
+				return product;
+
+			}
+			else {
+				basket.removeProduct(productName, current_user);
+				return product;
+			}		
+		
 		}
 		else if (Arrays.asList(essentialfood).contains(type)) {
-			product = new EssentialFood(weigth, price, productName, marketName, count);
-			return product;
+			
+			product = new EssentialFood(weigth, Float.valueOf(new_price), productName, marketName, count);
+			if(((EssentialFood) product).checkStock()) {
+				return product;
+
+			}
+			else {
+				basket.removeProduct(productName, current_user);
+				return product;
+			}
 		}
 		else if (Arrays.asList(faceproducts).contains(type)) {
-			product = new FaceProducts(weigth, price, productName, marketName, count, liter);
-			return product;
+			product = new FaceProducts(weigth, Float.valueOf(new_price), productName, marketName, count, liter);
+			if(((FaceProducts) product).checkStock()) {
+				return product;
+			}
+			else {
+				basket.removeProduct(productName, current_user);
+				return product;
+			}
+
 		}
 		else if (Arrays.asList(hairproducts).contains(type)) {
-			product = new HairProducts(weigth, price, productName, marketName, count, liter);
-			return product;
+			product = new HairProducts(weigth, Float.valueOf(new_price), productName, marketName, count, liter);
+			if(((HairProducts) product).checkStock()) {
+				return product;
+			}
+			else {
+				basket.removeProduct(productName, current_user);
+				return product;
+			}
+
 		}
 		else if (Arrays.asList(homecareproducts).contains(type)) {
-			product = new HomeCareProducts(weigth, price, productName, marketName, count, liter);
-			return product;
+			product = new HomeCareProducts(weigth, Float.valueOf(new_price), productName, marketName, count, liter);
+			if(((HomeCareProducts) product).checkStock()) {
+				return product;
+			}
+			else {
+				basket.removeProduct(productName, current_user);
+				return product;
+			}
+
 		}
 		else if (Arrays.asList(oralproducts).contains(type)) {
-			product = new OralProducts(weigth, price, productName, marketName, count, liter);
-			return product;
+			product = new OralProducts(weigth, Float.valueOf(new_price), productName, marketName, count, liter);
+			if(((OralProducts) product).checkStock()) {
+				return product;
+			}
+			else {
+				basket.removeProduct(productName, current_user);
+				return product;
+			}
+
 		}
 		else if (Arrays.asList(snacks).contains(type)) {
-			product = new Snacks(weigth, price, productName, marketName, count);
-			return product;
+			product = new Snacks(weigth, Float.valueOf(new_price), productName, marketName, count);
+			if(((Snacks) product).checkStock()) {
+				return product;
+			}
+			else {
+				basket.removeProduct(productName, current_user);
+				return product;
+			}
+
 		}
 		else if (Arrays.asList(warmdrinks).contains(type)) {
-			product = new WarmDrinks(weigth, price, productName, marketName, liter, count);
-			return product;
+			product = new WarmDrinks(weigth, Float.valueOf(new_price), productName, marketName, liter, count);
+			if(((WarmDrinks) product).checkStock()) {
+				return product;
+			}
+			else {
+				basket.removeProduct(productName, current_user);
+				return product;
+			}
+
 		}
 		else {
 			if(weigth != "Weight") { // creates objects for weight
-				product = new NoTypeProduct(weigth, price, productName, marketName);
-				return product;
+				product = new NoTypeProduct(weigth, Float.valueOf(new_price), productName, marketName);
+				if(((NoTypeProduct) product).checkStock()) {
+					return product;
+				}
+				else {
+					basket.removeProduct(productName, current_user);
+					return product;
+				}
+
 			}
 			else { // creates objects for liter
-				product = new NoTypeProduct(weigth, price, productName, marketName, liter);
-				return product;
+				product = new NoTypeProduct(weigth, Float.valueOf(new_price), productName, marketName, liter);
+				if(((NoTypeProduct) product).checkStock()) {
+					return product;
+				}
+				else {
+					basket.removeProduct(productName, current_user);
+					return product;
+				}
+
 
 			}
 		}
@@ -487,4 +609,34 @@ public class BasketPanel {
 		return productCount;
 	}
 	
+	// Check stock
+	public ArrayList<String> getUpdatedPrice(String marketName, String productNo) {
+		marketName = marketName.trim();
+		
+		ArrayList<String> info = new ArrayList<String>();
+		
+		if(marketName.equals("A101")) {
+			info = priceTaker.a101(productNo);
+			return info;
+		}
+		else if(marketName.equals("CARREFOUR")) {
+			info = priceTaker.carrefour(productNo);
+			return info;
+		}
+		else if(marketName.equals("Amazon")) {
+			info = priceTaker.amazon(productNo);
+			return info;
+		}
+		else if(marketName.equals("TRENDYOL")) {
+			info = priceTaker.trendyol(productNo);
+			return info;
+		}
+		else if(marketName.equals("HepsiBurada")) {
+			info = priceTaker.hepsiburada(productNo);
+			return info;
+		}
+		else {
+			return info;
+		}
+	}
 } // end of BasketPanel class

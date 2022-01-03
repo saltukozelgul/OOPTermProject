@@ -23,6 +23,15 @@ public class NoTypeProduct extends Product implements Paid{
 		this.liter = liter;
 	}
 	
+	public boolean checkStock() {
+		if(super.getPrice() == 1000000000) {
+			return false;
+		}
+		return true;
+	}
+	
+
+
 	@Override
 	public float getPrice(User current_user) {
 		return liter;

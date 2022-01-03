@@ -54,7 +54,8 @@ public class Basket implements Paid {
 	}
 	
 	// Functions
-	public void clear(User current_user) {
+	public void clear(User current_user) { // clears all products from basket
+		
 		int index_f_email = current_user.getEmail().indexOf(".");
 		String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt", line = "", information = "";
 		String new_content = "";
@@ -74,13 +75,14 @@ public class Basket implements Paid {
 		}
 	}
 	
-	public void addProduct(Product product) {
+	public void addProduct(Product product) { // adds product to basket
 		products.add(product);
 	}
 	
-	public void removeProduct(String product_name, User current_user) {
+	public void removeProduct(String product_name, User current_user) { // removes product from basket
+		
 		int index_f_email = current_user.getEmail().indexOf(".");
-		String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt", line = "", information = "";
+		String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt", line = "";
 		String new_content = "";
 		if (this.getProductCount(current_user) == 1) {
 			this.clear(current_user);
@@ -120,7 +122,7 @@ public class Basket implements Paid {
 					
 		if(coupons.containsKey(coupon_code)) {
 			total_price = total_price - ( ( total_price * coupons.get(coupon_code)) / 100);
-			coupons.remove(coupon_code);
+			coupons.remove(coupon_code); // removes coupon after coupon has used
 			return total_price;
 		}	
 		else {
@@ -130,15 +132,15 @@ public class Basket implements Paid {
 
 	
 	@Override
-	public float getPrice(User current_user) {
+	public float getPrice(User current_user) { // returns total price of basket
 		float total_price = 0;
 		int index_f_email = current_user.getEmail().indexOf(".");
 		String file_name = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt", line = "";
 		try {
-			File file = new File(file_name);
+			File file = new File(file_name); // opens file 
 			BufferedReader read = new BufferedReader(new FileReader(file_name));
 			
-			while((line = read.readLine()) != null ){
+			while((line = read.readLine()) != null ){ // takes every price and add to the total_price variable
 				if(line.contains("Product Price: ")) {
 					total_price = total_price + Float.valueOf(line.replaceAll("Product Price: ", ""));
 				}

@@ -3,23 +3,9 @@ Password: MerhabaMert
 
 Product Name: Eti Hoþbeþ Gofret Fýndýklý 142 G
 Product No: 8690526095226
-Market Name: CARREFOUR
-Product Price: 22.95
-Product Type: 
-
-
-Product Name: Negro Bisküvi Kremal? Kakaolu 110 G
-Product No: 8690526753188
 Market Name: A101
 Product Price: 2.75
 Product Type: Bisküvi
-
-
-Product Name: Talens Sulu Boya Seti 12+3 Defter Hediyeli
-Product No: 893495054485
-Market Name: CARREFOUR
-Product Price: 2.25
-Product Type: 
 
 
 Product Name: Mendiva Islak Havlu 3X101'li

@@ -57,14 +57,6 @@ public class LogInSignUp {
 		// Main GIU settings
 		setFrameSettings();
 		
-		// When user clicks exit icon, closes program
-		frame.addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		        new_user.logOut();
-		    }
-		});
-		
 		// makes password visible and unvisible
 		button_Password.addActionListener(new ActionListener() {
 			@Override

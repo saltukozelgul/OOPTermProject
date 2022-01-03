@@ -10,8 +10,12 @@ public class EssentialFood extends Eatables {
 	// Functions
 	
 	public boolean checkStock() {
+		if(super.getPrice() == 1000000000) {
+			return false;
+		}
 		return true;
 	}
+	
 	
 	public float getPrice() {
 		return super.getPrice();
