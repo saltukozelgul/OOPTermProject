@@ -165,7 +165,7 @@ public class BasketPanel {
 		        }
 		    }
 		});
-	
+		frame.setVisible(true);
 	} // end of constructor
 	
 	// Table settings
@@ -306,7 +306,6 @@ public class BasketPanel {
 		setButtonSettings();
 		setTextFieldSettings();
 				
-		frame.setVisible(true);
 
 	}
 	

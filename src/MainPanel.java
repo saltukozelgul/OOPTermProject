@@ -13,6 +13,7 @@ public class MainPanel {
 	JLabel label_cheAPP = new JLabel("cheAPP", JLabel.CENTER);
 	JLabel label_Welcome = new JLabel("Welcome!", JLabel.CENTER);
 	JLabel label_Logo = new JLabel(new ImageIcon(".\\resources\\smallLogo.png"));
+	JLabel loadingIMG = new JLabel(new ImageIcon(".\\resources\\loadingScreen.png"));
 	
 	Icon icon_Return = new ImageIcon("C:\\Users\\mert7\\Desktop\\image.png"); // saves icon
 	
@@ -40,11 +41,24 @@ public class MainPanel {
 		});
 		
 		// Opens basket panel
-		button_Basket.addActionListener(new ActionListener() {
+		button_Basket.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BasketPanel BP = new BasketPanel(current_user);
-				frame.dispose();
+				
+				// Creatin new thread for opening Basket Panel
+				Thread t1 = new Thread(new Runnable() {
+				    @Override
+				    public void run() {
+				    	BasketPanel BP = new BasketPanel(current_user);
+				    	// When basket panel is ready close the main panel.
+						frame.dispose();
+				    }
+				});
+				
+				
+				t1.start(); // Starting thread that will checkStocks and open basket panel.
+				loadingIMG.setVisible(true); // Loading image will be visible.
+						
 			}
 		});
 		
@@ -76,9 +90,11 @@ public class MainPanel {
 		setButtonSettings();
 				
 		frame.add(panel); // adds panel to frame	
-				
 		panel.setLayout(null);
 		//add labels
+		
+		panel.add(loadingIMG);
+		loadingIMG.setVisible(false);
 		panel.add(label_cheAPP); panel.add(label_Welcome);
 				
 		//add buttons
@@ -94,6 +110,10 @@ public class MainPanel {
 		//label of cheAPP
 		label_Logo.setLocation(10, 90);
 		label_Logo.setSize(300,85);
+		
+		//Loading img for basket
+		loadingIMG.setLocation(0,0);
+		loadingIMG.setSize(315,525);
 	}
 
 	private void setButtonSettings() 
