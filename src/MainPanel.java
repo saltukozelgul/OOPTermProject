@@ -113,7 +113,7 @@ public class MainPanel {
 		
 		//Loading img for basket
 		loadingIMG.setLocation(0,0);
-		loadingIMG.setSize(315,525);
+		loadingIMG.setSize(325,525);
 	}
 
 	private void setButtonSettings() 
