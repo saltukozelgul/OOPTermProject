@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -180,7 +182,9 @@ public class BasketPanel {
 		int index_f_email = this.current_user.getEmail().indexOf(".");
 		String file_name = ".\\users\\" + this.current_user.getEmail().substring(0, index_f_email) + ".txt", line = "", information = "";
 		ArrayList<String> informations = new ArrayList<String>();
-		
+		ArrayList<String> types = new ArrayList<String>();
+		ArrayList<String> allBarcodeNo = new ArrayList<String>();
+		String new_content = "E-mail: " + current_user.getEmail() + "\nPassword: " + current_user.getPassoword();
 		try { // Opening and reading file
 			File file = new File(file_name);
 			BufferedReader read = new BufferedReader(new FileReader(file_name));
@@ -204,9 +208,11 @@ public class BasketPanel {
 				}
 				else if(line.contains("Product No: ")) {
 					barcodeNo = line.replace("Product No: ", "");
+					allBarcodeNo.add(line.replace("Product No: ", ""));
 				} // just go
 				else if(line.contains("Product Type: ")) {
 					productInformations.add(line.replace("Product Type: ", ""));
+					types.add(line.replace("Product Type: ", ""));
 				}
 				else{
 					if(information != "") {
@@ -245,12 +251,34 @@ public class BasketPanel {
 				data[j][1] = products.get(i).getBrand();
 				data[j][2] = products.get(i).getPrice() + "tl";
 				data[j][3] = "x";
+				
+				new_content = "\nProduct Name: " + products.get(i).getName() + 
+						"\nProduct No: " + allBarcodeNo.get(i) + 
+						"\nMarket Name: " + products.get(i).getBrand()  + 
+						"\nProduct Price: " + products.get(i).getPrice() + 
+						"\nProduct Type: " + types.get(i);
+				
 				j++;
 				String tempText = products.get(i).getBrand() + " " + products.get(i).getName() + " " + products.get(i).getPrice() + "tl";
 				System.out.println(tempText);
 
 			}
 		}
+		String file_name_1 = ".\\users\\" + current_user.getEmail().substring(0, index_f_email) + ".txt";
+		
+		try {
+			System.out.println(new_content);
+			FileWriter write_t_file = new FileWriter(file_name_1);
+			PrintWriter printWriter = new PrintWriter(write_t_file);
+			
+			printWriter.printf(new_content);
+
+			write_t_file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		
 		//table settings
 		model = new DefaultTableModel(data, column);
