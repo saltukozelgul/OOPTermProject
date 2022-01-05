@@ -57,11 +57,13 @@ public class BasketPanel {
 		String column[] = { "Product", "Market", "Price", " " };
 		
 		
+		// Calls table settings
+		settableSettings(data,column);
+				
 		// Calls frame settings
 		setFrameSettings();
 		
-		// Calls table settings
-		settableSettings(data,column);
+		
 		
 		
 		// When user clicks exit icon, closes program
@@ -115,7 +117,7 @@ public class BasketPanel {
 					currentTotal_price = currentTotal_price.replace("tl", "");
 					System.out.println(currentTotal_price);
 					
-					result = basket.addCoupon(textField_Coupon.getText(), current_user, Float.valueOf(currentTotal_price));
+					result = basket.addCoupon(textField_Coupon.getText(), current_user, Float.valueOf(currentTotal_price.replace(',', '.')));
 				}
 				catch(NumberFormatException ex){
 					System.out.println(ex);
@@ -184,7 +186,7 @@ public class BasketPanel {
 		ArrayList<String> informations = new ArrayList<String>();
 		ArrayList<String> types = new ArrayList<String>();
 		ArrayList<String> allBarcodeNo = new ArrayList<String>();
-		String new_content = "E-mail: " + current_user.getEmail() + "\nPassword: " + current_user.getPassoword();
+		String new_content = "E-mail: " + current_user.getEmail() + "\nPassword: " + current_user.getPassoword() + "\n";
 		try { // Opening and reading file
 			File file = new File(file_name);
 			BufferedReader read = new BufferedReader(new FileReader(file_name));
@@ -252,11 +254,11 @@ public class BasketPanel {
 				data[j][2] = products.get(i).getPrice() + "tl";
 				data[j][3] = "x";
 				
-				new_content = "\nProduct Name: " + products.get(i).getName() + 
+				new_content = new_content + "\nProduct Name: " + products.get(i).getName() + 
 						"\nProduct No: " + allBarcodeNo.get(i) + 
-						"\nMarket Name: " + products.get(i).getBrand()  + 
+						"\nMarket Name: " + products.get(i).getBrand().trim()  + 
 						"\nProduct Price: " + products.get(i).getPrice() + 
-						"\nProduct Type: " + types.get(i);
+						"\nProduct Type: " + types.get(i) + "\n\n"; 
 				
 				j++;
 				String tempText = products.get(i).getBrand() + " " + products.get(i).getName() + " " + products.get(i).getPrice() + "tl";

@@ -75,7 +75,7 @@ public class MainPanel {
 	private void setFrameSettings()
 	{
 		Gradient panel = new Gradient();
-		Image icon_IMG = Toolkit.getDefaultToolkit().getImage("C:\\Users\\mert7\\Desktop\\image.png"); // saves icon
+		Image icon_IMG = Toolkit.getDefaultToolkit().getImage(".\\resources\\Logo.jpeg"); // saves icon
 		// Frame settings
 		frame.setTitle("cheAPP");
 		frame.setIconImage(icon_IMG); // changes icon				

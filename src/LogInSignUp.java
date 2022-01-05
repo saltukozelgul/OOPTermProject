@@ -120,7 +120,6 @@ public class LogInSignUp {
 						
 						if(String.valueOf(passwordField_Password.getPassword()).equals(split_line[1])) { // if password are equalt to each other return true
 							
-							System.out.println("diger panele gec");
 							// Go to the MainPanel
 							frame.dispose();
 							AddUserToUserClass();

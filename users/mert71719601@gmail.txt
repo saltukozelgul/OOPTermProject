@@ -4,7 +4,7 @@ Password: MerhabaMert
 Product Name: Eti Hoþbeþ Gofret Fýndýklý 142 G
 Product No: 8690526095226
 Market Name: A101
-Product Price: 2.75
+Product Price: 7.5
 Product Type: Bisküvi
 
 
@@ -25,13 +25,13 @@ Product Type:
 Product Name: Erikli Su 12x0,5 lt
 Product No: 8690793600888
 Market Name: CARREFOUR
-Product Price: 22.40
+Product Price: 22.4
 Product Type: 
 
 
 Product Name: Hoþbeþ gofret Fýndýklý 142 g
 Product No: 8690526095226
 Market Name: CARREFOUR
-Product Price: 5.90
+Product Price: 5.9
 Product Type: Bisküvi
 
