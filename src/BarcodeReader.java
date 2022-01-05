@@ -192,8 +192,6 @@ public class BarcodeReader {
 					infos.add(PriceTaker.amazon(current_barcode));
 					infos.add(PriceTaker.trendyol(current_barcode));
 					
-					// Hata current_barcode u gondermiyor neden anlamadim
-					
 					System.out.println("Current: " + current_barcode);
 					setBarcode_number_f_product_1(current_barcode);
 					
