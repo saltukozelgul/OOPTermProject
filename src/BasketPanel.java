@@ -149,23 +149,14 @@ public class BasketPanel {
 		        int col = table.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col == 3) {
 		        	
-		        	model.removeRow(row);
-		        	basket.removeProduct((String) data[row][1], current_user);
-		        	System.out.print((String) data[row][1]);
-		        	
-		        	BasketPanel BP = new BasketPanel(current_user);
-		        	frame.dispose();
-		        	
-		        	
-		        	/*
-		        	NumberFormat nf = NumberFormat.getInstance();
-		    		nf.setMaximumFractionDigits(2);
-		    		String s=nf.format(basket.getPrice(current_user));
-		    		label_TotalPrice.setText("Total price: " + String.valueOf(s + "tl"));
-		    		label_TotalPrice.setBounds(172,240, 150, 30);
-		    		label_TotalPrice.setFont(new Font(Font.DIALOG, Font.PLAIN, 13));
-		    		label_TotalPrice.setForeground(Color.WHITE);
-		    		*/
+		        	if(data[row][3] == "x") {
+			        	model.removeRow(row);
+			        	basket.removeProduct((String) data[row][1], current_user);
+			        	System.out.print((String) data[row][1]);
+			        	
+			        	BasketPanel BP = new BasketPanel(current_user);
+			        	frame.dispose();
+		        	}
 		        }
 		    }
 		});
@@ -239,20 +230,41 @@ public class BasketPanel {
 		int j = 0;
 		
 		for(int i=0; i<product_count; i++) {
-			if(products.get(i) instanceof NoTypeProduct && ( (NoTypeProduct) products.get(i)).checkStock() == false);
-			else if(products.get(i) instanceof Breakfast && ( (Breakfast) products.get(i)).checkStock() == false);
-			else if(products.get(i) instanceof ColdDrinks && ( (ColdDrinks) products.get(i)).checkStock() == false);
-			else if(products.get(i) instanceof EssentialFood && ( (EssentialFood) products.get(i)).checkStock() == false);
-			else if(products.get(i) instanceof FaceProducts && ( (FaceProducts) products.get(i)).checkStock() == false);
-			else if(products.get(i) instanceof HairProducts && ( (FaceProducts) products.get(i)).checkStock() == false);
-			else if(products.get(i) instanceof HomeCareProducts && ( (HomeCareProducts) products.get(i)).checkStock() == false);
-			else if(products.get(i) instanceof OralProducts && ( (OralProducts) products.get(i)).checkStock() == false);
-			else if(products.get(i) instanceof WarmDrinks && ( (WarmDrinks) products.get(i)).checkStock() == false);
+			if(products.get(i) instanceof NoTypeProduct && ( (NoTypeProduct) products.get(i)).checkStock() == false) {
+				data[i][0] = "Out of Stock!!! ";
+			}
+			else if(products.get(i) instanceof Breakfast && ( (Breakfast) products.get(i)).checkStock() == false) {
+				data[i][0] = "Out of Stock!!! ";
+			}
+			else if(products.get(i) instanceof ColdDrinks && ( (ColdDrinks) products.get(i)).checkStock() == false) {
+				data[i][0] = "Out of Stock!!! ";
+			}
+			else if(products.get(i) instanceof EssentialFood && ( (EssentialFood) products.get(i)).checkStock() == false) {
+				data[i][0] = "Out of Stock!!! ";
+			}
+			else if(products.get(i) instanceof FaceProducts && ( (FaceProducts) products.get(i)).checkStock() == false) {
+				data[i][0] = "Out of Stock!!! ";
+			}
+			else if(products.get(i) instanceof HairProducts && ( (FaceProducts) products.get(i)).checkStock() == false) {
+				data[i][0] = "Out of Stock!!! ";
+			}
+			else if(products.get(i) instanceof HomeCareProducts && ( (HomeCareProducts) products.get(i)).checkStock() == false) {
+				data[i][0] = "Out of Stock!!! ";
+			}
+			else if(products.get(i) instanceof OralProducts && ( (OralProducts) products.get(i)).checkStock() == false) {
+				data[i][0] = "Out of Stock!!! ";
+			}
+			else if(products.get(i) instanceof WarmDrinks && ( (WarmDrinks) products.get(i)).checkStock() == false) {
+				data[i][0] = "Out of Stock!!! ";
+			}
+			else if(products.get(i) instanceof Snacks && ( (Snacks) products.get(i)).checkStock() ==  false) {
+				data[i][0] = "Out of Stock!!! ";
+			}
 			else {
-				data[j][0] = products.get(i).getName();
-				data[j][1] = products.get(i).getBrand();
-				data[j][2] = products.get(i).getPrice() + "tl";
-				data[j][3] = "x";
+				data[i][0] = products.get(i).getName();
+				data[i][1] = products.get(i).getBrand();
+				data[i][2] = products.get(i).getPrice() + "tl";
+				data[i][3] = "x";
 				
 				new_content = new_content + "\nProduct Name: " + products.get(i).getName() + 
 						"\nProduct No: " + allBarcodeNo.get(i) + 
@@ -645,23 +657,23 @@ public class BasketPanel {
 		ArrayList<String> info = new ArrayList<String>();
 		
 		if(marketName.equals("A101")) {
-			info = priceTaker.a101(productNo);
+			info = PriceTaker.a101(productNo);
 			return info;
 		}
 		else if(marketName.equals("CARREFOUR")) {
-			info = priceTaker.carrefour(productNo);
+			info = PriceTaker.carrefour(productNo);
 			return info;
 		}
 		else if(marketName.equals("Amazon")) {
-			info = priceTaker.amazon(productNo);
+			info = PriceTaker.amazon(productNo);
 			return info;
 		}
 		else if(marketName.equals("TRENDYOL")) {
-			info = priceTaker.trendyol(productNo);
+			info = PriceTaker.trendyol(productNo);
 			return info;
 		}
 		else if(marketName.equals("HepsiBurada")) {
-			info = priceTaker.hepsiburada(productNo);
+			info = PriceTaker.hepsiburada(productNo);
 			return info;
 		}
 		else {

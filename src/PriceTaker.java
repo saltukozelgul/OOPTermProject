@@ -5,7 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-public class priceTaker {
+public class PriceTaker {
 	
 	// Functions
 	public final static String maxValue = "1000000000"; // For not finding product
@@ -13,9 +13,11 @@ public class priceTaker {
 	private static WebDriver createDriver() {
 		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
+        //chromeOptions.addArguments("--headless");
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 		WebDriver driver = new ChromeDriver(chromeOptions);
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
 		return driver;
 	}
 	
@@ -25,6 +27,7 @@ public class priceTaker {
 		try {
 			
 			driver.navigate().to("https://www.a101.com.tr/list/?search_text="+ barcode);
+			
 			
 			String name = driver.findElement(By.className("name")).getText();
 			String price = driver.findElement(By.className("current")).getText();

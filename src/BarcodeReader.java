@@ -80,11 +80,11 @@ public class BarcodeReader {
 				
 				// infos->0 == brand, infos->1 == name, infos->2 == price
 				System.out.println(barcode);
-				infos.add(priceTaker.a101(barcode));
-				infos.add(priceTaker.carrefour(barcode));
-				infos.add(priceTaker.hepsiburada(barcode));
-				infos.add(priceTaker.amazon(barcode));
-				infos.add(priceTaker.trendyol(barcode));
+				infos.add(PriceTaker.a101(barcode));
+				infos.add(PriceTaker.carrefour(barcode));
+				infos.add(PriceTaker.hepsiburada(barcode));
+				infos.add(PriceTaker.amazon(barcode));
+				infos.add(PriceTaker.trendyol(barcode));
 				
 				getMinumum();
 				
@@ -186,11 +186,11 @@ public class BarcodeReader {
 					String current_barcode = textField_BarcodeNumber.getText();
 					
 					System.out.println(current_barcode);
-					infos.add(priceTaker.a101(current_barcode));
-					infos.add(priceTaker.carrefour(current_barcode));
-					infos.add(priceTaker.hepsiburada(current_barcode));
-					infos.add(priceTaker.amazon(current_barcode));
-					infos.add(priceTaker.trendyol(current_barcode));
+					infos.add(PriceTaker.a101(current_barcode));
+					infos.add(PriceTaker.carrefour(current_barcode));
+					infos.add(PriceTaker.hepsiburada(current_barcode));
+					infos.add(PriceTaker.amazon(current_barcode));
+					infos.add(PriceTaker.trendyol(current_barcode));
 					
 					// Hata current_barcode u gondermiyor neden anlamadim
 					

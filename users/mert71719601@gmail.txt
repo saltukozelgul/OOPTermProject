@@ -1,13 +1,6 @@
 E-mail: mert71719601@gmail.com
 Password: MerhabaMert
 
-Product Name: Eti Hoþbeþ Gofret Fýndýklý 142 G
-Product No: 8690526095226
-Market Name: A101
-Product Price: 7.5
-Product Type: Bisküvi
-
-
 Product Name: Mendiva Islak Havlu 3X101'li
 Product No: 23001060
 Market Name: A101
@@ -22,14 +15,14 @@ Product Price: 7.75
 Product Type: 
 
 
-Product Name: Erikli Su 12x0,5 lt
-Product No: 8690793600888
-Market Name: CARREFOUR
-Product Price: 22.4
-Product Type: 
-
-
 Product Name: Hoþbeþ gofret Fýndýklý 142 g
+Product No: 8690526095226
+Market Name: CARREFOUR
+Product Price: 5.9
+Product Type: Bisküvi
+
+
+Product Name: Ho?be? gofret F?nd?kl? 142 g
 Product No: 8690526095226
 Market Name: CARREFOUR
 Product Price: 5.9
